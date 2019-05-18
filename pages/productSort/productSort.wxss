@@ -1,5 +1,5 @@
 .product{position:fixed;top:0;width:100%;z-index:99;}
-.header{height:95rpx;background-color:#ffffff;padding:0 20rpx;justify-content:space-between;position:relative;}
+.header{height:95rpx;background-color:#9bd040;padding:0 20rpx;justify-content:space-between;position:relative;}
 .header-input{height:60rpx;width:640rpx;border:1rpx solid #EEEEEE;line-height:60rpx;justify-content:space-between;margin-top:17.5rpx;background-color:#F6F6F6;border-radius:7rpx;}
 .input-text{width:578rpx;height:100%;}
 .placeholder{color:#AAAAAA;}
@@ -9,7 +9,7 @@
 ::-moz-placeholder {font-size:26rpx;color:#AAAAAA;}
 :-ms-input-placeholder {font-size:26rpx;color:#AAAAAA; }
 .car{font-size:55rpx;color:#454545;margin-top:20rpx;}
-.header .num{position:absolute;right:15rpx;top:20rpx;border-radius:50rpx;color:#E3383E;border:1rpx solid #E75E62;font-size:14rpx;background-color:#ffffff;min-width:20rpx;height:20rpx;text-align:center;line-height:20rpx;}
+.header .num{position:absolute;right:15rpx;top:20rpx;border-radius:50rpx;color:#ffffff;border:1rpx solid #ffffff;font-size:14rpx;background-color:#9bd040;min-width:20rpx;height:20rpx;text-align:center;line-height:20rpx;}
 .nav{width:100%;height:90rpx;line-height:90rpx;border-top:1rpx solid #F7F7F7;background-color:#ffffff;}
 .nav .nav-li{flex:1 20%;text-align:center; color:#454545;position:relative;}
 .nav .nav-li text{margin-left:8rpx;color:#999999;}

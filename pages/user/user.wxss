@@ -1,6 +1,6 @@
 /* pages/user/user.wxss */
 page{position: relative;}
-.header{width: 100%; height: 400rpx; background-image: linear-gradient(to bottom,#ff6c00,#9bd040);flex-direction: column; color: #fff; align-items: center; justify-content: center; font-size: 26rpx;position:relative;}
+.header{width: 100%; height: 400rpx; background:#9bd040;flex-direction: column; color: #fff; align-items: center; justify-content: center; font-size: 26rpx;position:relative;}
 .header .system-notification{position: absolute;right: 30rpx;top: 46rpx;font-size:46rpx;}
 .header .system-notification .system-notification-text{position:absolute;top:-5rpx;right:-3rpx;font-size:18rpx;background-color:#fff;border-radius:50%;color:#9bd040;
 min-width:26rpx;height:26rpx;text-align:center;line-height:26rpx;}

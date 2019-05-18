@@ -1,5 +1,7 @@
 {
   "pages": [
+    "pages/productSort/productSort",
+    "pages/user/user",
     "pages/index/index",
     "pages/product-con/index",
     "pages/loading/loading",
@@ -27,11 +29,9 @@
     "pages/foo-tan/foo-tan",
     "pages/buycar/buycar",
     "pages/mycut/mycut",
-    "pages/user/user",
     "pages/integral-con/integral-con",
     "pages/orders-con/orders-con",
     "pages/order-confirm/order-confirm",
-    "pages/productSort/productSort",
     "pages/address/address",
     "pages/feree/feree",
     "pages/feree-two/feree-two",
