@@ -1,5 +1,6 @@
 var app = getApp();
 var wxh = require('../../utils/wxh.js');
+const API = require('../../api/orders-list')
 Page({
   /**
    * 页面的初始数据
@@ -40,6 +41,27 @@ Page({
     var limit = 4;
     var first = that.data.first;
     var startpage = limit * first;
+    API.getUserOrderList({ type: e, search: search, first: startpage, limit: limit })
+      .then(res=>{
+        var $data = res.data.data;
+        var len = $data.length;
+        for (var i = 0; i < len; i++) {
+          that.data.orderlist.push($data[i]);
+        }
+        that.setData({
+          first: first + 1,
+          orderlist: that.data.orderlist
+        });
+        console.log(that.data.orderlist)
+        if (len < limit) {
+          that.setData({
+            title: "数据已经加载完成",
+            hidden: true
+          });
+          return false;
+        }
+      })
+    return;
     wx.request({
       url: app.globalData.url + '/routine/auth_api/get_user_order_list?uid='+app.globalData.uid,
       data: { type: e, search: search, first: startpage, limit: limit },

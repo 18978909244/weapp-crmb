@@ -8,7 +8,7 @@ App({
     var logs = wx.getStorageSync('logs') || []
     logs.unshift(Date.now())
     wx.setStorageSync('logs', logs)
-    that.getRoutineStyle();
+    // that.getRoutineStyle();
     let userInfo = wx.getStorageSync('userInfo')
     console.log(userInfo)
     if(userInfo){

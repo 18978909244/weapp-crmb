@@ -2,7 +2,7 @@
 //获取应用实例
 var app = getApp();
 var wxh = require('../../utils/wxh.js');
-const Index = require('../../api/indexPage')
+const Index = require('../../api/index')
 Page({
   /**
    * 页面的初始数据
@@ -49,9 +49,7 @@ Page({
     that.getIndexInfo();
   },
   getIndexInfo: function () {
-    Index.getIndexInfo({
-        uid: app.globalData.uid
-      })
+    Index.getIndexInfo()
       .then(res => {
         this.setData({
           imgUrls: res.data.data.banner,
@@ -75,7 +73,6 @@ Page({
     if (!offset) offset = 1;
     var startpage = limit * offset;
     Index.loadHotGoods({
-      uid: app.globalData.uid,
       data: {
         limit: limit,
         offset: startpage

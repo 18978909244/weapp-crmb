@@ -5,8 +5,8 @@
 <view class='menu flex'>
   <view class='item {{nowstatus == "" ? "on" : ""}}' data-show="" bindtap="statusClick">全部</view>
   <view class='item {{nowstatus == "0" ? "on" : ""}}'  data-show="0" bindtap="statusClick">待付款</view>
-  <view class='item {{nowstatus == "1" ? "on" : ""}}'  data-show="1" bindtap="statusClick">待发货</view>
-  <view class='item {{nowstatus == "2" ? "on" : ""}}'  data-show="2" bindtap="statusClick">待收货</view>
+  <view class='item {{nowstatus == "1" ? "on" : ""}}'  data-show="1" bindtap="statusClick">待配送</view>
+  <view class='item {{nowstatus == "2" ? "on" : ""}}'  data-show="2" bindtap="statusClick">配送中</view>
   <view class='item {{nowstatus == "3" ? "on" : ""}}'  data-show="3" bindtap="statusClick">待评价</view>
 </view>
 <view class='orders-list'>

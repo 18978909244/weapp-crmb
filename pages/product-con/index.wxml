@@ -11,7 +11,7 @@
   <view class='pro-infos'>
     <view class='title'>
       {{storeInfo.store_name}}
-      <view class="iconfont icon-fenxiang screen-shot" type="primary" bindtap='listenerActionSheet'></view>
+      <!-- <view class="iconfont icon-fenxiang screen-shot" type="primary" bindtap='listenerActionSheet'></view> -->
     </view>
     <action-sheet hidden="{{actionSheetHidden}}" bindchange="listenerActionSheet">
       <action-sheet-item>

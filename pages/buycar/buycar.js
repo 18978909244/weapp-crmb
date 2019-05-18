@@ -1,6 +1,7 @@
 // import bm from '../../utils/baseMath.js'
 // // pages/buycar/buycar.js
 var app = getApp();
+const Buycar = require('../../api/buycar')
 // // var wx = require('../../utils/wx.js');
 
 Page({
@@ -12,7 +13,6 @@ Page({
     countmoney:"",
     cartNum:"",
     isAllSelect:false,
-    minusStatus: 'disabled',
     cartList:[],
     cartInvalid:[],
     cartIdsStr:''
@@ -53,21 +53,25 @@ Page({
   },
   onLoad: function (options) {
     app.setUserInfo();
-    this.carnum();
-    this.countmoney();
-    this.getList();
+    // this.carnum();
+    // this.countmoney();
+    // this.getList();
   },
   btntap: function (e) {
-    this.data.foothidden = !this.data.foothidden;
     this.setData({
-      foothidden: this.data.foothidden
+      foothidden: !this.data.foothidden
     })
   },
   getList:function(){
-    var that = this;
-    var header = {
-      'content-type': 'application/x-www-form-urlencoded',
-    };
+    Buycar.getCartList()
+      .then(res=>{
+        this.setData({
+          cartList: res.data.data.valid,
+          cartInvalid: res.data.data.invalid
+        })
+      })
+
+      return;
     wx.request({
       url: app.globalData.url + '/routine/auth_api/get_cart_list?uid=' + app.globalData.uid,
       method: 'POST',
@@ -86,8 +90,8 @@ Page({
   numAddClick: function (event) {
     var index = event.currentTarget.dataset.index;
     this.data.cartList[index].cart_num = +this.data.cartList[index].cart_num + 1;
-    var minusStatus = this.data.cartList[index].cart_num <= 1 ? 'disabled' : 'normal';
-    this.setData({ cartList: this.data.cartList, minusStatus: minusStatus});
+    // var minusStatus = this.data.cartList[index].cart_num <= 1 ? 'disabled' : 'normal';
+    this.setData({ cartList: this.data.cartList});
     this.carnum();
     this.countmoney();
     this.addCartNum(this.data.cartList[index].cart_num, this.data.cartList[index].id);
@@ -96,8 +100,8 @@ Page({
   numDescClick: function (event) {
     var index = event.currentTarget.dataset.index;
     this.data.cartList[index].cart_num = this.data.cartList[index].cart_num <= 1 ? 1 : +this.data.cartList[index].cart_num - 1;
-    var minusStatus = this.data.cartList[index].cart_num <= 1 ? 'disabled' : 'normal';
-    this.setData({ cartList: this.data.cartList, minusStatus: minusStatus});
+    // var minusStatus = this.data.cartList[index].cart_num <= 1 ? 'disabled' : 'normal';
+    this.setData({ cartList: this.data.cartList});
     this.carnum();
     this.countmoney();
     this.addCartNum(this.data.cartList[index].cart_num, this.data.cartList[index].id);
@@ -197,33 +201,53 @@ Page({
     // console.log(this);
   },
   addCartNum: function (cartNum, cartId){
-    var header = {
-      'content-type': 'application/x-www-form-urlencoded',
-    };
-    wx.request({
-      url: app.globalData.url + '/routine/auth_api/change_cart_num?uid=' + app.globalData.uid,
-      method: 'GET',
-      data: {
-        cartNum: cartNum,
-        cartId: cartId
-      },
-      header: header,
-      success: function (res) {
-        if (res.data.code == 200) {
-          wx.showToast({
-            title: '成功',
-            icon: 'success',
-            duration: 2000
-          })
-        } else {
-          wx.showToast({
-            title: res.data.msg,
-            icon: 'none',
-            duration: 2000
-          })
-        }
+    if(cartNum===1) return
+    Buycar.changeCartNum({
+      cartNum: cartNum,
+      cartId: cartId
+    }).then(res=>{
+      if (res.data.code == 200) {
+        wx.showToast({
+          title: '成功',
+          icon: 'success',
+          duration: 200
+        })
+      } else {
+        wx.showToast({
+          title: res.data.msg,
+          icon: 'none',
+          duration: 2000
+        })
       }
     })
+    // return;
+    // var header = {
+    //   'content-type': 'application/x-www-form-urlencoded',
+    // };
+    // wx.request({
+    //   url: app.globalData.url + '/routine/auth_api/change_cart_num?uid=' + app.globalData.uid,
+    //   method: 'GET',
+    //   data: {
+    //     cartNum: cartNum,
+    //     cartId: cartId
+    //   },
+    //   header: header,
+    //   success: function (res) {
+    //     if (res.data.code == 200) {
+    //       wx.showToast({
+    //         title: '成功',
+    //         icon: 'success',
+    //         duration: 2000
+    //       })
+    //     } else {
+    //       wx.showToast({
+    //         title: res.data.msg,
+    //         icon: 'none',
+    //         duration: 2000
+    //       })
+    //     }
+    //   }
+    // })
   },
   collectAll: function () {
     var array = this.data.cartList;

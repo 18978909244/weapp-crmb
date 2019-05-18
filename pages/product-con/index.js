@@ -2,7 +2,7 @@
 var app = getApp();
 var wxh = require('../../utils/wxh.js');
 var WxParse = require('../../wxParse/wxParse.js');
-const _Page = require('../../api/productConPage.js')
+const ProductCon = require('../../api/productCon.js')
 Page({
 
   /**
@@ -104,9 +104,7 @@ Page({
     that.setData({
       id: options.id
     })
-    _Page.getProductInfo({
-      id: options.id
-    }).then(res => {
+    ProductCon.getProductInfo(options.id).then(res => {
       if (res.data.code == 200) {
         var image = "productSelect.image";
         var store_name = "productSelect.store_name";
