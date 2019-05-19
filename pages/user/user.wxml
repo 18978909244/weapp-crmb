@@ -42,7 +42,7 @@
       </view>
       <view class='item'>
         <navigator hover-class="none" url='/pages/orders-list/orders-list?nowstatus=2'>
-          <view class='item-span' wx:if="{{orderStatusNum.noPink}}">{{orderStatusNum.noPink}}</view>
+          <view class='item-span' wx:if="{{orderStatusNum.noPostage}}">{{orderStatusNum.noPostage}}</view>
           <image src='/images/dfk.png'></image>
           <view class='text'>待配送</view>
         </navigator>

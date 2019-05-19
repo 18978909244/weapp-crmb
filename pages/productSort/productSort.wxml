@@ -33,7 +33,11 @@
                  <view class='list-money flex'>
                      <view>
                         <view class='list-num {{_num==1?"list-num2":""}}'>已售{{item.ficti+item.sales}}</view>
-                        <view class='money-red'><text class='list-f'>￥</text><text class='money-num'>{{item.price}}</text><text class='list-oo'></text><text class='list-tip'>精</text></view>
+                        <view class='money-red'>
+                            <!-- <text class='list-f'>￥</text> -->
+                        <text class='money-num'>￥{{item.price}} {{item.unit_name?'/ '+ item.unit_name:''}}</text><text class='list-oo'></text>
+                        <!-- <text class='list-tip'>精</text> -->
+                        </view>
                      </view>
                       <view class='iconfont icon-102 list-gwc {{_num==1?"list-gwc2":""}}' data-id="{{item.id}}" bindtap='cart' ></view> 
                  </view>

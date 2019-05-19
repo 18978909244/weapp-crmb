@@ -18,15 +18,19 @@
           <view class='title'>{{item.productInfo.store_name}}</view>
           <view class='res' wx:if="{{item.productInfo.attrInfo}}">{{item.productInfo.attrInfo.suk}}</view>
           <view class='price' wx:if="{{item.productInfo.attrInfo}}"><text>￥</text>{{item.productInfo.attrInfo.price}}<text class='count'>x{{item.cart_num}}</text></view>
-          <view class='price' wx:else><text>￥</text>{{item.productInfo.price}}<text class='count'>x{{item.cart_num}}</text></view>
+          <view class='price' wx:else><text>￥</text>{{item.productInfo.price}} {{item.productInfo.unit_name?'/ '+ item.productInfo.unit_name:''}}<text class='count'>x {{item.cart_num}}</text></view>
         </view>
       </view>
     </view>
   </view>
   <view class='text-wrapper'>
-    <view class='text-item flex'>
+    <!-- <view class='text-item flex'>
       <text>运费</text>
       <view class='select-btn'>快递<text>￥{{priceGroup.storePostage}}</text></view>
+    </view> -->
+    <view class='text-item flex'>
+      <text>配送费</text>
+      <view class='select-btn'><text>￥{{cartInfo[0].shopInfo.deliver_fee}}</text></view>
     </view>
     <view class='text-item flex' wx:if="{{!seckillId && !BargainId  && !combinationId}}">
       <text>优惠券</text>

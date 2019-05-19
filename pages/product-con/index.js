@@ -56,6 +56,7 @@ Page({
     CartCount: 0,
     status: 0,
     actionSheetHidden: true,
+    unit_name:''
   },
   setTouchMove: function (e) {
     var that = this;
@@ -126,7 +127,8 @@ Page({
           [stock]: res.data.data.storeInfo.stock,
           [store_name]: res.data.data.storeInfo.store_name,
           [price]: res.data.data.storeInfo.price,
-          [unique]: ''
+          [unique]: '',
+          unit_name:res.data.data.storeInfo.unit_name
         })
         that.downloadFilestoreImage();
         that.downloadFilePromotionCode();

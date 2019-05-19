@@ -5,13 +5,13 @@
 .pro-list{margin-top: 20rpx; background-color: #fff; }
 .pro-list .list-wrapper{padding: 20rpx;border-bottom: 1px solid #f7f7f7;}
 .pro-list .list-wrapper .wrapper{padding: 0px 20rpx 0; background-color: #fafafa;}
-.pro-list .list-wrapper .wrapper .item{position: relative; justify-content: space-between; border-bottom: 1px dashed #ddd; padding: 20rpx 0;}
+.pro-list .list-wrapper .wrapper .item{position: relative; justify-content: space-between; border-bottom: 1px dashed #ddd; padding: 20rpx 0;font-size:24rpx;}
 .pro-list .list-wrapper .wrapper .item:last-child{border-bottom: 0;}
-.pro-list .list-wrapper .wrapper .item image{width: 162rpx; height: 162rpx; }
-.pro-list .list-wrapper .wrapper .item .pro-info{display: flex; width: 495rpx; flex-direction: column; justify-content: space-around;}
+.pro-list .list-wrapper .wrapper .item image{width: 100rpx; height: 100rpx; }
+.pro-list .list-wrapper .wrapper .item .pro-info{display: flex; width: 550rpx; flex-direction: column; justify-content: space-around;}
 .pro-list .list-wrapper .wrapper .item .pro-info .title{overflow: hidden;white-space: nowrap;text-overflow: ellipsis;}
-.pro-list .list-wrapper .wrapper .item .pro-info .res{overflow: hidden;white-space: nowrap;text-overflow: ellipsis; font-size: 26rpx; color: #999;}
-.pro-list .list-wrapper .wrapper .item .pro-info .price{color: #9bd040; font-size: 32rpx;}
+.pro-list .list-wrapper .wrapper .item .pro-info .res{overflow: hidden;white-space: nowrap;text-overflow: ellipsis; color: #999;}
+.pro-list .list-wrapper .wrapper .item .pro-info .price{color: #9bd040;font-size:28rpx; }
 .pro-list .list-wrapper .wrapper .item .pro-info .price text{font-size: 24rpx;}
 .pro-list .list-wrapper .wrapper .item .pro-info .price .count{color: #333;margin-left: 10rpx;}
 .text-wrapper{padding: 0 20rpx;}

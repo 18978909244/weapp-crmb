@@ -1,10 +1,11 @@
 {
   "pages": [
-    "pages/loading/loading",
+    "pages/order-confirm/order-confirm",
+    "pages/buycar/buycar",
     "pages/product-con/index",
     "pages/productSort/productSort",
-    "pages/buycar/buycar",
     "pages/index/index",
+    "pages/loading/loading",
     "pages/user/user",
     "pages/load/load",
     "pages/login-status/login-status",
@@ -31,7 +32,6 @@
     "pages/mycut/mycut",
     "pages/integral-con/integral-con",
     "pages/orders-con/orders-con",
-    "pages/order-confirm/order-confirm",
     "pages/address/address",
     "pages/feree/feree",
     "pages/feree-two/feree-two",

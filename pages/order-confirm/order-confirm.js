@@ -38,6 +38,8 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    options.id = options.id ||'94,90'
+    console.log(options.id)
     app.setUserInfo();
     var that = this;
     if (options.pinkId){

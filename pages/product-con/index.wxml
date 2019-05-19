@@ -33,7 +33,7 @@
     </action-sheet>
     <view class='price-wrapper flex'>
       <view class='price'>
-        <text>￥</text>{{storeInfo.price}}</view>
+        <text>￥</text>{{storeInfo.price}} {{storeInfo.unit_name?'/ '+ storeInfo.unit_name:''}}</view>
       <block wx:for="{{storeKeyWord}}" wx:if="{{index < 4}}">
         <view class='small-txt red' wx:if="{{!index && item != ''}}">{{item}}</view>
         <view class='small-txt lv' wx:if="{{index == 1}}">{{item}}</view>
@@ -145,5 +145,5 @@
 <view class='mask' wx:if="{{posterImageStatus}}"></view>
 <canvas class="canvas" canvas-id='myCanvas' wx:if="{{canvasStatus}}"></canvas>
 <include src="/pages/home/home.wxml" />
-<include src="/pages/foo-tan/foo-tan.wxml" />
+<include src="/pages/foo-tan/foo-tan.wxml"/>
 <import src="/wxParse/wxParse.wxml" />
