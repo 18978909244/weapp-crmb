@@ -12,9 +12,12 @@
           <checkbox value="{{index}}" checked="{{item.checked}}" disabled="{{chooseShopId!==-1 && chooseShopId!==item.shopInfo.id}}" />
         </label>
       </view>
-      <view class='picture'>
+      <navigator url="/pages/product-con/index?id={{item.productInfo.id}}">
+      <view class='picture' bindtap="goToDetail({{item.id}})">
         <image src='{{url}}{{item.productInfo.image}}'></image>
       </view>
+      </navigator>
+      <navigator url="/pages/product-con/index?id={{item.productInfo.id}}">
       <view class='pro-info flex'>
         <view class='pro-title'>{{item.productInfo.store_name}}</view>
         <view class='pro-des' wx:if="{{item.productInfo.attrInfo}}">
@@ -30,6 +33,7 @@
         </view>
         <!-- <view class='pro-price'><text>￥</text>{{item.productInfo.attrInfo.price}}</view> -->
       </view>
+      </navigator>
       <view class='count-wrapper flex'>
         <text data-index="{{index}}" bindtap="numDescClick" class='{{minusStatus}}'>-</text>
         <text class='num'>{{item.cart_num}}</text>
@@ -79,9 +83,9 @@
           ￥{{countmoney}} {{deliver_fee>0?'+ '+deliver_fee+'（配送费）':''}}
         </view>
       </view>
-      <navigator class='flex' hover-class="none" url="/pages/order-confirm/order-confirm?id={{cartIdsStr}}">
+      <view class='flex' catchtap="goToOrder">
         <view class='pay-btn'>立即结算</view>
-      </navigator>
+      </view>
     </view>
     <view class='delete-wrapper flex' hidden="{{!foothidden}}">
       <!-- <view class='left-wrapper flex'>

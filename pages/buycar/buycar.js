@@ -426,6 +426,30 @@ Page({
       })
     }
   },
+  goToOrder(){
+    // console.log('cartIdsStr')
+    if(this.data.cartIdsStr===''){
+      wx.showToast({
+        title: '未选择商品',
+        icon: 'none',
+        duration: 2000
+      })
+      return;
+    }
+    let total = Number(this.data.countmoney) + Number(this.data.deliver_fee)
+    if(total<=30){
+      wx.showToast({
+        title: '下单金额30元起送',
+        icon: 'none',
+        duration: 2000
+      })
+      return;
+    }
+    // if()
+    wx.navigateTo({
+      url:'/pages/order-confirm/order-confirm?id='+this.data.cartIdsStr
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
@@ -445,6 +469,10 @@ Page({
     this.carnum();
     this.countmoney();
     this.getList();
+    this.setData({
+      chooseShopId:-1,
+      cartIdsStr:''
+    })
   },
 
   /**

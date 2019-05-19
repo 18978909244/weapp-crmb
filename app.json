@@ -1,10 +1,10 @@
 {
   "pages": [
+    "pages/index/index",
     "pages/buycar/buycar",
-    "pages/order-confirm/order-confirm",
     "pages/product-con/index",
     "pages/productSort/productSort",
-    "pages/index/index",
+    "pages/order-confirm/order-confirm",
     "pages/loading/loading",
     "pages/user/user",
     "pages/load/load",

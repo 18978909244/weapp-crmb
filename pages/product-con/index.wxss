@@ -22,7 +22,8 @@ swiper-item {
 
 .pro-wrapper .pro-infos {
   background-color: #fff;
-  padding: 20rpx 20rpx 0;
+  padding: 20rpx;
+  margin-bottom: 20rpx;
 }
 
 .pro-wrapper .pro-infos .price-wrapper {
@@ -72,12 +73,13 @@ swiper-item {
 
 .block-bar {
   position: relative;
-  padding: 0 20rpx;
+  padding: 20rpx;
   height: 70rpx;
   line-height: 70rpx;
   background-color: #fff;
   border-top: 1px solid #f7f7f7;
   font-size: 26rpx;
+  margin-bottom: 20rpx;
 }
 
 .block-bar .title {
@@ -105,7 +107,7 @@ swiper-item {
 }
 
 .block-bar.selected {
-  margin-top: 10rpx;
+  /* margin-top: 10rpx; */
   height: 80rpx;
   line-height: 80rpx;
 }

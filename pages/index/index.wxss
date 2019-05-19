@@ -32,15 +32,12 @@
 .new-pro-wrapper .item .text-box .price{color: #9bd040; font-size: 40rpx;}
 .new-pro-wrapper .item .text-box .price text{font-size: 28rpx;}
 .new-pro-wrapper .item .img-box image{width: 195rpx; height: 195rpx;border-radius:10rpx;}
-.new-pro-wrapper .item:nth-child(2) navigator{flex-direction:row-reverse;}
+/* .new-pro-wrapper .item:nth-child(2) navigator{flex-direction:row-reverse;} */
 .hot-banner image{display: block; width: 100%; height: 300rpx}
 .product-like .title-bar{height: 120rpx; border-bottom: 0;}
 .product-like .like-box{padding: 0 30rpx; flex-wrap: wrap; justify-content: space-between;}
 .product-like .like-box .item{width: 330rpx; background-color: #fff; margin-bottom: 28rpx;}
 .product-like .like-box .item .img-box image{width: 100%; height: 330rpx;border-radius:10rpx;}
-.product-like .like-box .item .text-info{padding: 10rpx;line-height: 1.5;}
-.product-like .like-box .item .text-info .title{overflow: hidden;white-space: nowrap;text-overflow: ellipsis;}
-.product-like .like-box .item .text-info .price{color:#9bd040;}
 
 
 /** search **/

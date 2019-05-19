@@ -67,6 +67,7 @@ Page({
     })
   },
   onReachBottom: function (p) {
+    return;
     var that = this;
     var limit = 20;
     var offset = that.data.offset;
