@@ -4,7 +4,8 @@ module.exports = {
     let header = {
       'content-type': 'application/x-www-form-urlencoded',
     };
-    url = app.globalData.url+url+'?uid='+app.globalData.uid
+    let split = url.indexOf('?')>-1?'&':'?'
+    url = app.globalData.url+url+split+'uid='+app.globalData.uid
     console.log('request:',url)
     return new Promise((resolve, reject) => {
       wx.request({

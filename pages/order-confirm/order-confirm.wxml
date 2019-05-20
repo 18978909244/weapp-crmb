@@ -12,7 +12,7 @@
   <view class='common-title'>商品信息</view>
   <view class='list-wrapper'>
     <view class='wrapper'>
-      <view class='item flex' wx:for="{{cartInfo}}">
+      <view class='item flex' wx:for="{{cartInfo}}" wx:key="{{index}}">
         <image src='{{url}}{{item.productInfo.attrInfo.image}}' wx:if="{{item.productInfo.attrInfo}}"></image>
         <image src='{{url}}{{item.productInfo.image}}' wx:else></image>
         <view class='pro-info'>
@@ -23,7 +23,7 @@
           <view class='price' wx:if="{{item.productInfo.attrInfo}}">
             <text>￥</text>
             {{item.productInfo.attrInfo.price}} {{item.productInfo.unit_name?'/ '+ item.productInfo.unit_name:''}}
-            <text class='count'>x{{item.cart_num}}</text>
+            <text class='count'>x {{item.cart_num}}</text>
           </view>
           <view class='price' wx:else>
             <text>￥</text>
@@ -69,16 +69,41 @@
   <view class='warapper'>
     <view class='item '>
       <radio-group>
-        <label class='radio-wrapper' wx:for="{{cartArr}}">
+        <label class='radio-wrapper'>
           <view class='left-wrapper flex'>
-            <view class='iconfont {{item.icon}}'></view>
-            {{item.name}}
+            <view class='iconfont'></view>
+            即时配送
           </view>
-          <radio value="{{index}}" wx:if="{{item.value == payType}}" checked='checked' bindtap="radioChange" data-value="{{item.value}}"></radio>
-          <radio value="{{index}}" wx:else bindtap="radioChange" data-value="{{item.value}}"></radio>
+          <radio bindtap="radioChangeShip" data-value="0" checked="{{shipType==0}}"></radio>
+          <!-- <radio value="{{index}}" wx:else bindtap="radioChange" data-value="{{item.value}}"></radio> -->
+        </label>
+        <label class='radio-wrapper'>
+          <view class='left-wrapper flex'>
+            <view class='iconfont'></view>
+            预约配送
+          </view>
+          <radio bindtap="radioChangeShip" data-value="1" checked="{{shipType==1}}"></radio>
+          <!-- <radio value="{{index}}" wx:else bindtap="radioChange" data-value="{{item.value}}"></radio> -->
         </label>
       </radio-group>
     </view>
+  </view>
+  <view class="common-title" wx:if="{{shipType==1}}">
+    <picker
+    mode="multiSelector"
+    bindchange="bindMultiPickerChange"
+    bindcolumnchange="bindMultiPickerColumnChange"
+    value="{{multiIndex}}"
+    range="{{multiArray}}"
+    bindtap="createMulti"
+  >
+      <view class="picker" wx:if="{{userExpectTime>0}}" style="display:flex;justify-content:space-between">
+        当前选择：<text>{{multiArray[0][multiIndex[0]]}} {{multiArray[1][multiIndex[1]]}}</text>
+      </view>
+      <view class="picker" wx:else>
+        请选择配送时间
+      </view>
+    </picker>
   </view>
 </view>
 <view class='payment-select'>
@@ -86,7 +111,7 @@
   <view class='warapper'>
     <view class='item '>
       <radio-group>
-        <label class='radio-wrapper' wx:for="{{cartArr}}">
+        <label class='radio-wrapper' wx:for="{{cartArr}}" wx:key="{{index}}">
           <view class='left-wrapper flex'>
             <view class='iconfont {{item.icon}}'></view>
             {{item.name}}

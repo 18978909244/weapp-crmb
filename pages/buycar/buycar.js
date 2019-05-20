@@ -64,50 +64,48 @@ Page({
       foothidden: !this.data.foothidden
     })
   },
+  initShopList() {
+    let valid = this.data.cartList
+    let carListObj = {}
+    for (let i = 0; i < valid.length; i++) {
+      let shopId = valid[i].shopInfo.id
+      if (carListObj[shopId]) {
+        carListObj[shopId] = [...carListObj[shopId], valid[i]]
+      } else {
+        carListObj[shopId] = [valid[i]]
+      }
+    }
+    let shopList = Object.keys(carListObj).map(item => {
+      return carListObj[item][0].shopInfo
+    })
+    this.setData({
+      shopList
+    })
+  },
   getList: function () {
     Buycar.getCartList()
       .then(res => {
-        let valid = res.data.data.valid
-        let carListObj = {}
-        for (let i = 0; i < valid.length; i++) {
-          let shopId = valid[i].shopInfo.id
-          if (carListObj[shopId]) {
-            carListObj[shopId] = [...carListObj[shopId], valid[i]]
-          } else {
-            carListObj[shopId] = [valid[i]]
-          }
-        }
-        // console.log(carListObj)
-        let shopList = Object.keys(carListObj).map(item => {
-          return carListObj[item][0].shopInfo
-        })
-        console.log(shopList)
         this.setData({
-          shopList,
           cartList: res.data.data.valid,
           cartInvalid: res.data.data.invalid
         })
+        this.initShopList()
       })
-
-    return;
-    wx.request({
-      url: app.globalData.url + '/routine/auth_api/get_cart_list?uid=' + app.globalData.uid,
-      method: 'POST',
-      header: header,
-      success: function (res) {
-        if (res.data.code == 200) {
-          that.setData({
-            cartList: res.data.data.valid,
-            cartInvalid: res.data.data.invalid
-          })
-        }
-      }
-    })
   },
   //加
   numAddClick: function (event) {
     var index = event.currentTarget.dataset.index;
-    this.data.cartList[index].cart_num = +this.data.cartList[index].cart_num + 1;
+    let max = event.currentTarget.dataset.max;
+    if(this.data.cartList[index].cart_num>=max){
+      wx.showToast({
+        title: '已达库存上限',
+        icon: 'none',
+        duration: 2000
+      })
+      return
+    }
+    this.data.cartList[index].cart_num = + this.data.cartList[index].cart_num + 1;
+
     // var minusStatus = this.data.cartList[index].cart_num <= 1 ? 'disabled' : 'normal';
     this.setData({ cartList: this.data.cartList });
     this.carnum();
@@ -386,9 +384,47 @@ Page({
       })
     }
   },
+  deleteItem(e) {
+    let index = e.currentTarget.dataset.index
+    let cartList = this.data.cartList
+    cartList.splice(index, 1)
+    this.setData({
+      cartList
+    })
+    this.initShopList()
+  },
   cartDel: function (e) {
     var that = this;
     if (e.currentTarget.dataset.id) {
+      console.log(e.currentTarget.dataset.id)
+      Buycar.deleteItem({
+        ids: e.currentTarget.dataset.id
+      }).then(res=>{
+        if (res.data.code == 200) {
+          wx.showToast({
+            title: '删除成功',
+            icon: 'success',
+            duration: 2000
+          })
+          var cartList = that.data.cartList;
+          for (var i = 0; i < cartList.length; i++) {
+            if (e.currentTarget.dataset.id == cartList[i].id) {
+              cartList.splice(i, 1);
+              that.setData({
+                cartList
+              })
+            }
+          }
+          this.initShopList()
+        } else {
+          wx.showToast({
+            title: res.data.msg,
+            icon: 'none',
+            duration: 2000
+          })
+        }
+      })
+      return;
       var header = {
         'content-type': 'application/x-www-form-urlencoded',
       };
@@ -426,9 +462,9 @@ Page({
       })
     }
   },
-  goToOrder(){
+  goToOrder() {
     // console.log('cartIdsStr')
-    if(this.data.cartIdsStr===''){
+    if (this.data.cartIdsStr === '') {
       wx.showToast({
         title: '未选择商品',
         icon: 'none',
@@ -437,7 +473,7 @@ Page({
       return;
     }
     let total = Number(this.data.countmoney) + Number(this.data.deliver_fee)
-    if(total<=30){
+    if (total < 30) {
       wx.showToast({
         title: '下单金额30元起送',
         icon: 'none',
@@ -447,7 +483,7 @@ Page({
     }
     // if()
     wx.navigateTo({
-      url:'/pages/order-confirm/order-confirm?id='+this.data.cartIdsStr
+      url: '/pages/order-confirm/order-confirm?id=' + this.data.cartIdsStr
     })
   },
   /**
@@ -470,8 +506,8 @@ Page({
     this.countmoney();
     this.getList();
     this.setData({
-      chooseShopId:-1,
-      cartIdsStr:''
+      chooseShopId: -1,
+      cartIdsStr: ''
     })
   },
 

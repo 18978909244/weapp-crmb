@@ -34,11 +34,15 @@
         <!-- <view class='pro-price'><text>￥</text>{{item.productInfo.attrInfo.price}}</view> -->
       </view>
       </navigator>
+      <view style="position:absolute;right:20rpx;top:20rpx;" bindtap="cartDel" data-id="{{item.id}}">
+        删除
+          <!-- <icon type="cancel" size="24"/> -->
+      </view>
       <view class='count-wrapper flex'>
         <text data-index="{{index}}" bindtap="numDescClick" class='{{minusStatus}}'>-</text>
         <text class='num'>{{item.cart_num}}</text>
         <!-- <input class='num' data-item='{{index}}' type="number" value='{{item.cart_num}}' bindblur='setNumber'/> -->
-        <text class='add' data-index="{{index}}" bindtap="numAddClick">+</text>
+        <text class='add' data-index="{{index}}" bindtap="numAddClick" data-max="{{item.trueStock}}">+</text>
       </view>
     </view>
     <view class='shop-item' style="padding-bottom:20rpx;">配送费:{{shop.deliver_fee}}</view>

@@ -12,17 +12,19 @@
     <view class='nav flex'>
        <view data-act='4' class='nav-li nav-total {{active==0?"nav-active":""}}' bindtap='sort'><view class='total'>{{total}}</view><text class='iconfont icon-xialajiantou nav-iconx'></text></view>
        <view data-act='1' class='nav-li {{active==1?"nav-active":""}}' bindtap='navactive'>价格
-       <text class='iconfont icon-xiaosanjiaoxing01 sort-s' ></text>
-       <text class='iconfont icon-xiaosanjiaoxing02 sort-x' ></text></view>
+       <!-- <text class='iconfont icon-xiaosanjiaoxing01 sort-s' ></text>
+       <text class='iconfont icon-xiaosanjiaoxing02 sort-x' ></text> -->
+       </view>
        <view data-act='2' class='nav-li {{active==2?"nav-active":""}}' bindtap='navactive1'>销量
-       <text class='iconfont icon-xiaosanjiaoxing01 sort-s' ></text>
-       <text class='iconfont icon-xiaosanjiaoxing02 sort-x' ></text></view>
+       <!-- <text class='iconfont icon-xiaosanjiaoxing01 sort-s' ></text>
+       <text class='iconfont icon-xiaosanjiaoxing02 sort-x' ></text> -->
+       </view>
        <view data-act='3' class='nav-li {{active==3?"nav-active":""}}' bindtap='navactive2'>新品</view>
        <view data-num='{{num}}' class='nav-li iconfont  icon-chanpin nav-tap {{_num==1?"icon-chanpin1":""}}' bindtap='product'></view>
     </view>
 </view>
 <view class='productSort flex'>
-         <block wx:for="{{Arraylike}}"  >
+         <block wx:for="{{Arraylike}}" wx:key="{{index}}"  >
          
              <view class='productSort-list {{_num==1?"productSort-list2":""}}'>
                       <navigator url="/pages/product-con/index?id={{item.id}}" hover-class="none"    bindtap='details'>
@@ -50,13 +52,13 @@
         <view class='down-title' bindtap='allproduct'>全部商品<text class='iconfont {{taber=="-1"?"icon-duihao sortd":""}}'></text></view>
         <view class='flex'>
             <view class='down-yi'>
-                <block wx:for="{{sortyi}}"  >
+                <block wx:for="{{sortyi}}" wx:key="{{index}}">
                     <view data-idx="{{item.id}}" class='yi-sort {{currentTab==item.id?"sorton":""}}' bindtap='itemdown'>{{item.cate_name}}</view>
                 </block>
             </view>
         </view>
         <view animation="{{animationData}}" class='down-er'>
-            <block wx:for="{{sorter}}">
+            <block wx:for="{{sorter}}" wx:key="{{index}}">
               <view class='downs-title' data-ider='{{item.id}}'  bindtap='wholeproduct' wx:if="{{!item.pid}}">
                 {{item.cate_name}}
                 <text class='iconfont {{taber==item.id?"icon-duihao sortd":""}}'></text>

@@ -235,7 +235,7 @@
 }
 
 .foot .count-num {
-  margin-left: 75rpx;
+  margin-left: 20rpx;
   color: #9bd040;
 }
 

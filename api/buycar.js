@@ -6,5 +6,8 @@ module.exports = {
   },
   changeCartNum: (data) => {
     return post('/routine/auth_api/change_cart_num',data)
+  },
+  deleteItem:(data)=>{
+    return post('/routine/auth_api/remove_cart',data)
   }
 }

@@ -1,11 +1,11 @@
 {
   "pages": [
-    "pages/orders-list/orders-list",
-    "pages/index/index",
     "pages/buycar/buycar",
-    "pages/product-con/index",
-    "pages/productSort/productSort",
     "pages/order-confirm/order-confirm",
+    "pages/productSort/productSort",
+    "pages/index/index",
+    "pages/orders-list/orders-list",
+    "pages/product-con/index",
     "pages/loading/loading",
     "pages/user/user",
     "pages/load/load",

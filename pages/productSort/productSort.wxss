@@ -19,7 +19,7 @@
 .nav .nav-tap{font-size:35rpx;color:#454545 !important; flex:1 10%;}
 .nav .sort-s{position:absolute;top:-4rpx;font-size:31rpx;}
  .nav .sort-x{position:absolute;top:8rpx;font-size:31rpx;} 
- .nav-active{color:#000000 !important;}
+ .nav-active{color:#9bd040 !important;}
 .productSort{padding:0 10rpx;justify-content:space-between;flex-wrap:wrap;margin-top:195rpx;}
 .productSort-list{height:512rpx;width:360rpx;margin-bottom:10rpx;background-color:#FFFFFF;}
 .list-images{width:360rpx;height:360rpx;}
