@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/orders-list/orders-list",
     "pages/index/index",
     "pages/buycar/buycar",
     "pages/product-con/index",
@@ -26,7 +27,6 @@
     "pages/news-list/news-list",
     "pages/comment-con/comment-con",
     "pages/orderForm/orderForm",
-    "pages/orders-list/orders-list",
     "pages/comment/comment",
     "pages/foo-tan/foo-tan",
     "pages/mycut/mycut",
