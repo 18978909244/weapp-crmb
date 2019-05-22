@@ -1,6 +1,7 @@
 // pages/orders-con/orders-con.js
 var app = getApp();
 var wxh = require('../../utils/wxh.js');
+const API = require('../../api/orders-con')
 Page({
 
   /**
@@ -19,7 +20,7 @@ Page({
     var header = {
       'content-type': 'application/x-www-form-urlencoded'
     };
-    var uni = e.order_id;
+    var uni = e.order_id || 'wx2019052023575710005';
     var that = this;
     wx.showLoading({ title: "正在加载中……" });
     wx.request({
@@ -28,6 +29,7 @@ Page({
       method: 'get',
       header: header,
       success: function (res) {
+        console.log(res)
         wx.hideLoading();
         that.setData({
           ordercon:res.data.data
@@ -43,10 +45,17 @@ Page({
   },
   getPay:function(e){
     var that = this;
+    API.getPay(e.target.dataset.id)
+      .then(res=>{
+        console.log(res)
+      })
+      return;
     wx.request({
       url: app.globalData.url + '/routine/auth_api/pay_order?uid=' + app.globalData.uid +'&uni='+e.target.dataset.id,
       method: 'get',
       success: function (res) {
+        console.log(res)
+        return;
         var data = res.data.data;
         if (res.data.code == 200 && res.data.data.status == 'WECHAT_PAY') {
           var jsConfig = res.data.data.result.jsConfig;

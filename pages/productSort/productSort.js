@@ -1,16 +1,17 @@
 // pages/unshop/unshop.js
 var app = getApp();
 var wxh = require('../../utils/wxh.js');
+const API = require('../../api/productSort')
 Page({
     data: {
         attrName: '',
-        num:1,
+        num: 1,
         url: app.globalData.urlImages,
-        hiddendown:true,
-        currentTab:"-1",
-        taber:"-1",
-        active:0,
-        Arraylike:[],
+        hiddendown: true,
+        currentTab: "-1",
+        taber: "-1",
+        active: 0,
+        Arraylike: [],
         productAttr: [],
         productSelect: [
             { image: "" },
@@ -19,24 +20,24 @@ Page({
             { unique: "" },
             { stock: 0 },
         ],
-        productValue:[],
-        total:'全部',
-        animationData:{},
-        cid:'',
-        sid:'',
-        price:'',
-        sales:'',
+        productValue: [],
+        total: '全部',
+        animationData: {},
+        cid: '',
+        sid: '',
+        price: '',
+        sales: '',
         ficti: '',
-        t:1,
-        sortyi:[],
+        t: 1,
+        sortyi: [],
         offset: 0,
         title: "玩命加载中...",
         hidden: false,
         show: false,
         prostatus: false,
-        sorter:[],
-        productid:'',
-        CartCount:''
+        sorter: [],
+        productid: '',
+        CartCount: ''
     },
     setNumber: function (e) {
         var that = this;
@@ -45,25 +46,26 @@ Page({
             num: num ? num : 1
         })
     },
-    onLoad:function(e){
+    onLoad: function (e) {
         app.setUserInfo();
-        var that = this;
-        that.getCartCount();
-        that.getProductList();
     },
-    goCart:function(){
+    onShow() {
+        this.getCartCount();
+        this.getProductList();
+    },
+    goCart: function () {
         wx.switchTab({
             url: '/pages/buycar/buycar'
         });
     },
-    product:function(e){
+    product: function (e) {
         var index = e.target.dataset.num;
-        if(index==1){
+        if (index == 1) {
             this.setData({
                 _num: index,
-                num:2
+                num: 2
             })
-        }else{
+        } else {
             this.setData({
                 _num: index,
                 num: 1
@@ -73,17 +75,17 @@ Page({
             _num: e.target.dataset.num
         })
     },
-    sort:function(e){
+    sort: function (e) {
         var that = this;
         var all = this.data.hiddendown;
         this.setData({
             active: 0
         });
-        if(all){
+        if (all) {
             this.setData({
-                hiddendown:false
+                hiddendown: false
             })
-        }else{
+        } else {
             this.setData({
                 hiddendown: true
             })
@@ -92,11 +94,11 @@ Page({
             url: app.globalData.url + '/routine/auth_api/get_pid_cate?uid=' + app.globalData.uid,
             method: 'POST',
             success: function (res) {
-                if (res.data.code==200){
+                if (res.data.code == 200) {
                     that.setData({
-                        sortyi:res.data.data,
+                        sortyi: res.data.data,
                     })
-                }else{
+                } else {
                     that.setData({
                         sortyi: []
                     })
@@ -105,22 +107,22 @@ Page({
 
         })
     },
-    itemdown:function(e){
+    itemdown: function (e) {
         var that = this;
         var animation = wx.createAnimation({
             duration: 500,
             timingFunction: 'ease',
         });
         this.animation = animation;
-        var width = 50+'%';
+        var width = 50 + '%';
         animation.width(width).step();
-        var id=e.target.dataset.idx;
+        var id = e.target.dataset.idx;
         wx.request({
             url: app.globalData.url + '/routine/auth_api/get_id_cate?uid=' + app.globalData.uid,
-            data: { id: e.target.dataset.idx},
+            data: { id: e.target.dataset.idx },
             method: 'POST',
             success: function (res) {
-                if (res.data.code==200){
+                if (res.data.code == 200) {
                     that.setData({
                         currentTab: e.target.dataset.idx,
                         animationData: animation.export()
@@ -129,7 +131,7 @@ Page({
                         cid: e.target.dataset.idx,
                         sorter: res.data.data,
                     })
-                }else{
+                } else {
                     that.setData({
                         currentTab: 0,
                         animationData: {}
@@ -144,10 +146,10 @@ Page({
 
         })
     },
-    itemdowner:function(e){
+    itemdowner: function (e) {
         var that = this;
         var $taber = e.target.dataset.ider;
-        if ($taber>=0){
+        if ($taber >= 0) {
             that.setData({
                 taber: e.target.dataset.ider,
                 hiddendown: true
@@ -158,35 +160,35 @@ Page({
                 hiddendown: true
             })
         }
-      var SoerErId = 0; 
+        var SoerErId = 0;
         if ($taber >= 0) {
-            for (var indexSoerEr in that.data.sorter){
-                if (that.data.sorter[indexSoerEr].id == $taber){
+            for (var indexSoerEr in that.data.sorter) {
+                if (that.data.sorter[indexSoerEr].id == $taber) {
                     that.setData({
                         total: that.data.sorter[indexSoerEr].cate_name
                     })
                     SoerErId = that.data.sorter[indexSoerEr].id;
                 }
-              //console.log(that.data.sorter[indexSoerEr].id);
+                //console.log(that.data.sorter[indexSoerEr].id);
             }
-        }else that.setData({total: '全部'})
-        that.setData({sid: SoerErId})
+        } else that.setData({ total: '全部' })
+        that.setData({ sid: SoerErId })
         that.getProductList();
     },
-    wholeproduct:function(e){
-        var that=this;
+    wholeproduct: function (e) {
+        var that = this;
         var $taber = e.target.dataset.ider;
-        if (that.data.cid!=''){
+        if (that.data.cid != '') {
             var cid = that.data.cid;
-        }else{
-            var cid='';
+        } else {
+            var cid = '';
         }
         var arr = that.data.sortyi;
         var len = that.data.sortyi.length;
-        for(var i=0;i<len;i++){
-            if (arr[i].id == that.data.cid){
+        for (var i = 0; i < len; i++) {
+            if (arr[i].id == that.data.cid) {
                 that.setData({
-                    total: arr[i].cate_name+ '/全部',
+                    total: arr[i].cate_name + '/全部',
                     taber: $taber
                 })
             }
@@ -196,19 +198,10 @@ Page({
         that.getProductList();
     },
     getCartCount: function () {
-        var that = this;
-        var header = {
-            'content-type': 'application/x-www-form-urlencoded',
-        };
-        wx.request({
-            url: app.globalData.url + '/routine/auth_api/get_cart_num?uid=' + app.globalData.uid,
-            method: 'POST',
-            header: header,
-            success: function (res) {
-                that.setData({
-                    CartCount: res.data.data
-                })
-            }
+        API.getCartCount().then(res => {
+            this.setData({
+                CartCount: res.data.data
+            })
         })
     },
     allproduct: function () {
@@ -220,12 +213,12 @@ Page({
         })
         that.getProductList();
     },
-    maskhide:function(e){
+    maskhide: function (e) {
         this.setData({
-            hiddendown:true
+            hiddendown: true
         })
     },
-    navactive:function(e){
+    navactive: function (e) {
         var that = this;
         that.setData({
             active: e.target.dataset.act,
@@ -234,11 +227,11 @@ Page({
         var act = e.target.dataset.act;
         var priceOrder = '';
         var t = that.data.t;
-        var n=t+1;
-        if (n%2>0) priceOrder ='asc';
-        else priceOrder='desc';
-      var sid = that.data.sid;
-        that.setData({ ficti: ''})
+        var n = t + 1;
+        if (n % 2 > 0) priceOrder = 'asc';
+        else priceOrder = 'desc';
+        var sid = that.data.sid;
+        that.setData({ ficti: '' })
         that.setData({ price: priceOrder, t: n, })
         that.getProductList();
     },
@@ -249,11 +242,11 @@ Page({
             hiddendown: true
         })
         var act = e.target.dataset.act;
-        var  salesOrder = '';
+        var salesOrder = '';
         var t = that.data.t;
         var n = t + 1;
-        if (n%2>0) salesOrder = 'asc';
-        else salesOrder='desc';
+        if (n % 2 > 0) salesOrder = 'asc';
+        else salesOrder = 'desc';
         that.setData({ price: '' })
         that.setData({ ficti: salesOrder, t: n, })
         that.getProductList();
@@ -269,12 +262,12 @@ Page({
         if (act == 3) news = 1;
         else news = '';
         if (that.data.news) news = '';
-        that.setData({ price: ''})
-        that.setData({ ficti: ''})
-        that.setData({ news: news})
+        that.setData({ price: '' })
+        that.setData({ ficti: '' })
+        that.setData({ news: news })
         that.getProductList();
     },
-    searchSubmit:function(e){
+    searchSubmit: function (e) {
         var that = this;
         wx.request({
             url: app.globalData.url + '/routine/auth_api/get_form_id?uid=' + app.globalData.uid,
@@ -287,14 +280,14 @@ Page({
         var $search = e.detail.value;
         wx.request({
             url: app.globalData.url + '/routine/auth_api/store?uid=' + app.globalData.uid,
-            data: {value: $search},
+            data: { value: $search },
             method: 'GET',
-            success: function (res){
-                if (res.data.code==200){
+            success: function (res) {
+                if (res.data.code == 200) {
                     that.setData({
                         Arraylike: res.data.data
                     })
-                }else{
+                } else {
                     that.setData({
                         Arraylike: []
                     })
@@ -303,12 +296,12 @@ Page({
 
         })
     },
-    cart:function(e){
+    cart: function (e) {
         var that = this;
-        var id=e.target.dataset.id;
+        var id = e.target.dataset.id;
         console.log(id);
         wx.request({
-            url: app.globalData.url + '/routine/auth_api/details?uid='+app.globalData.uid,
+            url: app.globalData.url + '/routine/auth_api/details?uid=' + app.globalData.uid,
             data: {
                 id: id
             },
@@ -320,7 +313,7 @@ Page({
                 var unique = "productSelect.unique";
                 var stock = "productSelect.stock";
                 console.log(res.data.data);
-                if(res.data.code==200){
+                if (res.data.code == 200) {
                     that.setData({
                         productAttr: res.data.data.productAttr,
                         productValue: res.data.data.productValue,
@@ -333,7 +326,7 @@ Page({
                         productid: id
                     })
                     that.detail();
-                }else{
+                } else {
                     that.setData({
                         productid: ''
                     })
@@ -343,8 +336,8 @@ Page({
 
         })
     },
-    detail:function(){
-        var that=this;
+    detail: function () {
+        var that = this;
         that.setData({
             show: true,
             prostatus: true,
@@ -507,6 +500,10 @@ Page({
                             prostatus: false
                         })
                         that.getCartCount();
+                        // wx.setTabBarBadge({
+                        //     index: 2,
+                        //     text: '1'
+                        // })
                     } else {
                         wx.showToast({
                             title: res.data.msg,
@@ -519,12 +516,12 @@ Page({
 
         }
     },
-    prompt:function(){
+    prompt: function () {
         wx.showToast({
             title: this.data.productid ? "加入成功" : "加入失败",
             icon: 'success',
             duration: 800,
-            mask:true
+            mask: true
         })
     },
     prompts: function () {
@@ -535,7 +532,7 @@ Page({
 
         })
     },
-    details:function (e) {
+    details: function (e) {
         var that = this;
         var id = e.target.dataset.aa;
         // console.log(e.target.dataset);
@@ -551,7 +548,7 @@ Page({
 
         // })
     },
-    getProductList:function(){
+    getProductList: function () {
         var that = this;
         var news = that.data.news;
         var sid = that.data.sid;
@@ -608,15 +605,15 @@ Page({
         };
         wx.request({
             url: app.globalData.url + '/routine/auth_api/get_product_list?uid=' + app.globalData.uid,
-            data: { sid: sid, cid: cid, priceOrder: priceOrder, salesOrder: salesOrder, news: news,first: startpage ,limit: limit},
+            data: { sid: sid, cid: cid, priceOrder: priceOrder, salesOrder: salesOrder, news: news, first: startpage, limit: limit },
             method: 'GET',
             header: header,
             success: function (res) {
-                if(res.data.code==200){
+                if (res.data.code == 200) {
                     // console.log(res);
                     var len = res.data.data.length;
                     var ladding = that.data.Arraylike;
-                    for (var i in res.data.data){
+                    for (var i in res.data.data) {
                         ladding.push(res.data.data[i]);
                     }
                     that.setData({

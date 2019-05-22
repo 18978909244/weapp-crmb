@@ -21,13 +21,13 @@
 
 <!-- 下单 -->
 <view class="button flex">
-  <view class='button-item'>
-    <image src='../../images/time.png'></image>
-    <view class='nav-title'>预定下单</view>
-  </view>
-  <view class='button-item'>
+  <view class='button-item' bindtap="goToProductSort" data-ship="0">
     <image src='../../images/now.png'></image>
     <view class='nav-title'>即时下单</view>
+  </view>
+  <view class='button-item'>
+    <image src='../../images/time.png' bindtap="goToProductSort" data-ship="1"></image>
+    <view class='nav-title'>预定下单</view>
   </view>
 </view>
 <!-- 导航 -->

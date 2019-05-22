@@ -29,6 +29,35 @@
   </view>
   <view class='item-box orders'>
     <view class='title-bar flex'>
+      <text>我的配送</text>
+      <navigator hover-class="none" url='/pages/orders-list/orders-list'>全部配送订单</navigator>
+    </view>
+    <view class='list-wrapper flex'>
+      <view class='item'>
+        <navigator hover-class="none" url='/pages/orders-list/orders-list?nowstatus=2'>
+          <view class='item-span' wx:if="{{orderStatusNum.noPostage}}">{{orderStatusNum.noPostage}}</view>
+          <image src='/images/dfk.png'></image>
+          <view class='text'>待配送</view>
+        </navigator>
+      </view>
+      <view class='item'>
+        <navigator hover-class="none" url='/pages/orders-list/orders-list?nowstatus=3'>
+          <view class='item-span'  wx:if="{{orderStatusNum.noTake}}">{{orderStatusNum.noTake}}</view>
+          <image src='/images/dsh.png'></image>
+          <view class='text'>配送中</view>
+        </navigator>
+      </view>
+      <view class='item'>
+        <navigator hover-class="none" url='/pages/orders-list/orders-list?nowstatus=4'>
+          <view class='item-span' wx:if="{{orderStatusNum.noReply}}">{{orderStatusNum.noReply}}</view>
+          <image src='/images/dpj.png'></image>
+          <view class='text'>我的评价</view>
+        </navigator>
+      </view>
+    </view>
+  </view>
+  <view class='item-box orders'>
+    <view class='title-bar flex'>
       <text>我的订单</text>
       <navigator hover-class="none" url='/pages/orders-list/orders-list'>查看全部订单</navigator>
     </view>

@@ -37,6 +37,13 @@ Page({
       url: '/pages/productSort/productSort'
     });
   },
+  goToProductSort(e){
+    let shipType = e.currentTarget.dataset.ship
+    wx.setStorageSync('shipType',shipType)
+    wx.switchTab({
+      url:'/pages/productSort/productSort'
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */

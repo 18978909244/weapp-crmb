@@ -249,7 +249,6 @@ Page({
     // console.log(this);
   },
   addCartNum: function (cartNum, cartId) {
-    if (cartNum === 1) return
     Buycar.changeCartNum({
       cartNum: cartNum,
       cartId: cartId
@@ -473,9 +472,9 @@ Page({
       return;
     }
     let total = Number(this.data.countmoney) + Number(this.data.deliver_fee)
-    if (total < 30) {
+    if (total < app.globalData.priceStart) {
       wx.showToast({
-        title: '下单金额30元起送',
+        title: '下单金额'+app.globalData.priceStart+'元起送',
         icon: 'none',
         duration: 2000
       })

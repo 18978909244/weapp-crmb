@@ -21,7 +21,8 @@ App({
     openPages:'',
     spid:0,
     urlImages: '',
-    url: 'http://soho.hzyctools.com'
+    url: 'http://soho.hzyctools.com',
+    priceStart:0.02
   },
   getRoutineStyle:function(){
     var that = this;

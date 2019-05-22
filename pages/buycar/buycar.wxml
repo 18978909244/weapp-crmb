@@ -39,7 +39,7 @@
           <!-- <icon type="cancel" size="24"/> -->
       </view>
       <view class='count-wrapper flex'>
-        <text data-index="{{index}}" bindtap="numDescClick" class='{{minusStatus}}'>-</text>
+        <text data-index="{{index}}" bindtap="{{item.cart_num===1?'':'numDescClick'}}" class='{{minusStatus}}'>-</text>
         <text class='num'>{{item.cart_num}}</text>
         <!-- <input class='num' data-item='{{index}}' type="number" value='{{item.cart_num}}' bindblur='setNumber'/> -->
         <text class='add' data-index="{{index}}" bindtap="numAddClick" data-max="{{item.trueStock}}">+</text>

@@ -3,7 +3,8 @@ const moment = require('../../utils/moment')
 var app = getApp();
 const API = require('../../api/order-confirm')
 
-console.log('time')
+let shipType = Number(wx.getStorageSync('shipType')) || 0
+console.log('shipType', shipType)
 let hour = moment().hour()
 let firstColumn = ['今天', '明天', '后天'];
 let secondColumn = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].filter(item => item > hour + 1).map(item => item + '时')
@@ -46,7 +47,7 @@ Page({
     mark: '',
     payType: 'weixin',
     useIntegral: '',
-    shipType: 0,
+    shipType,
     userExpectTime: 0,
     multiIndex: [0, 0],
     multiArray: [],
@@ -94,13 +95,15 @@ Page({
   },
   radioChange: function (e) {
     this.setData({
-      payType: e.currentTarget.dataset.value
+      payType: e.detail.value
     })
   },
   radioChangeShip(e) {
+    console.log('点击了')
+    console.log(e.detail.value)
     this.setData({
-      shipType: e.currentTarget.dataset.value,
-      userExpectTime:e.currentTarget.dataset.value===0?0:this.data.userExpectTime
+      shipType: e.detail.value,
+      userExpectTime: e.detail.value === 0 ? 0 : this.data.userExpectTime
     })
   },
   subOrder: function (e) {
@@ -114,14 +117,131 @@ Page({
         icon: 'none',
         duration: 1000,
       })
-    } else if (!that.data.addressId) {
+      return;
+    }
+
+    if (!that.data.addressId) {
       wx.showToast({
         title: '请选择收货地址',
         icon: 'none',
         duration: 1000,
       })
-    } else {
-      API.createOrder(that.data.orderKey)({
+      return
+    }
+
+    let formData = {
+      addressId: that.data.addressId,
+      formId: e.detail.formId,
+      couponId: that.data.couponId,
+      payType: that.data.payType,
+      useIntegral: that.data.useIntegral,
+      bargainId: that.data.BargainId,
+      combinationId: that.data.combinationId,
+      pinkId: that.data.pinkId,
+      seckill_id: that.data.seckillId,
+      mark: that.data.mark,
+      userExpectTime: that.data.userExpectTime > 0 ? that.data.userExpectTime : 0
+    }
+    API.createOrder(that.data.orderKey)(formData)
+      .then(res => {
+        console.log('res', res)
+        var data = res.data.data;
+        if (res.data.code == 200 && res.data.data.status == 'SUCCESS') {
+          wx.showToast({
+            title: res.data.msg,
+            icon: 'success',
+            duration: 1000,
+          })
+          setTimeout(function () {
+            wx.navigateTo({
+              url: '/pages/orders-con/orders-con?order_id=' + data.result.orderId
+            })
+          }, 1200)
+        } else if (res.data.code == 200 && res.data.data.status == 'ORDER_EXIST') {
+          wx.showToast({
+            title: res.data.msg,
+            icon: 'none',
+            duration: 1000,
+          })
+          setTimeout(function () {
+            wx.navigateTo({
+              url: '/pages/orders-con/orders-con?order_id=' + data.result.orderId
+            })
+          }, 1200)
+        } else if (res.data.code == 200 && res.data.data.status == 'EXTEND_ORDER') {
+          wx.showToast({
+            title: res.data.msg,
+            icon: 'none',
+            duration: 1000,
+          })
+          setTimeout(function () {
+            wx.navigateTo({
+              url: '/pages/orders-con/orders-con?order_id=' + data.result.orderId
+            })
+          }, 1200)
+        } else if (res.data.code == 200 && res.data.data.status == 'WECHAT_PAY') {
+          var jsConfig = res.data.data.result.jsConfig;
+          wx.requestPayment({
+            timeStamp: jsConfig.timeStamp,
+            nonceStr: jsConfig.nonceStr,
+            package: jsConfig.package,
+            signType: jsConfig.signType,
+            paySign: jsConfig.paySign,
+            success: function (res) {
+              wx.showToast({
+                title: '支付成功',
+                icon: 'success',
+                duration: 1000,
+              })
+              setTimeout(function () {
+                wx.navigateTo({
+                  url: '/pages/orders-con/orders-con?order_id=' + data.result.orderId
+                })
+              }, 1200)
+            },
+            fail: function (res) {
+              wx.showToast({
+                title: '支付失败',
+                icon: 'none',
+                duration: 1000,
+              })
+              setTimeout(function () {
+                wx.navigateTo({
+                  url: '/pages/orders-con/orders-con?order_id=' + data.result.orderId
+                })
+              }, 1200)
+            },
+            complete: function (res) {
+              if (res.errMsg == 'requestPayment:cancel') {
+                wx.showToast({
+                  title: '取消支付',
+                  icon: 'none',
+                  duration: 1000,
+                })
+                setTimeout(function () {
+                  wx.navigateTo({ //跳转至指定页面并关闭其他打开的所有页面（这个最好用在返回至首页的的时候）
+                    url: '/pages/orders-con/orders-con?order_id=' + data.result.orderId
+                  })
+                }, 1200)
+              }
+            },
+          })
+        } else {
+          wx.showToast({
+            title: res.data.msg,
+            icon: 'none',
+            duration: 1000,
+          })
+        }
+      })
+
+    return;
+
+    wx.request({
+      url: app.globalData.url + '/routine/auth_api/create_order?uid=' + app.globalData.uid + '&key=' + that.data.orderKey,
+      method: 'POST',
+      header: header,
+      data: {
         addressId: that.data.addressId,
         formId: e.detail.formId,
         couponId: that.data.couponId,
@@ -131,231 +251,110 @@ Page({
         combinationId: that.data.combinationId,
         pinkId: that.data.pinkId,
         seckill_id: that.data.seckillId,
-        mark: that.data.mark,
-        userExpectTime:that.data.userExpectTime>0?that.data.userExpectTime:0
-      }).then(res=>{
+        mark: that.data.mark
+      },
+      success: function (res) {
         var data = res.data.data;
-          if (res.data.code == 200 && res.data.data.status == 'SUCCESS') {
-            wx.showToast({
-              title: res.data.msg,
-              icon: 'success',
-              duration: 1000,
+        if (res.data.code == 200 && res.data.data.status == 'SUCCESS') {
+          wx.showToast({
+            title: res.data.msg,
+            icon: 'success',
+            duration: 1000,
+          })
+          setTimeout(function () {
+            wx.navigateTo({
+              url: '/pages/orders-con/orders-con?order_id=' + data.result.orderId
             })
-            setTimeout(function () {
-              wx.navigateTo({
-                url: '/pages/orders-con/orders-con?order_id=' + data.result.orderId
-              })
-            }, 1200)
-          } else if (res.data.code == 200 && res.data.data.status == 'ORDER_EXIST') {
-            wx.showToast({
-              title: res.data.msg,
-              icon: 'none',
-              duration: 1000,
+          }, 1200)
+        } else if (res.data.code == 200 && res.data.data.status == 'ORDER_EXIST') {
+          wx.showToast({
+            title: res.data.msg,
+            icon: 'none',
+            duration: 1000,
+          })
+          setTimeout(function () {
+            wx.navigateTo({
+              url: '/pages/orders-con/orders-con?order_id=' + data.result.orderId
             })
-            setTimeout(function () {
-              wx.navigateTo({
-                url: '/pages/orders-con/orders-con?order_id=' + data.result.orderId
-              })
-            }, 1200)
-          } else if (res.data.code == 200 && res.data.data.status == 'ORDER_EXIST') {
-            wx.showToast({
-              title: res.data.msg,
-              icon: 'none',
-              duration: 1000,
+          }, 1200)
+        } else if (res.data.code == 200 && res.data.data.status == 'ORDER_EXIST') {
+          wx.showToast({
+            title: res.data.msg,
+            icon: 'none',
+            duration: 1000,
+          })
+          setTimeout(function () {
+            wx.navigateTo({
+              url: '/pages/orders-con/orders-con?order_id=' + data.result.orderId
             })
-            setTimeout(function () {
-              wx.navigateTo({
-                url: '/pages/orders-con/orders-con?order_id=' + data.result.orderId
-              })
-            }, 1200)
-          } else if (res.data.code == 200 && res.data.data.status == 'EXTEND_ORDER') {
-            wx.showToast({
-              title: res.data.msg,
-              icon: 'none',
-              duration: 1000,
+          }, 1200)
+        } else if (res.data.code == 200 && res.data.data.status == 'EXTEND_ORDER') {
+          wx.showToast({
+            title: res.data.msg,
+            icon: 'none',
+            duration: 1000,
+          })
+          setTimeout(function () {
+            wx.navigateTo({
+              url: '/pages/orders-con/orders-con?order_id=' + data.result.orderId
             })
-            setTimeout(function () {
-              wx.navigateTo({
-                url: '/pages/orders-con/orders-con?order_id=' + data.result.orderId
+          }, 1200)
+        } else if (res.data.code == 200 && res.data.data.status == 'WECHAT_PAY') {
+          var jsConfig = res.data.data.result.jsConfig;
+          wx.requestPayment({
+            timeStamp: jsConfig.timeStamp,
+            nonceStr: jsConfig.nonceStr,
+            package: jsConfig.package,
+            signType: jsConfig.signType,
+            paySign: jsConfig.paySign,
+            success: function (res) {
+              wx.showToast({
+                title: '支付成功',
+                icon: 'success',
+                duration: 1000,
               })
-            }, 1200)
-          } else if (res.data.code == 200 && res.data.data.status == 'WECHAT_PAY') {
-            var jsConfig = res.data.data.result.jsConfig;
-            wx.requestPayment({
-              timeStamp: jsConfig.timeStamp,
-              nonceStr: jsConfig.nonceStr,
-              package: jsConfig.package,
-              signType: jsConfig.signType,
-              paySign: jsConfig.paySign,
-              success: function (res) {
-                wx.showToast({
-                  title: '支付成功',
-                  icon: 'success',
-                  duration: 1000,
+              setTimeout(function () {
+                wx.navigateTo({
+                  url: '/pages/orders-con/orders-con?order_id=' + data.result.orderId
                 })
-                setTimeout(function () {
-                  wx.navigateTo({
-                    url: '/pages/orders-con/orders-con?order_id=' + data.result.orderId
-                  })
-                }, 1200)
-              },
-              fail: function (res) {
+              }, 1200)
+            },
+            fail: function (res) {
+              wx.showToast({
+                title: '支付失败',
+                icon: 'none',
+                duration: 1000,
+              })
+              setTimeout(function () {
+                wx.navigateTo({
+                  url: '/pages/orders-con/orders-con?order_id=' + data.result.orderId
+                })
+              }, 1200)
+            },
+            complete: function (res) {
+              if (res.errMsg == 'requestPayment:cancel') {
                 wx.showToast({
-                  title: '支付失败',
+                  title: '取消支付',
                   icon: 'none',
                   duration: 1000,
                 })
                 setTimeout(function () {
-                  wx.navigateTo({
+                  wx.navigateTo({ //跳转至指定页面并关闭其他打开的所有页面（这个最好用在返回至首页的的时候）
                     url: '/pages/orders-con/orders-con?order_id=' + data.result.orderId
                   })
                 }, 1200)
-              },
-              complete: function (res) {
-                if (res.errMsg == 'requestPayment:cancel') {
-                  wx.showToast({
-                    title: '取消支付',
-                    icon: 'none',
-                    duration: 1000,
-                  })
-                  setTimeout(function () {
-                    wx.navigateTo({ //跳转至指定页面并关闭其他打开的所有页面（这个最好用在返回至首页的的时候）
-                      url: '/pages/orders-con/orders-con?order_id=' + data.result.orderId
-                    })
-                  }, 1200)
-                }
-              },
-            })
-          } else {
-            wx.showToast({
-              title: res.data.msg,
-              icon: 'none',
-              duration: 1000,
-            })
-          }
-      })
-
-      return;
-
-      wx.request({
-        url: app.globalData.url + '/routine/auth_api/create_order?uid=' + app.globalData.uid + '&key=' + that.data.orderKey,
-        method: 'POST',
-        header: header,
-        data: {
-          addressId: that.data.addressId,
-          formId: e.detail.formId,
-          couponId: that.data.couponId,
-          payType: that.data.payType,
-          useIntegral: that.data.useIntegral,
-          bargainId: that.data.BargainId,
-          combinationId: that.data.combinationId,
-          pinkId: that.data.pinkId,
-          seckill_id: that.data.seckillId,
-          mark: that.data.mark
-        },
-        success: function (res) {
-          var data = res.data.data;
-          if (res.data.code == 200 && res.data.data.status == 'SUCCESS') {
-            wx.showToast({
-              title: res.data.msg,
-              icon: 'success',
-              duration: 1000,
-            })
-            setTimeout(function () {
-              wx.navigateTo({
-                url: '/pages/orders-con/orders-con?order_id=' + data.result.orderId
-              })
-            }, 1200)
-          } else if (res.data.code == 200 && res.data.data.status == 'ORDER_EXIST') {
-            wx.showToast({
-              title: res.data.msg,
-              icon: 'none',
-              duration: 1000,
-            })
-            setTimeout(function () {
-              wx.navigateTo({
-                url: '/pages/orders-con/orders-con?order_id=' + data.result.orderId
-              })
-            }, 1200)
-          } else if (res.data.code == 200 && res.data.data.status == 'ORDER_EXIST') {
-            wx.showToast({
-              title: res.data.msg,
-              icon: 'none',
-              duration: 1000,
-            })
-            setTimeout(function () {
-              wx.navigateTo({
-                url: '/pages/orders-con/orders-con?order_id=' + data.result.orderId
-              })
-            }, 1200)
-          } else if (res.data.code == 200 && res.data.data.status == 'EXTEND_ORDER') {
-            wx.showToast({
-              title: res.data.msg,
-              icon: 'none',
-              duration: 1000,
-            })
-            setTimeout(function () {
-              wx.navigateTo({
-                url: '/pages/orders-con/orders-con?order_id=' + data.result.orderId
-              })
-            }, 1200)
-          } else if (res.data.code == 200 && res.data.data.status == 'WECHAT_PAY') {
-            var jsConfig = res.data.data.result.jsConfig;
-            wx.requestPayment({
-              timeStamp: jsConfig.timeStamp,
-              nonceStr: jsConfig.nonceStr,
-              package: jsConfig.package,
-              signType: jsConfig.signType,
-              paySign: jsConfig.paySign,
-              success: function (res) {
-                wx.showToast({
-                  title: '支付成功',
-                  icon: 'success',
-                  duration: 1000,
-                })
-                setTimeout(function () {
-                  wx.navigateTo({
-                    url: '/pages/orders-con/orders-con?order_id=' + data.result.orderId
-                  })
-                }, 1200)
-              },
-              fail: function (res) {
-                wx.showToast({
-                  title: '支付失败',
-                  icon: 'none',
-                  duration: 1000,
-                })
-                setTimeout(function () {
-                  wx.navigateTo({
-                    url: '/pages/orders-con/orders-con?order_id=' + data.result.orderId
-                  })
-                }, 1200)
-              },
-              complete: function (res) {
-                if (res.errMsg == 'requestPayment:cancel') {
-                  wx.showToast({
-                    title: '取消支付',
-                    icon: 'none',
-                    duration: 1000,
-                  })
-                  setTimeout(function () {
-                    wx.navigateTo({ //跳转至指定页面并关闭其他打开的所有页面（这个最好用在返回至首页的的时候）
-                      url: '/pages/orders-con/orders-con?order_id=' + data.result.orderId
-                    })
-                  }, 1200)
-                }
-              },
-            })
-          } else {
-            wx.showToast({
-              title: res.data.msg,
-              icon: 'none',
-              duration: 1000,
-            })
-          }
+              }
+            },
+          })
+        } else {
+          wx.showToast({
+            title: res.data.msg,
+            icon: 'none',
+            duration: 1000,
+          })
         }
-      })
-    }
+      }
+    })
   },
   getCouponRope: function () {
     var that = this;
