@@ -12,6 +12,7 @@ App({
     let userInfo = wx.getStorageSync('userInfo')
     console.log(userInfo)
     if(userInfo){
+      console.log(userInfo.uid)
       this.globalData.uid = userInfo.uid
     }
   },
@@ -21,8 +22,9 @@ App({
     openPages:'',
     spid:0,
     urlImages: '',
-    url: 'http://soho.hzyctools.com',
-    priceStart:0.02
+    url: 'https://fresh.kuashou.com',
+    priceStart:0.02,
+    sid:''
   },
   getRoutineStyle:function(){
     var that = this;

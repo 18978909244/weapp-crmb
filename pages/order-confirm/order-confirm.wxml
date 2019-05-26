@@ -42,7 +42,7 @@
     <view class='text-item flex'>
       <text>配送费</text>
       <view class='select-btn'>
-        <text>￥{{cartInfo[0].shopInfo.deliver_fee}}</text>
+        <text>￥{{priceGroup.storePostage}}</text>
       </view>
     </view>
     <view class='text-item flex' wx:if="{{!seckillId && !BargainId  && !combinationId}}">

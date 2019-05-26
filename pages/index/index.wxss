@@ -6,8 +6,8 @@
 .nav .nav-item{width: 25%;}
 .nav .nav-item image{width: 80rpx; height:80rpx;}
 .nav .nav-item text{display: blcok;}
-.nav .nav-item navigator{width: 100%; flex-direction: column; align-items: center;}
-.nav .nav-item .nav-title{margin-top: 10rpx; font-size: 24rpx; color: #666;}
+.nav .nav-item view{width: 100%; flex-direction: column; align-items: center;}
+.nav .nav-item .nav-title{margin-top: 10rpx; font-size: 24rpx; color: #666;text-align:center}
 
 .title-bar{position: relative; display: flex; height: 92rpx; border-bottom: 1px solid #eaeaea; align-items: center;justify-content: center;}
 /* .title-bar text{font-size: 36rpx; font-weight: bold;} */

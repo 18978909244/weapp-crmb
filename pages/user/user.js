@@ -1,5 +1,6 @@
 var app = getApp();
 var wxh = require('../../utils/wxh.js');
+const API = require('../../api/user')
 // pages/user/user.js
 Page({
 
@@ -7,11 +8,13 @@ Page({
    * 页面的初始数据
    */
   data: {
-  url: app.globalData.urlImages,
-  userinfo:[],
-  orderStatusNum:[],
-  coupon:'',
-  collect:''
+    url: app.globalData.urlImages,
+    userinfo: [],
+    orderStatusNum: [],
+    coupon: '',
+    collect: '',
+    deliver: false,
+    deliverList:[]
   },
 
   setTouchMove: function (e) {
@@ -38,11 +41,19 @@ Page({
         })
       }
     });
+    API.getMyDeliver().then(res => {
+      if (res.data.code !== 400) {
+        this.setData({
+          deliver: true,
+          deliverList:res.data.data
+        })
+      }
+    })
   },
-  goNotification:function(){
-      wx.navigateTo({
-        url: '/pages/news-list/news-list',
-      })
+  goNotification: function () {
+    wx.navigateTo({
+      url: '/pages/news-list/news-list',
+    })
   },
   onShow: function () {
     var header = {
@@ -59,21 +70,21 @@ Page({
         })
       }
     });
-  },  
-   /**
-   * 生命周期函数--我的余额
-   */
-  money:function(){
+  },
+  /**
+  * 生命周期函数--我的余额
+  */
+  money: function () {
     wx.navigateTo({
-      url: '/pages/main/main?now=' + this.data.userinfo.now_money + '&uid='+app.globalData.uid,
+      url: '/pages/main/main?now=' + this.data.userinfo.now_money + '&uid=' + app.globalData.uid,
       success: function (res) { },
       fail: function (res) { },
       complete: function (res) { },
     })
   },
-   /**
-   * 生命周期函数--我的积分
-   */
+  /**
+  * 生命周期函数--我的积分
+  */
   integral: function () {
     wx.navigateTo({
       url: '/pages/integral-con/integral-con?inte=' + this.data.userinfo.integral + '&uid=' + app.globalData.uid,
@@ -82,9 +93,9 @@ Page({
       complete: function (res) { },
     })
   },
-   /**
-   * 生命周期函数--我的优惠卷
-   */
+  /**
+  * 生命周期函数--我的优惠卷
+  */
   coupons: function () {
     wx.navigateTo({
       url: '/pages/coupon/coupon',
@@ -93,18 +104,18 @@ Page({
       complete: function (res) { },
     })
   },
-   /**
-   * 生命周期函数--我的收藏
-   */
+  /**
+  * 生命周期函数--我的收藏
+  */
   collects: function () {
     wx.navigateTo({
       url: '/pages/collect/collect',
     })
   },
-   /**
-   * 生命周期函数--我的推广人
-   */
-  extension:function(){
+  /**
+  * 生命周期函数--我的推广人
+  */
+  extension: function () {
     wx.navigateTo({
       url: '/pages/feree/feree',
       success: function (res) { },
@@ -112,9 +123,9 @@ Page({
       complete: function (res) { },
     })
   },
-   /**
-   * 生命周期函数--我的推广
-   */
+  /**
+  * 生命周期函数--我的推广
+  */
   myextension: function () {
     wx.navigateTo({
       url: '/pages/extension/extension',
@@ -123,9 +134,9 @@ Page({
       complete: function (res) { },
     })
   },
-   /**
-   * 生命周期函数--我的砍价
-   */
+  /**
+  * 生命周期函数--我的砍价
+  */
   // cut_down_the_price:function(){
   //   wx.navigateTo({
   //     url: '../../pages/feree/feree',

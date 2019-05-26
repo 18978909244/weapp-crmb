@@ -24,7 +24,7 @@ Page({
         total: '全部',
         animationData: {},
         cid: '',
-        sid: '',
+        sid: app.globalData.sid,
         price: '',
         sales: '',
         ficti: '',

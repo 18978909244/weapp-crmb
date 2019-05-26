@@ -111,6 +111,14 @@ Page({
     // var header = {
     //   'content-type': 'application/x-www-form-urlencoded'
     // };
+    if(that.data.payType == 'weixin'){
+      wx.showToast({
+        title: '微信支付还未申请成功，暂不支持',
+        icon: 'none',
+        duration: 1000,
+      })
+      return;
+    }
     if (that.data.payType == '') {
       wx.showToast({
         title: '请选择支付方式',

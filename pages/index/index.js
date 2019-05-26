@@ -37,11 +37,11 @@ Page({
       url: '/pages/productSort/productSort'
     });
   },
-  goToProductSort(e){
+  goToProductSort(e) {
     let shipType = e.currentTarget.dataset.ship
-    wx.setStorageSync('shipType',shipType)
+    wx.setStorageSync('shipType', shipType)
     wx.switchTab({
-      url:'/pages/productSort/productSort'
+      url: '/pages/productSort/productSort'
     })
   },
   /**
@@ -68,7 +68,10 @@ Page({
         })
       })
   },
-  goToSort(){
+  goToSort(e) {
+    if (e.currentTarget.dataset.sid) {
+      app.globalData.sid = e.currentTarget.dataset.sid
+    }
     wx.switchTab({
       url: '../productSort/productSort',
     })
@@ -137,7 +140,6 @@ Page({
   onPullDownRefresh: function () {
 
   },
-
   /**
    * 用户点击右上角分享
    */

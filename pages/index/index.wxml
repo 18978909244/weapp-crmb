@@ -34,14 +34,18 @@
 <view class='nav flex'>
   <block wx:for="{{menus}}" wx:key="{{index}}">
     <view class='nav-item'>
-      <navigator class='flex' hover-class="none" url='{{item.url}}' wx:if="{{item.show == '是'}}" open-type='switchTab'>
+      <view class="flex" bindtap="goToSort" data-sid="13">
+        <image src='{{item.icon}}'></image>
+        <view class='nav-title'>{{item.name}}</view>
+      </view>
+      <!-- <navigator class='flex' hover-class="none" url='/pages/productSort/productSort?sid=13' wx:if="{{item.show == '是'}}" open-type='switchTab'>
         <image src='{{item.icon}}'></image>
         <view class='nav-title'>{{item.name}}</view>
       </navigator>
-      <navigator class='flex' hover-class="none" url='{{item.url}}' wx:else>
+      <navigator class='flex' hover-class="none" url='/pages/productSort/productSort?sid=14' wx:else>
         <image src='{{item.icon}}'></image>
         <view class='nav-title'>{{item.name}}</view>
-      </navigator>
+      </navigator> -->
     </view>
   </block>
 </view>
