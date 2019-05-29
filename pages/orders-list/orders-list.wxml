@@ -23,7 +23,7 @@
              <view wx:elif="{{item._status._type == 2}}" class='status-txt'>状态: <text>待收货</text></view>
              <view wx:elif="{{item._status._type == 3}}" class='status-txt'>状态: <text>待评价</text></view>
              <view wx:elif="{{item._status._type == 4}}" class='status-txt'>状态: <text>已完成</text></view>
-             <view class='all-price'>合计: <text>￥{{item.pay_price}}</text><text class='youfei'>（邮费￥{{item.pay_postage
+             <view class='all-price'>合计: <text>￥{{item.pay_price}}</text><text class='youfei'>（配送费￥{{item.pay_postage
 }}）</text></view> 
           </view>
           <view class='right-wrapper'>

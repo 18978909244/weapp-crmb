@@ -140,8 +140,11 @@
     <text wx:if="{{ordercon.paid == 0}}">支付状态： 未支付</text>
     <text wx:else>支付状态： 已支付</text>
   </view>
-  <view class='item'>
-    <text>预计送达： {{deliver_assign_time}}</text>
+  <view class='item' wx:if="{{ordercon.status===1}}">
+    <text>预计送达： {{deliver_expect_time}}</text>
+  </view>
+  <view class='item' wx:if="{{ordercon.status===2}}">
+    <text>送达时间： {{deliver_arrive_time}}</text>
   </view>
 
 </view>
@@ -150,12 +153,12 @@
   <view class='pay-btn' data-id="{{ordercon.order_id}}" bindtap='getPay' wx:if="{{ordercon._status._type==0}}">
     立即付款
   </view>
-  <navigator wx:elif="{{ordercon._status._type==1}}" hover-class="none" url='/pages/refund-page/refund-page?orderId={{ordercon.order_id}}'>
+  <!-- <navigator wx:elif="{{ordercon._status._type==1}}" hover-class="none" url='/pages/refund-page/refund-page?orderId={{ordercon.order_id}}'>
     <view class='delete-btn'>申请退款</view>
-  </navigator>
-  <view wx:if="{{ordercon._status._type==1 && ordercon.combination_id > 0}}" class='pay-btn' bindtap='goJoinPink' data-uni='{{ordercon.pink_id}}'>
+  </navigator> -->
+  <!-- <view wx:if="{{ordercon._status._type==1 && ordercon.combination_id > 0}}" class='pay-btn' bindtap='goJoinPink' data-uni='{{ordercon.pink_id}}'>
     查看拼团
-  </view>
+  </view> -->
   <navigator wx:if="{{ordercon._status._type==2 && ordercon.delivery_type == 'express'}}" hover-class="none" url='/pages/logistics/logistics?orderId={{ordercon.order_id}}'>
     <view class='delete-btn'>查看物流</view>
   </navigator>
@@ -165,7 +168,7 @@
   <view wx:if="{{ordercon._status._type==4 || ordercon._status._type==0}}" class='delete-btn' bindtap='delOrder' data-uni='{{ordercon.order_id}}'>
     删除订单
   </view>
-  <navigator wx:if="{{!ordercon.seckill_id && !ordercon.bargain_id && !ordercon.combination_id && (ordercon._status._type==3||ordercon._status._type==4)}}" hover-class="none" bindtap='goIndex'>
+  <!-- <navigator wx:if="{{!ordercon.seckill_id && !ordercon.bargain_id && !ordercon.combination_id && (ordercon._status._type==3||ordercon._status._type==4)}}" hover-class="none" bindtap='goIndex'>
     <view class='pay-btn'>再次购买</view>
-  </navigator>
+  </navigator> -->
 </view>

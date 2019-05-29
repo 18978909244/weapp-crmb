@@ -5,12 +5,11 @@
 <view class='menu flex'>
   <view class='item {{nowstatus == "" ? "on" : ""}}' data-show="" bindtap="statusClick">全部</view>
   <!-- <view class='item {{nowstatus == "0" ? "on" : ""}}'  data-show="0" bindtap="statusClick">待付款</view> -->
-  <view class='item {{nowstatus == "1" ? "on" : ""}}'  data-show="1" bindtap="statusClick">待配送</view>
-  <view class='item {{nowstatus == "2" ? "on" : ""}}'  data-show="2" bindtap="statusClick">配送中</view>
-  <!-- <view class='item {{nowstatus == "3" ? "on" : ""}}'  data-show="3" bindtap="statusClick">待评价</view> -->
+  <view class='item {{nowstatus == "1" ? "on" : ""}}'  data-show="1" bindtap="statusClick">配送中</view>
+  <view class='item {{nowstatus == "2" ? "on" : ""}}'  data-show="2" bindtap="statusClick">已完成</view>
 </view>
 <view class='orders-list'>
-  <block wx:for="{{deliverList}}">
+  <block wx:for="{{deliverList}}" wx:key="index">
       <view class='items'>
         <view class='numbers flex'>
             <view><text>订单号</text>：{{item.order_id}}</view>
@@ -25,7 +24,7 @@
              <view wx:elif="{{item._status._type == 2}}" class='status-txt'>状态: <text>待收货</text></view>
              <view wx:elif="{{item._status._type == 3}}" class='status-txt'>状态: <text>待评价</text></view>
              <view wx:elif="{{item._status._type == 4}}" class='status-txt'>状态: <text>已完成</text></view>
-             <view class='all-price'>合计: <text>￥{{item.pay_price}}</text><text class='youfei'>（邮费￥{{item.pay_postage
+             <view class='all-price'>合计: <text>￥{{item.pay_price}}</text><text class='youfei'>（配送费￥{{item.pay_postage
 }}）</text></view> 
           </view>
           <view class='right-wrapper'>
@@ -37,7 +36,7 @@
           </view>
         </view> -->
         <navigator hover-class="none" url='/pages/deliver-con/deliver-con?order_id={{item.order_id}}' class='info-list'>
-          <block  wx:for="{{item.cartInfo}}">
+          <block wx:for="{{item.cartInfo}}" wx:key="index">
                <view class='pro-item flex'>
                 <view class='wrapper flex'>
                   <image src='{{url}}{{item.productInfo.image}}'></image>

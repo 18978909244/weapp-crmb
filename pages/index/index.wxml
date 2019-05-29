@@ -18,23 +18,22 @@
     </block>
   </swiper>
 </view>
-
 <!-- 下单 -->
 <view class="button flex">
-  <view class='button-item' bindtap="goToProductSort" data-ship="0">
-    <image src='../../images/now.png'></image>
-    <view class='nav-title'>即时下单</view>
-  </view>
   <view class='button-item'>
     <image src='../../images/time.png' bindtap="goToProductSort" data-ship="1"></image>
     <view class='nav-title'>预定下单</view>
+  </view>
+  <view class='button-item' bindtap="goToProductSort" data-ship="0">
+    <image src='../../images/now.png'></image>
+    <view class='nav-title'>即时下单</view>
   </view>
 </view>
 <!-- 导航 -->
 <view class='nav flex'>
   <block wx:for="{{menus}}" wx:key="{{index}}">
     <view class='nav-item'>
-      <view class="flex" bindtap="goToSort" data-sid="13">
+      <view class="flex" bindtap="goToSort" data-url="{{item.url}}">
         <image src='{{item.icon}}'></image>
         <view class='nav-title'>{{item.name}}</view>
       </view>
@@ -69,7 +68,9 @@
             </view>
             <view class='pro-info'>
               <view class='pro-title'>{{item.store_name}}</view>
-              <view class='price-small'>￥{{item.price}} {{item.unit_name?'/ '+ item.unit_name:''}}</view>
+              <view class='price-small'>
+                ￥{{item.price}} {{item.unit_name?'/ '+ item.unit_name:''}}
+              </view>
             </view>
           </navigator>
         </view>
@@ -94,7 +95,8 @@
           <view class='text-box flex'>
             <view class='title'>{{item.store_name}}</view>
             <view class='price'>
-              <text>￥</text> {{item.price}} {{item.unit_name?'/ '+ item.unit_name:''}}
+              <text>￥</text>
+              {{item.price}} {{item.unit_name?'/ '+ item.unit_name:''}}
             </view>
           </view>
           <view class='img-box'>

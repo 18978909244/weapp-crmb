@@ -22,7 +22,7 @@ Page({
     var header = {
       'content-type': 'application/x-www-form-urlencoded'
     };
-    var uni = e.order_id || 'wx2019052600462710001';
+    var uni = e.order_id || 'wx2019052616181510004';
     var that = this;
     wx.showLoading({ title: "正在加载中……" });
     wx.request({
@@ -35,8 +35,8 @@ Page({
         wx.hideLoading();
         that.setData({
           ordercon:res.data.data,
-          deliver_assign_time:moment(res.data.data.deliver_assign_time*1000).format('YYYY-MM-DD HH:MM')
-          
+          deliver_arrive_time:moment(res.data.data.deliver_arrive_time*1000).format('YYYY-MM-DD HH:mm'),
+          deliver_expect_time:moment(res.data.data.deliver_expect_time*1000).format('YYYY-MM-DD HH:mm') 
         });
       },
       fail: function (res) {

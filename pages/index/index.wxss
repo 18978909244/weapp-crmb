@@ -53,7 +53,7 @@
 :-ms-input-placeholder {font-size:26rpx;color:#AAAAAA; }
 .car{font-size:55rpx;color:#454545;margin-top:20rpx;}
 .header .num{position:absolute;right:15rpx;top:20rpx;border-radius:50rpx;color:#E3383E;border:1rpx solid #E75E62;font-size:14rpx;background-color:#ffffff;min-width:20rpx;height:20rpx;text-align:center;line-height:20rpx;}
-.nav{width:100%;border-top:1rpx solid #F7F7F7;background-color:#ffffff;}
+.nav{width:100%;border-top:1rpx solid #F7F7F7;background-color:#ffffff;justify-content: space-around}
 .nav .nav-li{flex:1 20%;text-align:center; color:#454545;position:relative;}
 .nav .nav-li text{margin-left:8rpx;color:#999999;}
 .nav .nav-li .nav-iconx{color:#343434;position:absolute;top:2rpx;}

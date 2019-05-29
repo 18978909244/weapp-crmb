@@ -25,84 +25,26 @@ Page({
     app.setUserInfo();
     if (parseInt(options.nowstatus)){
       this.setData({
-        nowstatus: (parseInt(options.nowstatus) - 1).toString()
+        nowstatus: (parseInt(options.nowstatus)).toString()
       })
-      this.getorderlist(parseInt(options.nowstatus) - 1);
+      this.getorderlist(parseInt(options.nowstatus));
     } else {
       this.getorderlist("");
     }
   },
   getorderlist:function(e){
-    var header = {
-      'content-type': 'application/x-www-form-urlencoded',
-    };
-    var that = this;
-    var search = that.data.search;
-    var limit = 4;
-    var first = that.data.first;
-    var startpage = limit * first;
+    console.log('eee',e)
     API.getMyDeliver().then(res => {
       if (res.data.code !== 400) {
         this.setData({
-          deliverList:res.data.data
+          deliverList:e===''?res.data.data:res.data.data.filter(item=>item.status==e)
         })
+        this.setData({
+          title: "数据已经加载完成",
+          hidden: true
+        });
       }
     })
-
-    return;
-    API.getUserOrderList({ type: e, search: search, first: startpage, limit: limit })
-      .then(res=>{
-        var $data = res.data.data;
-        var len = $data.length;
-        for (var i = 0; i < len; i++) {
-          that.data.orderlist.push($data[i]);
-        }
-        that.setData({
-          first: first + 1,
-          orderlist: that.data.orderlist
-        });
-        console.log(that.data.orderlist)
-        if (len < limit) {
-          that.setData({
-            title: "数据已经加载完成",
-            hidden: true
-          });
-          return false;
-        }
-      })
-    return;
-    wx.request({
-      url: app.globalData.url + '/routine/auth_api/get_user_order_list?uid='+app.globalData.uid,
-      data: { type: e, search: search, first: startpage, limit: limit },
-      method: 'get',
-      header: header,
-      success: function (res) {
-       
-        var $data = res.data.data;
-        var len = $data.length;
-        for (var i = 0; i < len; i++) {
-          that.data.orderlist.push($data[i]);
-        }
-        that.setData({
-          first: first + 1,
-          orderlist: that.data.orderlist
-        });
-        console.log(that.data.orderlist)
-        if (len < limit) {
-          that.setData({
-            title: "数据已经加载完成",
-            hidden: true
-          });
-          return false;
-        }
-      },
-      fail: function (res) {
-        console.log('submit fail');
-      },
-      complete: function (res) {
-        console.log('submit complete');
-      }
-    });
   },
   statusClick:function(e){
     var nowstatus = e.currentTarget.dataset.show;

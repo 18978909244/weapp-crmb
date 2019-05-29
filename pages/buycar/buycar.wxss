@@ -106,6 +106,7 @@
   border: 1px solid #ddd;
   border-radius: 3px;
   align-items: center;
+  background: #fff;
 }
 
 .count-wrapper text {

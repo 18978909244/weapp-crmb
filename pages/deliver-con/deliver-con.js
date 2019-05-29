@@ -2,7 +2,7 @@
 var app = getApp();
 const moment = require('../../utils/moment')
 var wxh = require('../../utils/wxh.js');
-const API = require('../../api/orders-con')
+const API = require('../../api/deliver-con')
 Page({
 
   /**
@@ -35,8 +35,8 @@ Page({
         wx.hideLoading();
         that.setData({
           ordercon:res.data.data,
-          deliver_assign_time:moment(res.data.data.deliver_assign_time*1000).format('YYYY-MM-DD HH:MM')
-          
+          deliver_arrive_time:moment(res.data.data.deliver_arrive_time*1000).format('YYYY-MM-DD HH:mm'),
+          deliver_expect_time:moment(res.data.data.deliver_expect_time*1000).format('YYYY-MM-DD HH:mm')          
         });
       },
       fail: function (res) {
@@ -203,7 +203,14 @@ Page({
       url: '/pages/join-pink/index?id=' + uni,
     })
   },
-  confirmOrder:function(e){
+  confirmDeliver:function(e){
+    API.confirmDeliver(e.currentTarget.dataset.uni)
+      .then(res=>{
+        wx.redirectTo({
+          url:'/pages/user/user'
+        })
+      })
+    return
     var header = {
       'content-type': 'application/x-www-form-urlencoded'
     };

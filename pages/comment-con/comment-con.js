@@ -161,6 +161,7 @@ Page({
     var comment = e.detail.value.comment;
     var product_score = that.data.xing;
     var service_score = that.data.xing2;
+    var deliver_score = that.data.xing3;
     var pics = []; 
     var dataimg = that.data.dataimg;
     for (var i = 0; i < dataimg.length;i++){
@@ -177,7 +178,7 @@ Page({
     wx.showLoading({ title: "正在发布评论……" });
     wx.request({
       url: app.globalData.url + '/routine/auth_api/user_comment_product?uid=' + app.globalData.uid+'&unique=' + unique,
-      data: {comment: comment, product_score: product_score, service_score: service_score, pics: pics},
+      data: {comment: comment, product_score: product_score, service_score: service_score,deliver_score:deliver_score, pics: pics},
       method: 'post',
       header: header,
       success: function (res) {

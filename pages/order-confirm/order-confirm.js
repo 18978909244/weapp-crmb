@@ -3,8 +3,7 @@ const moment = require('../../utils/moment')
 var app = getApp();
 const API = require('../../api/order-confirm')
 
-let shipType = Number(wx.getStorageSync('shipType')) || 0
-console.log('shipType', shipType)
+let shipType = Number(wx.getStorageSync('shipType')) || 1
 let hour = moment().hour()
 let firstColumn = ['今天', '明天', '后天'];
 let secondColumn = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].filter(item => item > hour + 1).map(item => item + '时')
@@ -60,7 +59,7 @@ Page({
     var that = this;
     if (options.pinkId) {
       that.setData({
-        pinkId: options.pinkId || '97,98'
+        pinkId: options.pinkId || '118'
       })
     }
     if (options.addressId) {
@@ -111,7 +110,7 @@ Page({
     // var header = {
     //   'content-type': 'application/x-www-form-urlencoded'
     // };
-    if(that.data.payType == 'weixin'){
+    if (that.data.payType == 'weixin') {
       wx.showToast({
         title: '微信支付还未申请成功，暂不支持',
         icon: 'none',
@@ -131,6 +130,15 @@ Page({
     if (!that.data.addressId) {
       wx.showToast({
         title: '请选择收货地址',
+        icon: 'none',
+        duration: 1000,
+      })
+      return
+    }
+
+    if (that.data.shipType == 1 && that.data.userExpectTime == 0) {
+      wx.showToast({
+        title: '请选择预约配送时间',
         icon: 'none',
         duration: 1000,
       })
@@ -504,6 +512,13 @@ Page({
     console.log(that.data.combinationId);
   },
   createMulti() {
+    if(firstColumn[this.data.multiIndex[0]]!=='今天'){
+      console.log('不是今天')
+      secondColumn = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].map(item => item + '时')
+    }else{
+      console.log('是今天')
+      secondColumn = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].filter(item => item > hour + 1).map(item => item + '时')
+    }
     this.setData({
       multiArray: [firstColumn, secondColumn],
     })
@@ -513,23 +528,28 @@ Page({
     let column = e.detail.column
     let value = e.detail.value
     // console.log('改变列')
+    console.log(multiArray)
     console.log(column, value)
-    console.log(firstColumn[column])
-    if (firstColumn[value] !== '今天') {
-      multiArray[1] = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].map(item => item + '时')
-    } else {
-      multiArray[1] = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].filter(item => item > hour + 1).map(item => item + '时')
+    console.log(firstColumn)
+    // if(column===0 && firstColumn[value])
+    if (column === 0) {
+      if (firstColumn[value] !== '今天') {
+        multiArray[1] = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].map(item => item + '时')
+      } else {
+        multiArray[1] = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].filter(item => item > hour + 1).map(item => item + '时')
+      }
+      this.setData({
+        multiArray
+      })
     }
-    this.setData({
-      multiArray
-    })
   },
   bindMultiPickerChange(e) {
     console.log('改变了')
     console.log(e.detail.value)
 
-    let day = this.data.multiArray[0][this.data.multiIndex[0]]
-    let time = this.data.multiArray[1][this.data.multiIndex[1]]
+    let day = this.data.multiArray[0][e.detail.value[0]]
+    let time = this.data.multiArray[1][e.detail.value[1]]
+    console.log(day,time)
     let _day
     let _time
     switch (day) {

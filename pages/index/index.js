@@ -69,8 +69,12 @@ Page({
       })
   },
   goToSort(e) {
-    if (e.currentTarget.dataset.sid) {
-      app.globalData.sid = e.currentTarget.dataset.sid
+    if (e.currentTarget.dataset.url) {
+      let obj = JSON.parse(e.currentTarget.dataset.url)
+    
+      app.globalData.sid = obj.sid
+      app.globalData.cid = obj.cid
+      console.log(app.globalData)
     }
     wx.switchTab({
       url: '../productSort/productSort',

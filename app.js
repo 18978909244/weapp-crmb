@@ -24,7 +24,8 @@ App({
     urlImages: '',
     url: 'https://fresh.kuashou.com',
     priceStart:0.02,
-    sid:''
+    sid:'',
+    cid:''
   },
   getRoutineStyle:function(){
     var that = this;

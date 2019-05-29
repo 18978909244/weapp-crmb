@@ -45,7 +45,12 @@
         <text class='add' data-index="{{index}}" bindtap="numAddClick" data-max="{{item.trueStock}}">+</text>
       </view>
     </view>
-    <view class='shop-item' style="padding-bottom:20rpx;">配送费:{{shop.deliver_fee}}</view>
+    <view class='shop-item' style="padding-bottom:20rpx;padding-right:20rpx;display:flex;justify-content:space-between">
+      <label class="checkbox" bindtap="allChecked">全选
+            <checkbox value="Boolean" checked="{{isAllSelect}}" />
+      </label>
+      <text>配送费:{{shop.deliver_fee}}</text>
+    </view>
   </view>
   <!-- 失效页面 -->
   <view class='fail-list' wx:if="{{cartInvalid.length > 0}}">

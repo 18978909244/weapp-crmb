@@ -24,7 +24,7 @@ Page({
         total: '全部',
         animationData: {},
         cid: '',
-        sid: app.globalData.sid,
+        sid: '',
         price: '',
         sales: '',
         ficti: '',
@@ -47,9 +47,14 @@ Page({
         })
     },
     onLoad: function (e) {
+        console.log(app.globalData)
         app.setUserInfo();
     },
     onShow() {
+        this.setData({
+            cid:app.globalData.cid,
+            sid:app.globalData.sid
+        })
         this.getCartCount();
         this.getProductList();
     },

@@ -69,10 +69,10 @@
           </view>
           <view class='price' wx:else><text>￥</text>{{item.productInfo.price}} {{item.productInfo.unit_name?'/ '+ item.productInfo.unit_name:''}}<text class='count'>x {{item.cart_num}}</text></view>
             </view>
-            <navigator wx:if="{{ordercon._status._type==3}}" hover-class="none" url='/pages/comment-con/comment-con?unique={{item.unique}}&uni={{ordercon.order_id}}' class='assess-btn'>
+            <!-- <navigator wx:if="{{ordercon._status._type==3}}" hover-class="none" url='/pages/comment-con/comment-con?unique={{item.unique}}&uni={{ordercon.order_id}}' class='assess-btn'>
               评价
             </navigator>
-            <view wx:elif="{{ordercon._status._type==4}}" class='assess-btn off'>已评价</view>
+            <view wx:elif="{{ordercon._status._type==4}}" class='assess-btn off'>已评价</view> -->
           </view>
         </navigator>
         <navigator hover-class='none' wx:else>
@@ -94,10 +94,10 @@
                 <text class='count'>x {{item.cart_num}}</text>
               </view>
             </view>
-            <navigator wx:if="{{ordercon._status._type==3}}" hover-class="none" url='/pages/comment-con/comment-con?unique={{item.unique}}' class='assess-btn'>
+            <!-- <navigator wx:if="{{ordercon._status._type==3}}" hover-class="none" url='/pages/comment-con/comment-con?unique={{item.unique}}' class='assess-btn'>
               评价
-            </navigator>
-            <view wx:elif="{{ordercon._status._type==4}}" class='assess-btn off'>已评价</view>
+            </navigator> -->
+            <!-- <view wx:elif="{{ordercon._status._type==4}}" class='assess-btn off'>已评价</view> -->
           </view>
         </navigator>
       </block>
@@ -140,14 +140,23 @@
     <text wx:if="{{ordercon.paid == 0}}">支付状态： 未支付</text>
     <text wx:else>支付状态： 已支付</text>
   </view>
-  <view class='item'>
-    <text>预计送达： {{deliver_assign_time}}</text>
+  <view class='item' wx:if="{{ordercon.status===1}}">
+    <text>预计送达： {{deliver_expect_time}}</text>
+  </view>
+  <view class='item' wx:if="{{ordercon.status===2}}">
+    <text>送达时间： {{deliver_arrive_time}}</text>
   </view>
 
 </view>
 <view style='height:120rpx;'></view>
 <view class='foot'>
-  <view class='pay-btn' data-id="{{ordercon.order_id}}" bindtap='getPay' wx:if="{{ordercon._status._type==0}}">
+  <view class='pay-btn' wx:if="{{ordercon.status===1}}" bindtap='confirmDeliver' data-uni='{{ordercon.order_id}}'>
+    确认送达
+  </view>
+  <view class='pay-btn' wx:if="{{ordercon.status===2}}" data-uni='{{ordercon.order_id}}'>
+    已配送完成
+  </view>
+  <!-- <view class='pay-btn' data-id="{{ordercon.order_id}}" bindtap='getPay' wx:if="{{ordercon._status._type==0}}">
     立即付款
   </view>
   <navigator wx:elif="{{ordercon._status._type==1}}" hover-class="none" url='/pages/refund-page/refund-page?orderId={{ordercon.order_id}}'>
@@ -167,5 +176,5 @@
   </view>
   <navigator wx:if="{{!ordercon.seckill_id && !ordercon.bargain_id && !ordercon.combination_id && (ordercon._status._type==3||ordercon._status._type==4)}}" hover-class="none" bindtap='goIndex'>
     <view class='pay-btn'>再次购买</view>
-  </navigator>
+  </navigator> -->
 </view>
