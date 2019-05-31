@@ -5,13 +5,13 @@ const API = require('../../api/order-confirm')
 
 let shipType = Number(wx.getStorageSync('shipType')) || 1
 let hour = moment().hour()
-let firstColumn = ['今天', '明天', '后天'];
-let secondColumn = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].filter(item => item > hour + 1).map(item => item + '时')
+let firstColumn = ['明天', '后天'];
+let secondColumn = [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].map(item => item + '时')
 
-if (hour >= 20) {
-  firstColumn = ['明天', '后天']
-  secondColumn = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].map(item => item + '时')
-}
+// if (hour >= 20) {
+//   firstColumn = ['明天', '后天']
+//   secondColumn = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].map(item => item + '时')
+// }
 
 Page({
 
@@ -512,36 +512,37 @@ Page({
     console.log(that.data.combinationId);
   },
   createMulti() {
-    if(firstColumn[this.data.multiIndex[0]]!=='今天'){
-      console.log('不是今天')
-      secondColumn = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].map(item => item + '时')
-    }else{
-      console.log('是今天')
-      secondColumn = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].filter(item => item > hour + 1).map(item => item + '时')
-    }
+    secondColumn = [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].map(item => item + '时')
+    // if(firstColumn[this.data.multiIndex[0]]!=='今天'){
+    //   console.log('不是今天')
+    //   secondColumn = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].map(item => item + '时')
+    // }else{
+    //   console.log('是今天')
+    //   secondColumn = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].filter(item => item > hour + 1).map(item => item + '时')
+    // }
     this.setData({
       multiArray: [firstColumn, secondColumn],
     })
   },
   bindMultiPickerColumnChange(e) {
-    let multiArray = this.data.multiArray
-    let column = e.detail.column
-    let value = e.detail.value
-    // console.log('改变列')
-    console.log(multiArray)
-    console.log(column, value)
-    console.log(firstColumn)
-    // if(column===0 && firstColumn[value])
-    if (column === 0) {
-      if (firstColumn[value] !== '今天') {
-        multiArray[1] = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].map(item => item + '时')
-      } else {
-        multiArray[1] = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].filter(item => item > hour + 1).map(item => item + '时')
-      }
-      this.setData({
-        multiArray
-      })
-    }
+    // let multiArray = this.data.multiArray
+    // let column = e.detail.column
+    // let value = e.detail.value
+    // // console.log('改变列')
+    // console.log(multiArray)
+    // console.log(column, value)
+    // console.log(firstColumn)
+    // // if(column===0 && firstColumn[value])
+    // if (column === 0) {
+    //   if (firstColumn[value] !== '今天') {
+    //     multiArray[1] = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].map(item => item + '时')
+    //   } else {
+    //     multiArray[1] = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].filter(item => item > hour + 1).map(item => item + '时')
+    //   }
+    //   this.setData({
+    //     multiArray
+    //   })
+    // }
   },
   bindMultiPickerChange(e) {
     console.log('改变了')
@@ -553,10 +554,10 @@ Page({
     let _day
     let _time
     switch (day) {
-      case '今天':
-        _day = moment(moment(new Date()).add(0, 'days')._d).format('YYYY-MM-DD');
-        _time = moment(_day + ' ' + time.split('时')[0] + ':00:00').valueOf();
-        break;
+      // case '今天':
+      //   _day = moment(moment(new Date()).add(0, 'days')._d).format('YYYY-MM-DD');
+      //   _time = moment(_day + ' ' + time.split('时')[0] + ':00:00').valueOf();
+      //   break;
       case '明天':
         _day = moment(moment(new Date()).add(1, 'days')._d).format('YYYY-MM-DD');
         _time = moment(_day + ' ' + time.split('时')[0] + ':00:00').valueOf();
