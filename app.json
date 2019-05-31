@@ -1,9 +1,9 @@
 {
   "pages": [
-    "pages/buycar/buycar",
     "pages/loading/loading",
     "pages/load/load",
     "pages/index/index",
+    "pages/buycar/buycar",
     "pages/productSort/productSort",
     "pages/user/user",
     "pages/orders-con/orders-con",
@@ -48,7 +48,7 @@
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#9bd040",
-    "navigationBarTitleText": "WeChat",
+    "navigationBarTitleText": "生鲜商城",
     "navigationBarTextStyle": "white"
   },
   "tabBar": {
