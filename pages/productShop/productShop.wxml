@@ -1,19 +1,36 @@
 <view class='product'>
-    <view class='header flex'>
-        <form bindsubmit="searchSubmit" report-submit='true'>
-            <view class='header-input flex'>
-                <view class='iconfont icon-xiazai5 sou'></view>
-                <input type='text' placeholder='商品搜索: 请输入商品关键词' class='input-text' placeholder-class='placeholder' bindconfirm="searchSubmit" confirm-type='search' name="search"></input>
+    <!-- <view>
+        <view>生鲜商城</view>
+        <input type="digit" placeholder="请输入付款金额" value="{{price}}" bindinput="bindKeyInput" style="font-size:50rpx;font-weight:bold;background:#fff;text-align:center;padding:10rpx"></input>
+        <button type="primary" bindtap="payToShop">给商户付款</button>
+    </view> -->
+    <view class='header flex' style="height:295rpx;flex-direction:column;">
+        <view class="shop_info" style="display:flex;flex-direction:row;justify-content:space-around;">
+            <view class="shop_logo" style="width:150rpx;height:150rpx;background:#fff;border-radius:50%">
+                <image src="{{shopInfo&&shopInfo.mer_logo}}" style="width:100%;height:100%;border-radius:50%"></image>
             </view>
-        </form>
-        <view class='iconfont icon-gouwuche car' bindtap='goCart'></view>
-        <text class='num'>{{CartCount}}</text>
+            <view class="shop_desc" style="width:500rpx;height:150rpx;color:#fff">
+                <view>{{shopInfo&&shopInfo.mer_intro}}</view>
+                <view>{{shopInfo&&shopInfo.mer_notice}}</view>
+                <view>{{shopInfo&&shopInfo.deliver_area}}</view>
+                <view>{{shopInfo&&shopInfo.tel}}</view>
+            </view>
+        </view>
+        <view class="shop_pay" style="display:flex;flex-direction:row;justify-content:space-between;padding-bottom:20rpx;">
+            <view class="pay_text" style="font-size:24rpx;color:#555;width:300rpx;margin-right:50rpx;background:#fff;text-align:center;">
+                <input type="digit" placeholder="付款金额" value="{{price===0?'':price}}" bindinput="bindKeyInput"  style="display:inline-block"></input>
+            </view>
+            <button type="primary" style="width:200rpx;" bindtap="payToShop" size="mini">给商户付款</button>
+        </view>
+        <!-- <view>{{shopInfo&&shopInfo.mer_name}}</view>
+        <input type="digit" placeholder="请输入付款金额" value="{{price}}" bindinput="bindKeyInput" style="font-size:50rpx;font-weight:bold;background:#fff;text-align:center;padding:10rpx"></input>
+        <button type="primary" bindtap="payToShop">给商户付款</button> -->
     </view>
     <view class='nav flex'>
-        <view data-act='4' class='nav-li nav-total {{active==0?"nav-active":""}}' bindtap='sort'>
+        <!-- <view data-act='4' class='nav-li nav-total {{active==0?"nav-active":""}}' bindtap='sort'>
             <view class='total'>{{total}}</view>
             <text class='iconfont icon-xialajiantou nav-iconx'></text>
-        </view>
+        </view> -->
         <view data-act='1' class='nav-li {{active==1?"nav-active":""}}' bindtap='navactive'>
             价格
             <!-- <text class='iconfont icon-xiaosanjiaoxing01 sort-s' ></text>
@@ -30,7 +47,7 @@
         <view data-num='{{num}}' class='nav-li iconfont  icon-chanpin nav-tap {{_num==1?"icon-chanpin1":""}}' bindtap='product'></view>
     </view>
 </view>
-<view class='productSort flex'>
+<view class='productSort flex' style="margin-top:395rpx">
     <block wx:for="{{Arraylike}}" wx:key="{{index}}">
         <view class='productSort-list {{_num==1?"productSort-list2":""}}'>
             <navigator url="/pages/product-con/index?id={{item.id}}" hover-class="none" bindtap='details'>
@@ -44,7 +61,7 @@
                         <view class='money-red'>
                             <!-- <text class='list-f'>￥</text> -->
                             <text class='money-num'>
-                                ￥{{item.price}} {{item.unit_name?'/ '+ item.unit_name:''}} 库存 {{item.stock}}{{item.unit_name}}
+                                ￥{{item.price}} {{item.unit_name?'/ '+ item.unit_name:''}}
                             </text>
                             <text class='list-oo'></text>
                             <!-- <text class='list-tip'>精</text> -->

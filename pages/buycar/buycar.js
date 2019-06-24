@@ -17,10 +17,23 @@ Page({
     cartInvalid: [],
     cartIdsStr: '',
     chooseShopId: -1,
-    deliver_fee: 0
+    deliver_fee: 0,
+    shopList: []
   },
 
   setNumber: function (e) {
+    var index = e.currentTarget.dataset.index;
+    let max = Number(e.currentTarget.dataset.max)
+    this.data.cartList[index].cart_num = Number(e.detail.value) > max ? max : Number(e.detail.value)
+    // console.log(this.data.cartList[index].cart_num)
+    this.setData({ cartList: this.data.cartList });
+    this.carnum();
+    this.countmoney();
+    this.addCartNum(this.data.cartList[index].cart_num, this.data.cartList[index].id);
+
+
+    return;
+    console.log('setNumber')
     var that = this;
     var index = e.currentTarget.dataset.item;
     var cartList = that.data.cartList;
@@ -96,7 +109,7 @@ Page({
   numAddClick: function (event) {
     var index = event.currentTarget.dataset.index;
     let max = event.currentTarget.dataset.max;
-    if(this.data.cartList[index].cart_num>=max){
+    if (this.data.cartList[index].cart_num >= max) {
       wx.showToast({
         title: '已达库存上限',
         icon: 'none',
@@ -176,15 +189,42 @@ Page({
   },
   //全选
   allChecked: function (e) {
-    var selectAllStatus = this.data.isAllSelect;
-    selectAllStatus = !selectAllStatus;
-    var array = this.data.cartList;
-    for (var i = 0; i < array.length; i++) {
-      array[i].checked = selectAllStatus;
-    };
+    console.log(e.currentTarget.dataset.shop)
+    console.log(this.data.shopList)
+    let that = this
+    for (let i = 0; i < this.data.shopList.length; i++) {
+      if (this.data.shopList[i].id == e.currentTarget.dataset.shop) {
+        this.data.shopList[i].isAllSelect = !this.data.shopList[i].isAllSelect
+        for (let j = 0; j < that.data.cartList.length; j++) {
+          if (that.data.cartList[j].shopInfo.id == this.data.shopList[i].id) {
+            that.data.cartList[j].checked = this.data.shopList[i].isAllSelect
+          }
+        }
+      }
+    }
+    // let target = this.data.shopList.find(item=>item.id===e.currentTarget.dataset.shop)
+    // if(target.isAllSelect){
+
+    // }
+    // var selectAllStatus = this.data.isAllSelect;
+    // selectAllStatus = !selectAllStatus;
+    // var array = this.data.cartList;
+    // for (var i = 0; i < array.length; i++) {
+    //   array[i].checked = selectAllStatus;
+    // };
     this.setData({
       cartList: this.data.cartList,
-      isAllSelect: selectAllStatus
+      shopList: this.data.shopList
+    }, () => {
+      let _list = this.data.cartList.filter(item => item.checked === true)
+      console.log(_list)
+      let chooseShopId = -1
+      if (_list.length > 0) {
+        chooseShopId = _list[0].shopInfo.id
+      }
+      this.setData({
+        chooseShopId
+      })
     })
     this.carnum();
     this.countmoney();
@@ -398,7 +438,7 @@ Page({
       console.log(e.currentTarget.dataset.id)
       Buycar.deleteItem({
         ids: e.currentTarget.dataset.id
-      }).then(res=>{
+      }).then(res => {
         if (res.data.code == 200) {
           wx.showToast({
             title: '删除成功',
@@ -474,7 +514,7 @@ Page({
     let total = Number(this.data.countmoney) + Number(this.data.deliver_fee)
     if (total < app.globalData.priceStart) {
       wx.showToast({
-        title: '下单金额'+app.globalData.priceStart+'元起送',
+        title: '下单金额' + app.globalData.priceStart + '元起送',
         icon: 'none',
         duration: 2000
       })

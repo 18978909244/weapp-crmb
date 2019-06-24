@@ -58,6 +58,12 @@ Page({
     actionSheetHidden: true,
     unit_name:''
   },
+  goToShopDetail:function(e){
+    let id = e.target.dataset.id
+    wx.navigateTo({
+      url: "/pages/productShop/productShop?merId="+id
+    })
+  },
   setTouchMove: function (e) {
     var that = this;
     wxh.home(that, e);
@@ -96,6 +102,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    
     options.id = options.id || 5
     // return ;
     app.globalData.openPages = '/pages/product-con/index?id=' + options.id;
@@ -103,7 +110,8 @@ Page({
     app.setUserInfo();
     that.getCartCount();
     that.setData({
-      id: options.id
+      id: options.id,
+      hide_shop_entry:wx.getStorageSync('hide_shop_entry')
     })
     ProductCon.getProductInfo(options.id).then(res => {
       if (res.data.code == 200) {

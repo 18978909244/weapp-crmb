@@ -40,16 +40,20 @@
         <view class='small-txt red' wx:if="{{index == 3}}">{{item}}</view>
       </block> -->
     </view>
-    <!-- <view class='count-wrapper flex'>
-      <view>原价:￥{{storeInfo.ot_price}}</view>
+    <view class='count-wrapper flex'>
+      <!-- <view>原价:￥{{storeInfo.ot_price}}</view> -->
       <view>库存:{{storeInfo.stock}}{{storeInfo.unit_name}}</view>
-      <view>销量:{{storeInfo.ficti+storeInfo.sales}}{{storeInfo.unit_name}}</view>
-    </view> -->
+      <!-- <view>销量:{{storeInfo.ficti+storeInfo.sales}}{{storeInfo.unit_name}}</view> -->
+    </view>
   </view>
 
-  <view class='block-bar'>
+  <view class='block-bar' wx:if="{{shopInfo.id>0 && !hide_shop_entry}}" bindtap="goToShopDetail" data-id="{{shopInfo.id}}">
     <text class='title'>商家:{{shopInfo.mer_name}}</text>
   </view>
+
+  <!-- <view class='block-bar' wx:else bindtap="goToShopDetail" data-id="{{shopInfo.id}}">
+    <text class='title'>平台自营</text>
+  </view> -->
 
   <view class='block-bar' bindtap='goCoupon'>
     <text class='title'>领取优惠券</text>

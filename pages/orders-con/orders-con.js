@@ -10,19 +10,21 @@ Page({
    */
   data: {
     url: app.globalData.urlImages,
-    moment
+    moment,
+    imgs:[]
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (e) {
+    console.log('onLoad')
     app.globalData.openPages = '/pages/orders-con/orders-con?order_id=' + e.order_id;
     app.setUserInfo();
     var header = {
       'content-type': 'application/x-www-form-urlencoded'
     };
-    var uni = e.order_id || 'wx2019052616181510004';
+    var uni = e.order_id
     var that = this;
     wx.showLoading({ title: "正在加载中……" });
     wx.request({
@@ -34,9 +36,10 @@ Page({
         console.log(res)
         wx.hideLoading();
         that.setData({
-          ordercon:res.data.data,
-          deliver_arrive_time:moment(res.data.data.deliver_arrive_time*1000).format('YYYY-MM-DD HH:mm'),
-          deliver_expect_time:moment(res.data.data.deliver_expect_time*1000).format('YYYY-MM-DD HH:mm') 
+          ordercon: res.data.data,
+          deliver_arrive_time: moment(res.data.data.deliver_arrive_time * 1000).format('YYYY-MM-DD HH:mm'),
+          deliver_expect_time: moment(res.data.data.deliver_expect_time * 1000).format('YYYY-MM-DD HH:mm'),
+          imgs: JSON.parse(res.data.data.deliver_photo)
         });
       },
       fail: function (res) {
@@ -47,20 +50,10 @@ Page({
       }
     });
   },
-  getPay:function(e){
+  getPay: function (e) {
     var that = this;
     API.getPay(e.target.dataset.id)
-      .then(res=>{
-        console.log(res)
-      })
-      return;
-    wx.request({
-      url: app.globalData.url + '/routine/auth_api/pay_order?uid=' + app.globalData.uid +'&uni='+e.target.dataset.id,
-      method: 'get',
-      success: function (res) {
-        console.log(res)
-        return;
-        var data = res.data.data;
+      .then(res => {
         if (res.data.code == 200 && res.data.data.status == 'WECHAT_PAY') {
           var jsConfig = res.data.data.result.jsConfig;
           console.log(jsConfig);
@@ -76,11 +69,13 @@ Page({
                 icon: 'success',
                 duration: 1000,
               })
-              setTimeout(function () {
-                wx.navigateTo({ //跳转至指定页面并关闭其他打开的所有页面（这个最好用在返回至首页的的时候）
-                  url: '/pages/orders-con/orders-con?order_id=' + data.result.order_id
-                })
-              }, 1200)
+              console.log(that)
+              // that.onLoad()
+              // setTimeout(function () {
+              wx.redirectTo({ //跳转至指定页面并关闭其他打开的所有页面（这个最好用在返回至首页的的时候）
+                url: '/pages/orders-list/orders-list'
+              })
+              // }, 1200)
             },
             fail: function (res) {
               wx.showToast({
@@ -110,7 +105,7 @@ Page({
               }
             },
           })
-        } else if (res.data.code == 200){
+        } else if (res.data.code == 200) {
           wx.showToast({
             title: res.data.msg,
             icon: 'success',
@@ -118,10 +113,10 @@ Page({
           })
           setTimeout(function () {
             wx.navigateTo({ //跳转至指定页面并关闭其他打开的所有页面（这个最好用在返回至首页的的时候）
-              url: '/pages/orders-con/orders-con?order_id=' + data.result.orderId
+              url: '/pages/orders-con/orders-con?order_id=' + res.data.result.orderId
             })
           }, 1200)
-        }else{
+        } else {
           wx.showToast({
             title: res.data.msg,
             icon: 'none',
@@ -129,17 +124,13 @@ Page({
           })
           setTimeout(function () {
             wx.navigateTo({ //跳转至指定页面并关闭其他打开的所有页面（这个最好用在返回至首页的的时候）
-              url: '/pages/orders-con/orders-con?order_id=' + data.result.orderId
+              url: '/pages/orders-con/orders-con?order_id=' + res.data.result.orderId
             })
           }, 1200)
         }
-      },
-      fail: function (res) {
-        console.log('submit fail');
-      }
-    });
+      }).catch(console.log)
   },
-  delOrder:function(e){
+  delOrder: function (e) {
     var header = {
       'content-type': 'application/x-www-form-urlencoded'
     };
@@ -162,11 +153,11 @@ Page({
                   icon: 'success',
                   duration: 2000
                 })
-                setTimeout(function(){
+                setTimeout(function () {
                   wx.navigateTo({
                     url: '/pages/orders-list/orders-list',
                   })
-                },1500)
+                }, 1500)
               } else {
                 wx.showToast({
                   title: res.data.msg,
@@ -191,19 +182,30 @@ Page({
       }
     })
   },
-  goTel:function(e){
+  goTel: function (e) {
     console.log(e);
     wx.makePhoneCall({
       phoneNumber: e.currentTarget.dataset.tel //仅为示例，并非真实的电话号码
     })
   },
-  goJoinPink:function(e){
+  goJoinPink: function (e) {
     var uni = e.currentTarget.dataset.uni;
     wx.navigateTo({
       url: '/pages/join-pink/index?id=' + uni,
     })
   },
-  confirmOrder:function(e){
+  tel: function (e) {
+    if (wx.getStorageSync('service_mobile')) {
+      wx.makePhoneCall({
+        phoneNumber: wx.getStorageSync('service_mobile')
+      })
+    }else{
+      wx.makePhoneCall({
+        phoneNumber: '01000000000'
+      })
+    }
+  },
+  confirmOrder: function (e) {
     var header = {
       'content-type': 'application/x-www-form-urlencoded'
     };
@@ -220,11 +222,12 @@ Page({
             method: 'get',
             header: header,
             success: function (res) {
-              if(res.data.code==200){
-                wx.navigateTo({
-                  url: '/pages/orders-list/orders-list?nowstatus=4',
+              if (res.data.code == 200) {
+                wx.redirectTo({
+                  // url: '/pages/orders-list/orders-list?nowstatus=4',
+                  url: '/pages/orders-list/orders-list',
                 })
-              }else{
+              } else {
                 wx.showToast({
                   title: res.data.msg,
                   icon: 'none',
@@ -248,57 +251,64 @@ Page({
       }
     })
   },
-  goIndex:function(){
-     wx.switchTab({
-       url: '/pages/index/index'
-     })
+  goIndex: function () {
+    wx.switchTab({
+      url: '/pages/index/index'
+    })
+  },
+
+  preview() {
+    wx.previewImage({
+      current: this.data.imgs[0],
+      urls: this.data.imgs
+    })
   },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-  
+
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-  
+
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
   onHide: function () {
-  
+
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-  
+
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-  
+
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-  
+
   },
 
   /**
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-  
+
   }
 })

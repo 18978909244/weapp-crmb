@@ -66,16 +66,33 @@ Page({
           menus: res.data.data.menus,
           likeList: res.data.data.hot
         })
+        console.log(res.data.data)
+        wx.setStorageSync('about_us', res.data.data.config_basics.about_us)
+        wx.setStorageSync('service_mobile', res.data.data.config_basics.site_phone)
+        wx.setStorageSync('hide_shop_entry', Boolean(Number(res.data.data.hide_shop_entry)))
       })
   },
   goToSort(e) {
-    if (e.currentTarget.dataset.url) {
-      let obj = JSON.parse(e.currentTarget.dataset.url)
-    
-      app.globalData.sid = obj.sid
-      app.globalData.cid = obj.cid
-      console.log(app.globalData)
+    let product = Number(e.currentTarget.dataset.product)
+    let category = Number(e.currentTarget.dataset.category)
+    let sid = Number(e.currentTarget.dataset.pid || 0)
+
+
+    if (product) {
+      wx.navigateTo({
+        url: '../product-con/index?id=' + product,
+      })
+      return;
     }
+
+    if (category) {
+      app.globalData.cid = sid
+      app.globalData.sid = category
+      wx.switchTab({
+        url: '../productSort/productSort',
+      })
+    }
+
     wx.switchTab({
       url: '../productSort/productSort',
     })

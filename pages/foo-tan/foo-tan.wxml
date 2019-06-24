@@ -23,8 +23,8 @@
     购买数量
     <view class='count-wrappers flex'>
       <text data-index="{{index}}" bindtap="bindMinus">-</text>
-      <!-- <input class='num' type="number" value='{{num}}' bindblur='setNumber'/> -->
-      <text class='num'>{{num}}</text>
+      <input class='num' type="number" value='{{num}}' bindblur='setNumber'/>
+      <!-- <text class='num'>{{num}}</text> -->
       <text class='add' data-index="{{index}}" bindtap="bindPlus">+</text>
     </view>
   </view>

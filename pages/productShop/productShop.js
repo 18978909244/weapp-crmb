@@ -1,9 +1,11 @@
 // pages/unshop/unshop.js
 var app = getApp();
 var wxh = require('../../utils/wxh.js');
-const API = require('../../api/productSort')
+const API = require('../../api/productShop')
 Page({
     data: {
+        price: 0,
+        merId: 0,
         attrName: '',
         num: 1,
         url: app.globalData.urlImages,
@@ -25,7 +27,6 @@ Page({
         animationData: {},
         cid: '',
         sid: '',
-        price: '',
         sales: '',
         ficti: '',
         t: 1,
@@ -38,7 +39,50 @@ Page({
         sorter: [],
         productid: '',
         CartCount: '',
-        _num: 1
+        shopInfo: null
+    },
+    payToShop() {
+        if (this.data.price === 0) {
+            wx.showToast({
+                icon: 'fail',
+                title: '请先输入金额',
+                duration: 1000
+            })
+            return;
+        }
+        let that = this
+        console.log('pay',parseFloat(this.data.price))
+        API.payToShop({
+            merId: this.data.merId,
+            price: parseFloat(this.data.price)
+        }).then(res => {
+            if (res.data.code == 200) {
+                let jsConfig = res.data.data
+                wx.requestPayment({
+                    timeStamp: jsConfig.timeStamp,
+                    nonceStr: jsConfig.nonceStr,
+                    package: jsConfig.package,
+                    signType: jsConfig.signType,
+                    paySign: jsConfig.paySign,
+                    success: res => {
+                        that.setData({
+                            price:0
+                        })
+                    }
+                })
+            } else {
+                wx.showToast({
+                    title: res.data.msg,
+                    icon: 'fail',
+                    duration: 1000
+                })
+            }
+        })
+    },
+    bindKeyInput: function (e) {
+        this.setData({
+            price: e.detail.value
+        })
     },
     setNumber: function (e) {
         var that = this;
@@ -47,74 +91,21 @@ Page({
             num: num ? num : 1
         })
     },
-    onLoad: function (e) {
-        console.log(app.globalData)
+    onLoad: function (option) {
+        this.setData({
+            merId: option.merId || 0
+        })
         app.setUserInfo();
-        // this.setData({
-        //     cid: app.globalData.cid,
-        //     sid: app.globalData.sid
-        // })
-        // this.getCartCount();
-        // this.getProductList();
     },
     onShow() {
-        console.log(app.globalData)
-        this.setData({
-            cid: app.globalData.cid,
-            sid: app.globalData.sid
-        })
-        this.initCategory(app.globalData.cid, app.globalData.sid)
-        this.getCartCount();
         this.getProductList();
-    },
-    initCategory(cid, sid) {
-        let that = this
-        console.log('cid', cid, sid)
-        if (!cid) return
-        API.getAllCat().then(res => {
-
-            let all = res.data.data
-            for (let i = 0; i < all.length; i++) {
-                for (let j = 0; j < all[i].children.length; j++) {
-                    console.log('all[i].children', all[i].children)
-                    if (all[i].children[j].pid === cid && all[i].children[j].id === sid) {
-                        that.setData({
-                            total: all[i].children[j].cate_name
-                        })
-                    }
-                }
-            }
-            // let list = res.data.data
-            // for (let i = 0; i < list.length; i++) {
-            //     API.getChildCat(list[i].id).then(res => {
-            //         let _list = res.data.data
-            //         console.log('_list', _list)
-            //         for (let j = 0; j < _list.length; j++) {
-            //             API.getChildCat(_list[j].id).then(res => {
-            //                 let __list = res.data.data
-            //                 for (let z = 0; z < __list.length; z++) {
-            //                     console.log(__list[z].id)
-            //                     if (Number(__list[z].id) == cid) {
-            //                         that.setData({
-            //                             total: res.data.name
-            //                         })
-            //                     }
-            //                 }
-
-            //             })
-
-            //         }
-
-            //         // if(res.data)
-            //     })
-            // }
-        })
+        this.getShopInfo()
     },
     onHide() {
-        // this.setData({
-        //     total: '全部',
-        //     taber: "-1"
-        // })
+        this.setData({
+            total: '全部',
+            taber: "-1"
+        })
     },
     goCart: function () {
         wx.switchTab({
@@ -123,26 +114,26 @@ Page({
     },
     product: function (e) {
         var index = e.target.dataset.num;
-        console.log('tap', index)
-
         if (index == 1) {
             this.setData({
-                _num: 2,
+                _num: index,
                 num: 2
             })
         } else {
             this.setData({
-                _num: 1,
+                _num: index,
                 num: 1
             })
         }
+        this.setData({
+            _num: e.target.dataset.num
+        })
     },
     sort: function (e) {
         var that = this;
         var all = this.data.hiddendown;
         this.setData({
-            active: 0,
-            news:''
+            active: 0
         });
         if (all) {
             this.setData({
@@ -257,12 +248,8 @@ Page({
                 })
             }
         }
-        that.setData({
-            hiddendown: true,
-            news: '',
-            active: 0,
-            sid: 0
-        })
+        that.setData({ hiddendown: true })
+        that.setData({ sid: 0 })
         that.getProductList();
     },
     getCartCount: function () {
@@ -279,9 +266,7 @@ Page({
             sid: '',
             hiddendown: true,
             total: '全部商品',
-            taber: '-1',
-            news: '',
-            active: 0
+            taber: '-1'
         })
         that.getProductList();
     },
@@ -620,6 +605,18 @@ Page({
 
         // })
     },
+    getShopInfo: function () {
+        API.getShopInfo({
+            merId: this.data.merId
+        })
+            .then(res => {
+                if (res.data.code == 200) {
+                    this.setData({
+                        shopInfo: res.data.data
+                    })
+                }
+            })
+    },
     getProductList: function () {
         var that = this;
         var news = that.data.news;
@@ -632,7 +629,10 @@ Page({
         var startpage = limit * offset;
         wx.request({
             url: app.globalData.url + '/routine/auth_api/get_product_list?uid=' + app.globalData.uid,
-            data: { sid: sid, cid: cid, priceOrder: priceOrder, salesOrder: salesOrder, news: news, first: startpage, limit: limit },
+            data: {
+                merId: this.data.merId
+            },
+            // data: { sid: sid, cid: cid, priceOrder: priceOrder, salesOrder: salesOrder, news: news, first: startpage, limit: limit },
             method: 'GET',
             success: function (res) {
                 if (res.data.code == 200) {

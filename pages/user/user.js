@@ -1,6 +1,7 @@
 var app = getApp();
 var wxh = require('../../utils/wxh.js');
 const API = require('../../api/user')
+let interval= null
 // pages/user/user.js
 Page({
 
@@ -14,18 +15,27 @@ Page({
     coupon: '',
     collect: '',
     deliver: false,
-    deliverList:[]
+    deliverList: [],
+    shopImg:wx.getStorageSync('about_us')
   },
 
+  goTel: function (e) {
+    if (wx.getStorageSync('service_mobile')) {
+      wx.makePhoneCall({
+        phoneNumber: wx.getStorageSync('service_mobile')
+      })
+    } else {
+      wx.makePhoneCall({
+        phoneNumber: '01000000000'
+      })
+    }
+  },
   setTouchMove: function (e) {
     var that = this;
     wxh.home(that, e);
   },
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function (options) {
-    app.setUserInfo();
+  initData() {
+    console.log('initData')
     var header = {
       'content-type': 'application/x-www-form-urlencoded',
     };
@@ -45,35 +55,30 @@ Page({
       if (res.data.code !== 400) {
         this.setData({
           deliver: true,
-          deliverList:res.data.data,
-          deliverCount:{
-            ing:res.data.data.filter(item=>item.status===1).length,
-            done:res.data.data.filter(item=>item.status===2).length,
+          deliverList: res.data.data,
+          deliverCount: {
+            ing: res.data.data.filter(item => item.status === 1).length,
+            done: res.data.data.filter(item => item.status === 2).length,
           }
         })
       }
     })
   },
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  onShow: function (options) {
+    app.setUserInfo();
+    this.initData()
+    interval = setInterval(this.initData,10000)
+  },
+  onHide:function(){
+    clearInterval(interval)
+  },
   goNotification: function () {
     wx.navigateTo({
       url: '/pages/news-list/news-list',
     })
-  },
-  onShow: function () {
-    var header = {
-      'content-type': 'application/x-www-form-urlencoded',
-    };
-    var that = this;
-    wx.request({
-      url: app.globalData.url + '/routine/auth_api/my?uid=' + app.globalData.uid,
-      method: 'POST',
-      header: header,
-      success: function (res) {
-        that.setData({
-          userinfo: res.data.data
-        })
-      }
-    });
   },
   /**
   * 生命周期函数--我的余额
@@ -138,6 +143,13 @@ Page({
       complete: function (res) { },
     })
   },
+  showImg(e){
+    let img = e.currentTarget.dataset.img
+    wx.previewImage({
+      current: img, // 当前显示图片的http链接
+      urls: [img] // 需要预览的图片http链接列表
+    })
+  }
   /**
   * 生命周期函数--我的砍价
   */

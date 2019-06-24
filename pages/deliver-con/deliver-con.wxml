@@ -146,12 +146,16 @@
   <view class='item' wx:if="{{ordercon.status===2}}">
     <text>送达时间： {{deliver_arrive_time}}</text>
   </view>
+  <view class='item' wx:if="{{imgs.length>0}}">
+    <text>送达图片： </text>
+    <image bindtap="preview" mode="aspectFill" src="{{imgs[0]}}" style="width:200rpx;height:200rpx"></image>
+  </view>
 
 </view>
 <view style='height:120rpx;'></view>
 <view class='foot'>
-  <view class='pay-btn' wx:if="{{ordercon.status===1}}" bindtap='confirmDeliver' data-uni='{{ordercon.order_id}}'>
-    确认送达
+  <view class='pay-btn' wx:if="{{ordercon.status===1}}" bindtap='{{imgs?"":"confirmDeliver"}}' data-uni='{{ordercon.order_id}}'>
+    {{imgs?'等待客户确认':'确认送达'}}
   </view>
   <view class='pay-btn' wx:if="{{ordercon.status===2}}" data-uni='{{ordercon.order_id}}'>
     已配送完成
@@ -178,3 +182,12 @@
     <view class='pay-btn'>再次购买</view>
   </navigator> -->
 </view>
+
+<!-- <wxs module="page">
+  module.exports={
+    handlerImg:(res)=>{
+      let imgs = JSON.prase(res)
+      return imgs[0]
+    }
+  }
+</wxs> -->

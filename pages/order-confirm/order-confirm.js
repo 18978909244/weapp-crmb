@@ -3,16 +3,30 @@ const moment = require('../../utils/moment')
 var app = getApp();
 const API = require('../../api/order-confirm')
 
-let shipType = Number(wx.getStorageSync('shipType')) || 1
 let hour = moment().hour()
+let min = moment().minutes()
 let firstColumn = ['明天', '后天'];
-let secondColumn = [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].map(item => item + '时')
+let _second = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]
+let thirdColumn = [0, 15, 30, 45]
 
-// if (hour >= 20) {
-//   firstColumn = ['明天', '后天']
-//   secondColumn = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].map(item => item + '时')
-// }
+if (hour >= 20) {
+  firstColumn = ['明天', '后天']
+  // secondColumn = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].map(item => item + '时')
+}
 
+
+let data = {
+  '0': [['今天'], _second.filter(i => {
+    if (min > 45) {
+      return i > hour + 1
+    }
+    return i > hour
+  }).map(item => item + '时'),
+  min < 45 ? thirdColumn.filter(i => {
+    return i > min
+  }).map(item => item + '分') : thirdColumn.map(item => item + '分')],
+  '1': [['明天', '后天'], _second.map(item => item + '时'), thirdColumn.map(item => item + '分')]
+}
 Page({
 
   /**
@@ -46,9 +60,9 @@ Page({
     mark: '',
     payType: 'weixin',
     useIntegral: '',
-    shipType,
+    shipType: 1,
     userExpectTime: 0,
-    multiIndex: [0, 0],
+    multiIndex: [0, 0, 0],
     multiArray: [],
   },
   /**
@@ -59,7 +73,7 @@ Page({
     var that = this;
     if (options.pinkId) {
       that.setData({
-        pinkId: options.pinkId || '118'
+        pinkId: options.pinkId || '62'
       })
     }
     if (options.addressId) {
@@ -99,10 +113,20 @@ Page({
   },
   radioChangeShip(e) {
     console.log('点击了')
-    console.log(e.detail.value)
+    // console.log(e.detail.value)
+    // let multiArray = this.data.multiArray
+
+    // if(e.detail.value===0){
+    //   multiArray[0]  = ['今天']
+    // }else{
+    //   multiArray[0]  = ['今天','明天']
+    // }
+    // console.log(multiArray)
     this.setData({
       shipType: e.detail.value,
-      userExpectTime: e.detail.value === 0 ? 0 : this.data.userExpectTime
+      userExpectTime: e.detail.value === 0 ? 0 : this.data.userExpectTime,
+      multiArray: data[e.detail.value],
+      multiIndex: [0, 0, 0]
     })
   },
   subOrder: function (e) {
@@ -110,14 +134,14 @@ Page({
     // var header = {
     //   'content-type': 'application/x-www-form-urlencoded'
     // };
-    if (that.data.payType == 'weixin') {
-      wx.showToast({
-        title: '微信支付还未申请成功，暂不支持',
-        icon: 'none',
-        duration: 1000,
-      })
-      return;
-    }
+    // if (that.data.payType == 'weixin') {
+    //   wx.showToast({
+    //     title: '微信支付还未申请成功，暂不支持',
+    //     icon: 'none',
+    //     duration: 1000,
+    //   })
+    //   return;
+    // }
     if (that.data.payType == '') {
       wx.showToast({
         title: '请选择支付方式',
@@ -136,9 +160,9 @@ Page({
       return
     }
 
-    if (that.data.shipType == 1 && that.data.userExpectTime == 0) {
+    if (that.data.userExpectTime == 0) {
       wx.showToast({
-        title: '请选择预约配送时间',
+        title: '请选择配送时间',
         icon: 'none',
         duration: 1000,
       })
@@ -250,127 +274,6 @@ Page({
           })
         }
       })
-
-    return;
-
-    wx.request({
-      url: app.globalData.url + '/routine/auth_api/create_order?uid=' + app.globalData.uid + '&key=' + that.data.orderKey,
-      method: 'POST',
-      header: header,
-      data: {
-        addressId: that.data.addressId,
-        formId: e.detail.formId,
-        couponId: that.data.couponId,
-        payType: that.data.payType,
-        useIntegral: that.data.useIntegral,
-        bargainId: that.data.BargainId,
-        combinationId: that.data.combinationId,
-        pinkId: that.data.pinkId,
-        seckill_id: that.data.seckillId,
-        mark: that.data.mark
-      },
-      success: function (res) {
-        var data = res.data.data;
-        if (res.data.code == 200 && res.data.data.status == 'SUCCESS') {
-          wx.showToast({
-            title: res.data.msg,
-            icon: 'success',
-            duration: 1000,
-          })
-          setTimeout(function () {
-            wx.navigateTo({
-              url: '/pages/orders-con/orders-con?order_id=' + data.result.orderId
-            })
-          }, 1200)
-        } else if (res.data.code == 200 && res.data.data.status == 'ORDER_EXIST') {
-          wx.showToast({
-            title: res.data.msg,
-            icon: 'none',
-            duration: 1000,
-          })
-          setTimeout(function () {
-            wx.navigateTo({
-              url: '/pages/orders-con/orders-con?order_id=' + data.result.orderId
-            })
-          }, 1200)
-        } else if (res.data.code == 200 && res.data.data.status == 'ORDER_EXIST') {
-          wx.showToast({
-            title: res.data.msg,
-            icon: 'none',
-            duration: 1000,
-          })
-          setTimeout(function () {
-            wx.navigateTo({
-              url: '/pages/orders-con/orders-con?order_id=' + data.result.orderId
-            })
-          }, 1200)
-        } else if (res.data.code == 200 && res.data.data.status == 'EXTEND_ORDER') {
-          wx.showToast({
-            title: res.data.msg,
-            icon: 'none',
-            duration: 1000,
-          })
-          setTimeout(function () {
-            wx.navigateTo({
-              url: '/pages/orders-con/orders-con?order_id=' + data.result.orderId
-            })
-          }, 1200)
-        } else if (res.data.code == 200 && res.data.data.status == 'WECHAT_PAY') {
-          var jsConfig = res.data.data.result.jsConfig;
-          wx.requestPayment({
-            timeStamp: jsConfig.timeStamp,
-            nonceStr: jsConfig.nonceStr,
-            package: jsConfig.package,
-            signType: jsConfig.signType,
-            paySign: jsConfig.paySign,
-            success: function (res) {
-              wx.showToast({
-                title: '支付成功',
-                icon: 'success',
-                duration: 1000,
-              })
-              setTimeout(function () {
-                wx.navigateTo({
-                  url: '/pages/orders-con/orders-con?order_id=' + data.result.orderId
-                })
-              }, 1200)
-            },
-            fail: function (res) {
-              wx.showToast({
-                title: '支付失败',
-                icon: 'none',
-                duration: 1000,
-              })
-              setTimeout(function () {
-                wx.navigateTo({
-                  url: '/pages/orders-con/orders-con?order_id=' + data.result.orderId
-                })
-              }, 1200)
-            },
-            complete: function (res) {
-              if (res.errMsg == 'requestPayment:cancel') {
-                wx.showToast({
-                  title: '取消支付',
-                  icon: 'none',
-                  duration: 1000,
-                })
-                setTimeout(function () {
-                  wx.navigateTo({ //跳转至指定页面并关闭其他打开的所有页面（这个最好用在返回至首页的的时候）
-                    url: '/pages/orders-con/orders-con?order_id=' + data.result.orderId
-                  })
-                }, 1200)
-              }
-            },
-          })
-        } else {
-          wx.showToast({
-            title: res.data.msg,
-            icon: 'none',
-            duration: 1000,
-          })
-        }
-      }
-    })
   },
   getCouponRope: function () {
     var that = this;
@@ -512,20 +415,39 @@ Page({
     console.log(that.data.combinationId);
   },
   createMulti() {
-    secondColumn = [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].map(item => item + '时')
-    // if(firstColumn[this.data.multiIndex[0]]!=='今天'){
-    //   console.log('不是今天')
-    //   secondColumn = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].map(item => item + '时')
-    // }else{
-    //   console.log('是今天')
-    //   secondColumn = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].filter(item => item > hour + 1).map(item => item + '时')
-    // }
-    this.setData({
-      multiArray: [firstColumn, secondColumn],
-    })
+    // secondColumn = [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].map(item => item + '时')
+    // // if(firstColumn[this.data.multiIndex[0]]!=='今天'){
+    // //   console.log('不是今天')
+    // //   secondColumn = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].map(item => item + '时')
+    // // }else{
+    // //   console.log('是今天')
+    // //   secondColumn = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].filter(item => item > hour + 1).map(item => item + '时')
+    // // }
+    // this.setData({
+    //   multiArray: [firstColumn, secondColumn,thirdColumn],
+    // })
   },
   bindMultiPickerColumnChange(e) {
-    // let multiArray = this.data.multiArray
+    console.log(e)
+    let multiArray = this.data.multiArray
+    if (e.detail.column === 1 && e.detail.value > 0) {
+      multiArray[2] = thirdColumn.map(i => i + '分')
+      this.setData({
+        multiArray
+      })
+    } else if (e.detail.column === 1 && e.detail.value === 0) {
+      multiArray[2] = min < 45 ? thirdColumn.filter(i => {
+        // if (min > 45) {
+        //   return i
+        // }
+        return i > min
+        // return i>min
+      }).map(i => i + '分') : thirdColumn.map(i => i + '分')
+      this.setData({
+        multiArray
+      })
+    }
+
     // let column = e.detail.column
     // let value = e.detail.value
     // // console.log('改变列')
@@ -550,27 +472,30 @@ Page({
 
     let day = this.data.multiArray[0][e.detail.value[0]]
     let time = this.data.multiArray[1][e.detail.value[1]]
-    console.log(day,time)
+    let mins = this.data.multiArray[2][e.detail.value[2]]
+    console.log(day, time, mins)
     let _day
     let _time
     switch (day) {
-      // case '今天':
-      //   _day = moment(moment(new Date()).add(0, 'days')._d).format('YYYY-MM-DD');
-      //   _time = moment(_day + ' ' + time.split('时')[0] + ':00:00').valueOf();
-      //   break;
+      case '今天':
+        _day = moment(moment(new Date()).add(0, 'days')._d).format('YYYY-MM-DD');
+        console.log(_day)
+        _time = moment(`${_day} ${Number(time.split('时')[0]) < 10 ? '0' + Number(time.split('时')[0]) : Number(time.split('时')[0])}:${mins.split('分')[0]}:00`).valueOf();
+        console.log(_time)
+        break;
       case '明天':
         _day = moment(moment(new Date()).add(1, 'days')._d).format('YYYY-MM-DD');
-        _time = moment(_day + ' ' + time.split('时')[0] + ':00:00').valueOf();
+        console.log('明天', _day, `${_day} ${Number(time.split('时')[0]) < 10 ? '0' + Number(time.split('时')[0]) : Number(time.split('时')[0])}:${mins.split('分')[0]}:00`)
+        _time = moment(`${_day} ${Number(time.split('时')[0]) < 10 ? '0' + Number(time.split('时')[0]) : Number(time.split('时')[0])}:${mins.split('分')[0] < 10 ? '0' + mins.split('分')[0] : mins.split('分')[0]}:00`).valueOf();
+        console.log('明天', _time)
         break;
       case '后天':
         _day = moment(moment(new Date()).add(2, 'days')._d).format('YYYY-MM-DD');
-        _time = moment(_day + ' ' + time.split('时')[0] + ':00:00').valueOf();
+        _time = moment(`${_day} ${Number(time.split('时')[0]) < 10 ? '0' + Number(time.split('时')[0]) : Number(time.split('时')[0])}:${mins.split('分')[0] < 10 ? '0' + mins.split('分')[0] : mins.split('分')[0]}:00`).valueOf();
         break;
     }
-    let userExpectTime = _time
-    // let tomorrow  = moment(moment(new Date()).add(1,'days')._d).format('YYYY-MM-DD');
-    // let time = moment(tomorrow+' 18:00:00').valueOf();
-    // console.log(time)
+    let userExpectTime = _time / 1000
+    console.log('userExpectTime', userExpectTime)
     this.setData({
       multiIndex: e.detail.value,
       userExpectTime
@@ -587,8 +512,11 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    this.createMulti()
-
+    let shipType = Number(wx.getStorageSync('shipType'))
+    this.setData({
+      multiArray: data[shipType],
+      shipType
+    })
   },
 
   /**

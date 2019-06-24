@@ -13,41 +13,45 @@
         </label>
       </view>
       <navigator url="/pages/product-con/index?id={{item.productInfo.id}}">
-      <view class='picture' bindtap="goToDetail({{item.id}})">
-        <image src='{{url}}{{item.productInfo.image}}'></image>
-      </view>
+        <view class='picture' bindtap="goToDetail({{item.id}})">
+          <image src='{{url}}{{item.productInfo.image}}'></image>
+        </view>
       </navigator>
       <navigator url="/pages/product-con/index?id={{item.productInfo.id}}">
-      <view class='pro-info flex'>
-        <view class='pro-title'>{{item.productInfo.store_name}}</view>
-        <view class='pro-des' wx:if="{{item.productInfo.attrInfo}}">
-          {{item.productInfo.attrInfo.suk}}
+        <view class='pro-info flex'>
+          <view class='pro-title'>{{item.productInfo.store_name}}</view>
+          <view class='pro-des' wx:if="{{item.productInfo.attrInfo}}">
+            {{item.productInfo.attrInfo.suk}}
+          </view>
+          <view class='pro-price' wx:if="{{item.productInfo.attrInfo}}">
+            <text>￥</text>
+            {{item.productInfo.attrInfo.price}} {{item.productInfo.unit_name?'/ '+ item.productInfo.unit_name:''}}
+          </view>
+          <view class='pro-price' wx:else>
+            <text>￥</text>
+            {{item.productInfo.price}} {{item.productInfo.unit_name?'/ '+ item.productInfo.unit_name:''}}
+          </view>
+          <!-- <view class='pro-price'><text>￥</text>{{item.productInfo.attrInfo.price}}</view> -->
         </view>
-        <view class='pro-price' wx:if="{{item.productInfo.attrInfo}}">
-          <text>￥</text>
-          {{item.productInfo.attrInfo.price}} {{item.productInfo.unit_name?'/ '+ item.productInfo.unit_name:''}}
-        </view>
-        <view class='pro-price' wx:else>
-          <text>￥</text>
-          {{item.productInfo.price}} {{item.productInfo.unit_name?'/ '+ item.productInfo.unit_name:''}}
-        </view>
-        <!-- <view class='pro-price'><text>￥</text>{{item.productInfo.attrInfo.price}}</view> -->
-      </view>
       </navigator>
       <view style="position:absolute;right:20rpx;top:20rpx;" bindtap="cartDel" data-id="{{item.id}}">
         删除
-          <!-- <icon type="cancel" size="24"/> -->
       </view>
       <view class='count-wrapper flex'>
-        <text data-index="{{index}}" bindtap="{{item.cart_num===1?'':'numDescClick'}}" class='{{minusStatus}}'>-</text>
-        <text class='num'>{{item.cart_num}}</text>
-        <!-- <input class='num' data-item='{{index}}' type="number" value='{{item.cart_num}}' bindblur='setNumber'/> -->
-        <text class='add' data-index="{{index}}" bindtap="numAddClick" data-max="{{item.trueStock}}">+</text>
+        <text data-index="{{index}}" bindtap="{{item.cart_num===1?'':'numDescClick'}}" class='{{minusStatus}}'>
+          -
+        </text>
+        <!-- <text class='num'>{{item.cart_num}}</text> -->
+        <input class='num' data-index='{{index}}' data-max="{{item.trueStock}}" type="number" value='{{item.cart_num}}' bindblur='setNumber'/>
+        <text class='add' data-index="{{index}}" bindtap="numAddClick" data-max="{{item.trueStock}}">
+          +
+        </text>
       </view>
     </view>
     <view class='shop-item' style="padding-bottom:20rpx;padding-right:20rpx;display:flex;justify-content:space-between">
-      <label class="checkbox" bindtap="allChecked">全选
-            <checkbox value="Boolean" checked="{{isAllSelect}}" />
+      <label class="checkbox" bindtap="allChecked" data-shop="{{shop.id}}">
+        全选
+        <checkbox value="Boolean" checked="{{shop.isAllSelect}}" disabled="{{chooseShopId!==-1 && chooseShopId!==shop.id}}" />
       </label>
       <text>配送费:{{shop.deliver_fee}}</text>
     </view>

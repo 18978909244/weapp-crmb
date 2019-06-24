@@ -10,14 +10,14 @@
 </view>
 <view class='user-list-warapper'>
    <view class='item-box amount flex'>
-    <!-- <view class='amount-item' bindtap='money'>
+    <view class='amount-item' bindtap='money'>
       <view class='count'>{{userinfo.now_money}}</view>
       <view class='text' >账户余额</view>
-    </view> -->
-    <!-- <view class='amount-item' bindtap='integral'>
+    </view>
+    <view class='amount-item' bindtap='integral'>
       <view class='count'>{{userinfo.integral}}</view>
       <view class='text' >我的积分</view>
-    </view> -->
+    </view>
     <view class='amount-item' bindtap='coupons'>
       <view class='count'>{{userinfo.couponCount ? userinfo.couponCount : 0}}</view>
       <view class='text' >优惠券</view>
@@ -154,34 +154,46 @@
         </navigator>
       </view>
 
-      <view class='item'>
+      <!-- <view class='item'>
         <button open-type="contact" class='contact-but'>
           <view class='iconfont icon-custom-service'></view>
           <view class='text'>联系客服</view>
         </button >
-      </view>
+      </view> -->
     </view>
   </view>
-  <!-- <view class='item-box orders'>
+  <view class='item-box orders'>
     <view class='title-bar flex'>
       <text>帮助中心</text>
     </view>
     <view class='list-wrapper flex'>
       <view class='item'>
-        <navigator hover-class="none">
+        <navigator hover-class="none" url='/pages/user-suggest/user-suggest'>
           <view class='iconfont icon-liaotian'></view>
-          <view class='text'>聊天记录</view>
+          <view class='text'>留言建议</view>
         </navigator>
       </view>
       <view class='item'>
-        <button open-type="contact" class='contact-but'>
-          <view class='iconfont icon-custom-service'></view>
-          <view class='text'>联系客服</view>
+        <button bindtap="goTel" class='contact-but'>
+          <view class='iconfont icon-dianhua'></view>
+          <view class='text'>电话客服</view>
+        </button >
+      </view>
+      <view class='item'>
+        <button bindtap="showImg" data-img="{{shopImg}}" class='contact-but'>
+          <view class='iconfont icon-dianpu'></view>
+          <view class='text'>平台介绍</view>
+        </button >
+      </view>
+      <view class='item'>
+        <button bindtap="showImg" data-img="https://fresh.kuashou.com/public/uploads/store/comment/5d0b43f0e1c55.jpg" class='contact-but'>
+          <view class='iconfont icon-erweima1'></view>
+          <view class='text'>分享商店</view>
         </button >
       </view>
      
     </view>
-  </view> -->
+  </view>
 </view>
 <include src="/pages/home/home.wxml"/>
 

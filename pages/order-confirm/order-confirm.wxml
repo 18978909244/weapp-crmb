@@ -61,11 +61,14 @@
   </view>
   <view class='all-price'>
     共{{cartInfo.length}}件商品   共计：
-    <text>￥{{priceGroup.totalPrice}}</text>
+    <text>￥{{shipType==0?priceGroup.immediatelyDeliverTotalPrice:priceGroup.totalPrice}}</text>
   </view>
 </view>
 <view class='payment-select'>
-  <view class='common-title' style="display:flex;justify-content:space-between">配送时间<text wx:if="{{shipType==0}}">*预约配送省更多</text></view>
+  <view class='common-title' style="display:flex;justify-content:space-between">
+    配送时间
+    <text wx:if="{{shipType==0}}">*预约配送省更多</text>
+  </view>
   <view class='warapper'>
     <view class='item '>
       <radio-group bindchange="radioChangeShip">
@@ -79,21 +82,15 @@
       </radio-group>
     </view>
   </view>
-  <view class="common-title" wx:if="{{shipType==1}}">
-    <picker
-    mode="multiSelector"
-    bindchange="bindMultiPickerChange"
-    bindcolumnchange="bindMultiPickerColumnChange"
-    value="{{multiIndex}}"
-    range="{{multiArray}}"
-    bindtap="createMulti"
-  >
+  <view class="common-title">
+    <picker mode="multiSelector" bindchange="bindMultiPickerChange" bindcolumnchange="bindMultiPickerColumnChange" value="{{multiIndex}}" range="{{multiArray}}" bindtap="createMulti">
       <view class="picker" wx:if="{{userExpectTime>0}}" style="display:flex;justify-content:space-between">
-        当前选择：<text>{{multiArray[0][multiIndex[0]]}} {{multiArray[1][multiIndex[1]]}}</text>
+        当前选择：
+        <view>
+          {{multiArray[0][multiIndex[0]]}} {{multiArray[1][multiIndex[1]]}} {{multiArray[2][multiIndex[2]]}}
+        </view>
       </view>
-      <view class="picker" wx:else>
-        请选择配送时间
-      </view>
+      <view class="picker" wx:else>请选择配送时间</view>
     </picker>
   </view>
 </view>
@@ -108,7 +105,6 @@
             {{item.name}}
           </view>
           <radio value="{{item.value}}" checked="{{payType==item.value}}"></radio>
-
           <!-- <radio value="{{index}}" wx:if="{{item.value == payType}}" checked='checked' bindtap="radioChange" data-value="{{item.value}}"></radio>
           <radio value="{{index}}" wx:else data-value="{{item.value}}"></radio> -->
         </label>
@@ -132,7 +128,9 @@
 <view class='foot flex'>
   <view class='text'>
     合计:
-    <text class='price'>￥{{priceGroup.totalPrice}}{{couponPrice}}</text>
+    <text class='price'>
+      ￥{{shipType==0?priceGroup.immediatelyDeliverTotalPrice:priceGroup.totalPrice}}{{couponPrice}}
+    </text>
   </view>
   <form bindsubmit="subOrder" report-submit='true'>
     <button class='submit-btn' formType="submit">立即结算</button>

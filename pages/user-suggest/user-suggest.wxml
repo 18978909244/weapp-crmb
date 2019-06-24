@@ -1,0 +1,76 @@
+<view class="commcon">
+   <view class='commcon-header flex' style="height:140rpx;">
+      <view class='commcon-ping'>我们很珍惜你的反馈、建议以及投诉，请留言给我们，我们讲尽快和你联系和回复。</view>
+   </view>
+   <form bindsubmit="formSubmit">
+      <view class='commcon-ping'>
+         <textarea placeholder='请输入你的反馈、建议以及投诉' placeholder-class='placeholder' name='comment'></textarea>
+         <!-- <view class='imgul'>
+            <block wx:for="{{dataimg}}">
+               <view class='imgpic'>
+                  <image src='{{item.data.url}}' class='dataimg'></image>
+                  <icon class='iconfont icon-guanbi guanbi' data-id='{{index}}' bindtap='delImages'></icon>
+               </view>
+            </block>
+            <view class='upimg' bindtap='uploadpic' hidden='{{hidden}}'></view>
+         </view> -->
+      </view>
+      <!-- <view class='commcon-ul flex'>
+         <view class='commcon-li flex'>
+            <text class='li-lien'>商品质量</text>
+            <view class='commconxing li-lien'>
+               <icon bindtap='tapxing' data-index='1' class='iconfont icon-pingjia {{xing>=1?"icon-xingxing1":""}}'></icon>
+               <icon bindtap='tapxing' data-index='2' class='iconfont icon-pingjia {{xing>=2?"icon-xingxing1":""}}'></icon>
+               <icon bindtap='tapxing' data-index='3' class='iconfont icon-pingjia {{xing>=3?"icon-xingxing1":""}}'></icon>
+               <icon bindtap='tapxing' data-index='4' class='iconfont icon-pingjia {{xing>=4?"icon-xingxing1":""}}'></icon>
+               <icon bindtap='tapxing' data-index='5' class='iconfont icon-pingjia {{xing>=5?"icon-xingxing1":""}}'></icon>
+            </view>
+            <text class='li-lien li-lien3' hidden='{{xinghidden}}'>{{xing}}分</text>
+         </view>
+         <view class='commcon-li flex'>
+            <text class='li-lien'>服务态度</text>
+            <view class='commconxing li-lien'>
+               <icon bindtap='tapxing2' data-index='1' class='iconfont icon-pingjia {{xing2>=1?"icon-xingxing1":""}}'></icon>
+               <icon bindtap='tapxing2' data-index='2' class='iconfont icon-pingjia {{xing2>=2?"icon-xingxing1":""}}'></icon>
+               <icon bindtap='tapxing2' data-index='3' class='iconfont icon-pingjia {{xing2>=3?"icon-xingxing1":""}}'></icon>
+               <icon bindtap='tapxing2' data-index='4' class='iconfont icon-pingjia {{xing2>=4?"icon-xingxing1":""}}'></icon>
+               <icon bindtap='tapxing2' data-index='5' class='iconfont icon-pingjia {{xing2>=5?"icon-xingxing1":""}}'></icon>
+            </view>
+            <text class='li-lien li-lien3' hidden='{{xinghidden2}}'>{{xing2}}分</text>
+         </view>
+         <view class='commcon-li flex'>
+            <text class='li-lien'>配送服务</text>
+            <view class='commconxing li-lien'>
+               <icon bindtap='tapxing3' data-index='1' class='iconfont icon-pingjia {{xing3>=1?"icon-xingxing1":""}}'></icon>
+               <icon bindtap='tapxing3' data-index='2' class='iconfont icon-pingjia {{xing3>=2?"icon-xingxing1":""}}'></icon>
+               <icon bindtap='tapxing3' data-index='3' class='iconfont icon-pingjia {{xing3>=3?"icon-xingxing1":""}}'></icon>
+               <icon bindtap='tapxing3' data-index='4' class='iconfont icon-pingjia {{xing3>=4?"icon-xingxing1":""}}'></icon>
+               <icon bindtap='tapxing3' data-index='5' class='iconfont icon-pingjia {{xing3>=5?"icon-xingxing1":""}}'></icon>
+            </view>
+            <text class='li-lien li-lien3' hidden='{{xinghidden3}}'>{{xing3}}分</text>
+         </view> -->
+      <!-- <view class='commcon-li flex'>
+           <text class='li-lien'>物流服务</text>
+          <view class='commconxing li-lien'>
+              <icon bindtap='tapxing3' data-index='1' class='iconfont icon-pingjia {{xing3>=1?"icon-xingxing1":""}}'></icon>
+              <icon bindtap='tapxing3' data-index='2' class='iconfont icon-pingjia {{xing3>=2?"icon-xingxing1":""}}'></icon>
+              <icon bindtap='tapxing3' data-index='3' class='iconfont icon-pingjia {{xing3>=3?"icon-xingxing1":""}}'></icon>
+              <icon bindtap='tapxing3' data-index='4' class='iconfont icon-pingjia {{xing3>=4?"icon-xingxing1":""}}'></icon>
+              <icon bindtap='tapxing3' data-index='5' class='iconfont icon-pingjia {{xing3>=5?"icon-xingxing1":""}}'></icon>
+           </view>
+           <text class='li-lien li-lien3' hidden='{{xinghidden3}}'>{{xing3}}分</text>
+       </view> -->
+      <!-- </view> -->
+      <button class='commcon-btn' formType="submit">留言</button>
+   </form>
+   <view class="commcon-ping">
+      <view class="title">我的留言</view>
+      <view class="body">
+         <view wx:for="{{messages}}" class="message-item">
+            <view class="content">Q: {{item.content}}</view>
+            <view class="reply" wx:if="{{item.reply}}">A: {{item.reply}}</view>
+            <view class="reply" wx:else>等待回复</view>
+         </view>
+      </view>
+   </view>
+</view>

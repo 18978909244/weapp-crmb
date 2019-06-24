@@ -13,15 +13,15 @@
   <swiper class="swiper-box" style="height:400rpx" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" indicator-color="{{indicatorColor}}" indicator-active-color="{{indicatorActivecolor}}">
     <block wx:for="{{imgUrls}}" wx:key="{{index}}">
       <swiper-item>
-        <image bindtap='goUrl' data-url="{{item.url}}" src="{{item.pic}}" class="slide-image" />
+        <image bindtap='goToSort' data-category="{{item.category}}" data-pid="{{item.pid}}" data-product="{{item.product}}" src="{{item.pic}}" class="slide-image" />
       </swiper-item>
     </block>
   </swiper>
 </view>
 <!-- 下单 -->
 <view class="button flex">
-  <view class='button-item'>
-    <image src='../../images/time.png' bindtap="goToProductSort" data-ship="1"></image>
+  <view class='button-item' bindtap="goToProductSort" data-ship="1">
+    <image src='../../images/time.png'></image>
     <view class='nav-title'>预定下单</view>
   </view>
   <view class='button-item' bindtap="goToProductSort" data-ship="0">
@@ -33,8 +33,8 @@
 <view class='nav flex'>
   <block wx:for="{{menus}}" wx:key="{{index}}">
     <view class='nav-item'>
-      <view class="flex" bindtap="goToSort" data-url="{{item.url}}">
-        <image src='{{item.icon}}'></image>
+      <view class="flex" bindtap="goToSort" data-category="{{item.category}}" data-pid="{{item.pid}}" data-product="{{item.product}}">
+        <image src='{{item.pic}}'></image>
         <view class='nav-title'>{{item.name}}</view>
       </view>
       <!-- <navigator class='flex' hover-class="none" url='/pages/productSort/productSort?sid=13' wx:if="{{item.show == '是'}}" open-type='switchTab'>
