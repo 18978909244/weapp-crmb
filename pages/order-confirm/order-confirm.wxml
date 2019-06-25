@@ -77,7 +77,7 @@
             <view class='iconfont'></view>
             {{item}}
           </view>
-          <radio value="{{index}}" checked="{{shipType==index}}"></radio>
+          <radio value="{{index}}" checked="{{shipType==index}}" disabled="{{onlyDateShip}}"></radio>
         </label>
       </radio-group>
     </view>

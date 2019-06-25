@@ -9,10 +9,6 @@ let firstColumn = ['明天', '后天'];
 let _second = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]
 let thirdColumn = [0, 15, 30, 45]
 
-if (hour >= 20) {
-  firstColumn = ['明天', '后天']
-  // secondColumn = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].map(item => item + '时')
-}
 
 
 let data = {
@@ -64,6 +60,7 @@ Page({
     userExpectTime: 0,
     multiIndex: [0, 0, 0],
     multiArray: [],
+    onlyDateShip:false
   },
   /**
    * 生命周期函数--监听页面加载
@@ -513,6 +510,16 @@ Page({
    */
   onShow: function () {
     let shipType = Number(wx.getStorageSync('shipType'))
+    if (hour > 23) {
+      wx.showModal({
+        title: '提示',
+        content: '当前时间过晚，只能预约配送'
+      })
+      shipType = 1
+      this.setData({
+        onlyDateShip:true
+      })
+    }
     this.setData({
       multiArray: data[shipType],
       shipType

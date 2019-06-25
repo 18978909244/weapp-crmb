@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/shopList/shopList",
     "pages/order-confirm/order-confirm",
     "pages/buycar/buycar",
     "pages/productSort/productSort",

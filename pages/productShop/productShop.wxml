@@ -18,7 +18,7 @@
         </view>
         <view class="shop_pay" style="display:flex;flex-direction:row;justify-content:space-between;padding-bottom:20rpx;">
             <view class="pay_text" style="font-size:24rpx;color:#555;width:300rpx;margin-right:50rpx;background:#fff;text-align:center;">
-                <input type="digit" placeholder="付款金额" value="{{price===0?'':price}}" bindinput="bindKeyInput"  style="display:inline-block"></input>
+                <input type="digit" placeholder="付款金额" value="{{payPrice===0?'':payPrice}}" bindinput="bindKeyInput"  style="display:inline-block"></input>
             </view>
             <button type="primary" style="width:200rpx;" bindtap="payToShop" size="mini">给商户付款</button>
         </view>

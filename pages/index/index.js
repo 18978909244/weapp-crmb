@@ -3,6 +3,7 @@
 var app = getApp();
 var wxh = require('../../utils/wxh.js');
 const Index = require('../../api/index')
+const Shop = require('../../api/productShop')
 Page({
   /**
    * 页面的初始数据
@@ -54,6 +55,20 @@ Page({
     }
     app.setUserInfo();
     that.getIndexInfo();
+    that.getShopList()
+  },
+  getShopList:function(){
+    Shop.getShopList()
+      .then(res=>{
+        this.setData({
+          shopList:res.data.data
+        })
+      })
+  },
+  goToShopList:function(){
+    wx.navigateTo({
+      url:'/pages/shopList/shopList'
+    })
   },
   getIndexInfo: function () {
     Index.getIndexInfo()

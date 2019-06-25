@@ -48,6 +48,33 @@
     </view>
   </block>
 </view>
+<view class='new-product'>
+  <view class='title-bar' bindtap="goToShopList">
+    <view class='iconfont icon-jingpintuijian'></view>
+    <text>推荐商家</text>
+    <!-- <navigator hover-class="none" class='flex'>
+      <text>更多推荐</text>
+      <text class='iconfont icon-xiala'></text>
+    </navigator> -->
+  </view>
+  <view class='scroll-product'>
+    <scroll-view class="scroll-view_x" scroll-x style="width: auto;overflow:hidden;">
+      <block wx:for="{{shopList}}" wx:key="{{index}}">
+        <view class='item' wx:if="{{item.id>1}}">
+          <navigator hover-class="none" url="/pages/productShop/productShop?merId={{item.id}}">
+            <view class='img-box'>
+              <image src='{{item.mer_logo}}' mode="aspectFit"></image>
+            </view>
+            <view class='pro-info'>
+              <view class='pro-title'>{{item.mer_name}}</view>
+              <view class='price-small'>{{item.mer_intro||item.mer_name}}</view>
+            </view>
+          </navigator>
+        </view>
+      </block>
+    </scroll-view>
+  </view>
+</view>
 <!-- 精品推荐 -->
 <view class='new-product'>
   <view class='title-bar' bindtap='torday'>

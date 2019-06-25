@@ -9,5 +9,8 @@ module.exports = {
   },
   getShopInfo:(data)=>{
     return post('/routine/auth_api/get_merchant_info',data)
+  },
+  getShopList:()=>{
+    return post('/routine/auth_api/get_merchant_list')
   }
 }

@@ -1,0 +1,41 @@
+<view class='today-new'>
+  <view class='title-bar' bindtap='torday'>
+    <view class='iconfont icon-shangxinfuwu'></view>
+    <text>商户列表</text>
+    <!-- <navigator hover-class="none" bindtap='torday' class='flex'>
+      <text>更多新品</text>
+      <text class='iconfont icon-xiala'></text>
+    </navigator> -->
+  </view>
+  <view class='new-pro-wrapper'>
+    <block wx:for="{{shopList}}" wx:key="{{index}}">
+      <view class='item'>
+        <navigator class='flex' hover-class="none" url="/pages/productShop/productShop?merId={{item.id}}">
+          <view class='text-box flex'>
+            <view class='title'>{{item.mer_name}}</view>
+            <view class='price'>
+              <!-- <text>￥</text> -->
+              {{item.mer_intro||item.mer_name}}
+            </view>
+          </view>
+          <view class='img-box'>
+            <image src='{{item.mer_logo}}'></image>
+          </view>
+
+
+        <!-- <view class='item' wx:if="{{item.id>1}}">
+          <navigator hover-class="none" url="/pages/productShop/productShop?merId={{item.id}}">
+            <view class='img-box'>
+              <image src='{{item.mer_logo}}' mode="aspectFit"></image>
+            </view>
+            <view class='pro-info'>
+              <view class='pro-title'>{{item.mer_name}}</view>
+              <view class='price-small'>{{item.mer_intro||item.mer_name}}</view>
+            </view>
+          </navigator>
+        </view> -->
+        </navigator>
+      </view>
+    </block>
+  </view>
+</view>

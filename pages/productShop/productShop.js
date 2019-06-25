@@ -4,10 +4,11 @@ var wxh = require('../../utils/wxh.js');
 const API = require('../../api/productShop')
 Page({
     data: {
-        price: 0,
+        payPrice: 0,
         merId: 0,
         attrName: '',
-        num: 1,
+        _num: 1,
+        num:2,
         url: app.globalData.urlImages,
         hiddendown: true,
         currentTab: "-1",
@@ -42,7 +43,7 @@ Page({
         shopInfo: null
     },
     payToShop() {
-        if (this.data.price === 0) {
+        if (this.data.payPrice === 0) {
             wx.showToast({
                 icon: 'fail',
                 title: '请先输入金额',
@@ -51,10 +52,10 @@ Page({
             return;
         }
         let that = this
-        console.log('pay',parseFloat(this.data.price))
+        console.log('pay',parseFloat(this.data.payPrice))
         API.payToShop({
             merId: this.data.merId,
-            price: parseFloat(this.data.price)
+            price: parseFloat(this.data.payPrice)
         }).then(res => {
             if (res.data.code == 200) {
                 let jsConfig = res.data.data
@@ -66,7 +67,7 @@ Page({
                     paySign: jsConfig.paySign,
                     success: res => {
                         that.setData({
-                            price:0
+                            payPrice:0
                         })
                     }
                 })
@@ -81,7 +82,7 @@ Page({
     },
     bindKeyInput: function (e) {
         this.setData({
-            price: e.detail.value
+            payPrice: e.detail.value
         })
     },
     setNumber: function (e) {
