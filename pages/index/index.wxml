@@ -48,10 +48,10 @@
     </view>
   </block>
 </view>
-<view class='new-product'>
+<view class='new-product' wx:hidden="{{hide_shop_entry}}">
   <view class='title-bar' bindtap="goToShopList">
     <view class='iconfont icon-jingpintuijian'></view>
-    <text>推荐商家</text>
+  <text>{{hide_shop_entry?'推荐商品':'推荐商家'}}</text>
     <!-- <navigator hover-class="none" class='flex'>
       <text>更多推荐</text>
       <text class='iconfont icon-xiala'></text>
@@ -122,8 +122,7 @@
           <view class='text-box flex'>
             <view class='title'>{{item.store_name}}</view>
             <view class='price'>
-              <text>￥</text>
-              {{item.price}} {{item.unit_name?'/ '+ item.unit_name:''}}
+              <text>￥</text> {{item.price}} {{item.unit_name?'/ '+ item.unit_name:''}}
             </view>
           </view>
           <view class='img-box'>

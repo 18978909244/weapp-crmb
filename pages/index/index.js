@@ -24,7 +24,8 @@ Page({
     likeList: [],
     offset: 0,
     title: "玩命加载中...",
-    hidden: false
+    hidden: false,
+    hide_shop_entry:true
   },
   goUrl: function (e) {
     if (e.currentTarget.dataset.url != '#') {
@@ -79,7 +80,8 @@ Page({
           newList: res.data.data.new,
           lovely: res.data.data.lovely,
           menus: res.data.data.menus,
-          likeList: res.data.data.hot
+          likeList: res.data.data.hot,
+          hide_shop_entry: Boolean(Number(res.data.data.hide_shop_entry))||true
         })
         console.log(res.data.data)
         wx.setStorageSync('about_us', res.data.data.config_basics.about_us)
