@@ -137,8 +137,9 @@
 <block wx:for="{{lovely}}" wx:if="{{index < 1}}" wx:key="{{index}}">
   <view class='hot-banner'>
     <image src='{{url}}{{item.img}}'></image>
-  </view>
+  </view>wxw
 </block>
+<!-- <view style="text-align:center;margin-top:20rpx;margin-bottom:20rpx;color:#888">version 0.1.8</view> -->
 <!-- 猜你喜欢 -->
 <!-- <view class='product-like'>
   <view class='title-bar'>

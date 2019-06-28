@@ -2,6 +2,7 @@
 const moment = require('../../utils/moment')
 var app = getApp();
 const API = require('../../api/order-confirm')
+const Address = require('../../api/address')
 
 let hour = moment().hour()
 let min = moment().minutes()
@@ -29,6 +30,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    addressEmpty: false,
     cartArr: [
       { "name": "微信", "icon": "icon-weixinzhifu", value: 'weixin' },
       { "name": "余额支付", "icon": "icon-yuezhifu", value: 'yue' },
@@ -60,7 +62,7 @@ Page({
     userExpectTime: 0,
     multiIndex: [0, 0, 0],
     multiArray: [],
-    onlyDateShip:false
+    onlyDateShip: false
   },
   /**
    * 生命周期函数--监听页面加载
@@ -95,8 +97,31 @@ Page({
     } else {
       this.getConfirm(options.id);
     }
-    that.getaddressInfo();
-    that.getCouponRope();
+    // that.getaddressInfo();
+    // that.getCouponRope();
+    // that.initAddress()
+  },
+  initAddress() {
+    let that = this
+    Address.getAddressList()
+      .then(res => {
+
+        if (res.data.data.length === 0) {
+          that.setData({
+            addressEmpty: true
+          })
+        } else {
+          let defaultAddress = res.data.data.find(i => i.is_default === 1)
+          console.log(defaultAddress)
+          if (defaultAddress) {
+            that.setData({
+              addressId: defaultAddress.id,
+              addressInfo: defaultAddress
+            })
+            that.getaddressInfo();
+          }
+        }
+      })
   },
   bindHideKeyboard: function (e) {
     this.setData({
@@ -298,6 +323,7 @@ Page({
     }
   },
   getaddressInfo: function () {
+
     var that = this;
     if (that.data.addressId) {
       wx.request({
@@ -331,6 +357,12 @@ Page({
   },
   getAddress: function () {
     var that = this;
+    if (this.data.addressEmpty) {
+      wx.navigateTo({
+        url: '/pages/addaddress/addaddress?cartId=' + that.data.cartId + '&pinkId=' + that.data.pinkId + '&couponId=' + that.data.couponId
+      })
+      return;
+    }
     var header = {
       'content-type': 'application/x-www-form-urlencoded'
     };
@@ -509,6 +541,9 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+    this.getaddressInfo();
+    this.getCouponRope();
+    this.initAddress()
     let shipType = Number(wx.getStorageSync('shipType'))
     if (hour > 23) {
       wx.showModal({
@@ -517,7 +552,7 @@ Page({
       })
       shipType = 1
       this.setData({
-        onlyDateShip:true
+        onlyDateShip: true
       })
     }
     this.setData({

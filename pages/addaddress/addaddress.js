@@ -1,3 +1,4 @@
+const Address = require('../../api/address')
 var app = getApp();
 Page({
   data: {
@@ -23,6 +24,16 @@ Page({
         id: options.id
       })
       this.getUserAddress();
+    }else{
+      let that =this
+      Address.getAddressList()
+        .then(res=>{
+          if(res.data.data.length===0){
+            that.setData({
+              _num:0
+            })
+          }
+        })
     }
   },
   getUserAddress: function () {//get_user_address
@@ -136,11 +147,11 @@ Page({
                   pinkId: '',
                   couponId:'',
                 })
-                wx.navigateTo({ //跳转至指定页面并关闭其他打开的所有页面（这个最好用在返回至首页的的时候）
+                wx.redirectTo({ //跳转至指定页面并关闭其他打开的所有页面（这个最好用在返回至首页的的时候）
                   url: '/pages/order-confirm/order-confirm?id=' + cartId + '&addressId=' + that.data.id + '&pinkId=' + pinkId + '&couponId=' + couponId
                 })
               } else {
-                wx.navigateTo({ //跳转至指定页面并关闭其他打开的所有页面（这个最好用在返回至首页的的时候）
+                wx.redirectTo({ //跳转至指定页面并关闭其他打开的所有页面（这个最好用在返回至首页的的时候）
                   url: '/pages/address/address'
                 })
               }

@@ -102,8 +102,6 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    
-    options.id = options.id || 5
     // return ;
     app.globalData.openPages = '/pages/product-con/index?id=' + options.id;
     var that = this;

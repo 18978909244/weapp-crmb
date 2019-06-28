@@ -1,6 +1,7 @@
 var app = getApp();
 var wxh = require('../../utils/wxh.js');
 const API = require('../../api/user')
+const Index = require('../../api/index')
 let interval= null
 // pages/user/user.js
 Page({
@@ -16,13 +17,14 @@ Page({
     collect: '',
     deliver: false,
     deliverList: [],
-    shopImg:wx.getStorageSync('about_us')
+    shopImg:'',
+    service_mobile:''
   },
 
   goTel: function (e) {
-    if (wx.getStorageSync('service_mobile')) {
+    if (this.data.service_mobile) {
       wx.makePhoneCall({
-        phoneNumber: wx.getStorageSync('service_mobile')
+        phoneNumber: this.data.service_mobile
       })
     } else {
       wx.makePhoneCall({
@@ -70,6 +72,13 @@ Page({
   onShow: function (options) {
     app.setUserInfo();
     this.initData()
+    Index.getIndexInfo()
+      .then(res => {
+        this.setData({
+          shopImg: res.data.data.config_basics.about_us,
+          service_mobile: res.data.data.config_basics.site_phone
+        })
+      })
     interval = setInterval(this.initData,10000)
   },
   onHide:function(){

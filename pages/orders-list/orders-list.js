@@ -14,31 +14,33 @@ Page({
     title: "玩命加载中...",
     hidden: false
   },
-  setTouchMove: function (e) {
+  setTouchMove: function(e) {
     var that = this;
     wxh.home(that, e);
   },
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
+  onLoad: function(options) {
     app.setUserInfo();
     if (parseInt(options.nowstatus)) {
       this.setData({
         nowstatus: (parseInt(options.nowstatus) - 1).toString()
       })
-      this.getorderlist(parseInt(options.nowstatus) - 1);
-    } else {
-      this.getorderlist("");
     }
+    // this.getorderlist(parseInt(options.nowstatus) - 1);
+    // } else {
+    //   this.getorderlist("");
+    // }
   },
-  onShow: function () {
-    this.setData({
-      nowstatus: ""
-    })
-    this.getorderlist("");
+  onShow: function() {
+    this.getorderlist(this.data.nowstatus);
+    // this.setData({
+    //   nowstatus: ""
+    // })
+    // this.getorderlist("");
   },
-  getorderlist: function (e) {
+  getorderlist: function(e) {
     console.log('this.getorderlist')
     var header = {
       'content-type': 'application/x-www-form-urlencoded',
@@ -48,18 +50,22 @@ Page({
     var limit = 100;
     var first = that.data.first;
     var startpage = limit * first;
-    API.getUserOrderList({ type: e, search: search, first: startpage, limit: limit })
+    API.getUserOrderList({
+        type: e,
+        search: search,
+        first: startpage,
+        limit: limit
+      })
       .then(res => {
         var $data = res.data.data;
         var len = $data.length;
-        for (var i = 0; i < len; i++) {
-          that.data.orderlist.push($data[i]);
-        }
+        // for (var i = 0; i < len; i++) {
+        //   that.data.orderlist.push($data[i]);
+        // }
         that.setData({
-          first: first + 1,
-          orderlist: that.data.orderlist
+          orderlist: $data
         });
-        console.log(that.data.orderlist)
+        // console.log(that.data.orderlist)
         if (len < limit) {
           that.setData({
             title: "数据已经加载完成",
@@ -69,7 +75,7 @@ Page({
         }
       })
   },
-  statusClick: function (e) {
+  statusClick: function(e) {
     var nowstatus = e.currentTarget.dataset.show;
     this.setData({
       nowstatus: nowstatus,
@@ -80,7 +86,7 @@ Page({
     });
     this.getorderlist(nowstatus);
   },
-  searchSubmit: function () {
+  searchSubmit: function() {
     this.setData({
       orderlist: [],
       first: 0,
@@ -90,12 +96,12 @@ Page({
     var e = this.data.nowstatus;
     this.getorderlist(e);
   },
-  searchInput: function (e) {
+  searchInput: function(e) {
     this.setData({
       search: e.detail.value
     });
   },
-  delOrder: function (e) {
+  delOrder: function(e) {
     var header = {
       'content-type': 'application/x-www-form-urlencoded',
     };
@@ -104,14 +110,16 @@ Page({
     wx.showModal({
       title: '确认删除订单？',
       content: '订单删除后将无法查看',
-      success: function (res) {
+      success: function(res) {
         if (res.confirm) {
           wx.request({
             url: app.globalData.url + '/routine/auth_api/user_remove_order?uid=' + app.globalData.uid,
-            data: { uni: uni },
+            data: {
+              uni: uni
+            },
             method: 'get',
             header: header,
-            success: function (res) {
+            success: function(res) {
               wx.hideLoading();
               if (res.data.code == 200) {
                 wx.showToast({
@@ -135,10 +143,10 @@ Page({
               }
 
             },
-            fail: function (res) {
+            fail: function(res) {
               console.log('submit fail');
             },
-            complete: function (res) {
+            complete: function(res) {
               console.log('submit complete');
             }
           });
@@ -148,8 +156,8 @@ Page({
       }
     })
   },
-  onReachBottom: function () {
-    var e = this.data.nowstatus;
-    this.getorderlist(e);
-  }
+  // onReachBottom: function() {
+  //   var e = this.data.nowstatus;
+  //   this.getorderlist(e);
+  // }
 })

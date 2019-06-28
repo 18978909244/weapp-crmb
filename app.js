@@ -13,6 +13,7 @@ App({
     console.log(userInfo)
     if(userInfo){
       console.log(userInfo.uid)
+      // this.globalData.uid = 15
       this.globalData.uid = userInfo.uid
     }
   },

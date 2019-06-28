@@ -1,6 +1,6 @@
 <view class="commcon">
    <view class='commcon-header flex' style="height:140rpx;">
-      <view class='commcon-ping'>我们很珍惜你的反馈、建议以及投诉，请留言给我们，我们讲尽快和你联系和回复。</view>
+      <view class='commcon-ping'>我们很珍惜你的反馈、建议以及投诉，请留言给我们，我们将尽快和你联系和回复。</view>
    </view>
    <form bindsubmit="formSubmit">
       <view class='commcon-ping'>

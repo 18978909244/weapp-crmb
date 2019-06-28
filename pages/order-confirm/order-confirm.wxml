@@ -67,7 +67,7 @@
 <view class='payment-select'>
   <view class='common-title' style="display:flex;justify-content:space-between">
     配送时间
-    <text wx:if="{{shipType==0}}">*预约配送省更多</text>
+    <text wx:if="{{shipType==0}}" style="font-size:32rpx;font-weight:bold">*预约配送省更多</text>
   </view>
   <view class='warapper'>
     <view class='item '>
@@ -82,7 +82,7 @@
       </radio-group>
     </view>
   </view>
-  <view class="common-title">
+  <view class="common-title" style="font-size:32rpx;">
     <picker mode="multiSelector" bindchange="bindMultiPickerChange" bindcolumnchange="bindMultiPickerColumnChange" value="{{multiIndex}}" range="{{multiArray}}" bindtap="createMulti">
       <view class="picker" wx:if="{{userExpectTime>0}}" style="display:flex;justify-content:space-between">
         当前选择：
@@ -90,7 +90,7 @@
           {{multiArray[0][multiIndex[0]]}} {{multiArray[1][multiIndex[1]]}} {{multiArray[2][multiIndex[2]]}}
         </view>
       </view>
-      <view class="picker" wx:else>请选择配送时间</view>
+      <view class="picker" wx:else style="display:flex;flex-direction:row;justify-content:space-between"><view>请选择配送时间 <text style="color:red">*</text></view><view style="color:#ccc">></view></view>
     </picker>
   </view>
 </view>
@@ -128,7 +128,7 @@
 <view class='foot flex'>
   <view class='text'>
     合计:
-    <text class='price'>
+    <text class='price' style="font-size:32rpx;font-weight:bold">
       ￥{{shipType==0?priceGroup.immediatelyDeliverTotalPrice:priceGroup.totalPrice}}{{couponPrice}}
     </text>
   </view>
