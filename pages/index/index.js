@@ -4,6 +4,7 @@ var app = getApp();
 var wxh = require('../../utils/wxh.js');
 const Index = require('../../api/index')
 const Shop = require('../../api/productShop')
+const moment = require('../../utils/moment')
 Page({
   /**
    * 页面的初始数据
@@ -25,7 +26,8 @@ Page({
     offset: 0,
     title: "玩命加载中...",
     hidden: false,
-    hide_shop_entry:true
+    hide_shop_entry:true,
+    
   },
   goUrl: function (e) {
     if (e.currentTarget.dataset.url != '#') {
@@ -72,6 +74,7 @@ Page({
     })
   },
   getIndexInfo: function () {
+    let w = (moment().hour()>7 && moment().hour()<19)?'d':'n'
     Index.getIndexInfo()
       .then(res => {
         this.setData({
@@ -81,7 +84,14 @@ Page({
           lovely: res.data.data.lovely,
           menus: res.data.data.menus,
           likeList: res.data.data.hot,
-          hide_shop_entry: Boolean(Number(res.data.data.hide_shop_entry))||true
+          hide_shop_entry: Boolean(Number(res.data.data.hide_shop_entry))||true,
+          weather:res.data.data.weather.daily_forecast.map(item=>{
+            return {
+              ...item,
+              cond_code:item['cond_code_'+w],
+              cond_txt:item['cond_txt_'+w],
+            }
+          })
         })
         console.log(res.data.data)
         wx.setStorageSync('about_us', res.data.data.config_basics.about_us)

@@ -118,3 +118,30 @@
 .button-item .nav-title{
   font-weight: bold;
 }
+
+.weather{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.weather .city{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-size:36rpx;
+  margin-right:5rpx;
+  color: #454545;
+}
+
+.weather .text{
+  display: flex;
+  flex-direction: column;
+  
+}
+
+.weather-icon{
+  width:80rpx;
+  height:80rpx;
+}

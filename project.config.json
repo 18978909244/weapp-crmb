@@ -3,6 +3,7 @@
 	"setting": {
 		"urlCheck": false,
 		"es6": true,
+		"enhance": false,
 		"postcss": true,
 		"minified": true,
 		"newFeature": true,
@@ -18,7 +19,7 @@
 		}
 	},
 	"compileType": "miniprogram",
-	"libVersion": "1.7.3",
+	"libVersion": "1.6.3",
 	"appid": "wxf3354325b919fd59",
 	"projectname": "%E6%97%A5%E6%97%A5%E9%B2%9C",
 	"simulatorType": "wechat",

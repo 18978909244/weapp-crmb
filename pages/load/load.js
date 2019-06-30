@@ -24,7 +24,7 @@ Page({
     })
   },
   //获取用户信息并且授权
-  getUserInfo: function(e){
+  getUserInfo: function (e) {
     var userInfo = e.detail.userInfo;
     userInfo.spid = app.globalData.spid;
     wx.login({
@@ -42,19 +42,23 @@ Page({
               wx.setStorageSync('userInfo', res.data.data)
               app.globalData.uid = res.data.data.uid;
               app.globalData.openid = res.data.data.routine_openid;
+              wx.reLaunch({
+                url: '/pages/index/index'
+              })
+              return;
               if (app.globalData.openPages != '' && app.globalData.openPages != undefined) {//跳转到指定页面
                 wx.navigateTo({
                   url: app.globalData.openPages
                 })
               } else {//跳转到首页
-                if(res.data.data.page){
-                    wx.navigateTo({
-                        url: res.data.data.page
-                    })
-                }else{
-                    wx.reLaunch({
-                        url: '/pages/index/index'
-                    })
+                if (res.data.data.page) {
+                  wx.navigateTo({
+                    url: res.data.data.page
+                  })
+                } else {
+                  wx.reLaunch({
+                    url: '/pages/index/index'
+                  })
                 }
               }
             }

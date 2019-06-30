@@ -1,3 +1,15 @@
+<view class="header weather" wx:if="{{weather.length>0}}" style="background:#9bd040">
+  <view class="city">
+    <text>抚州</text>
+    <image src="{{'https://cdn.heweather.com/cond_icon/'+weather[0].cond_code_d+'.png'}}" class="weather-icon"></image>
+  </view>
+  <view class="text">
+      今：{{weather[0].cond_txt_d}} {{weather[0].tmp_min}}-{{weather[0].tmp_max}}℃
+    <br/>
+      明：{{weather[1].cond_txt_d}} {{weather[1].tmp_min}}-{{weather[1].tmp_max}}℃
+
+  </view>
+</view>
 <view class='header flex' style="background:#9bd040">
   <form bindsubmit="searchSubmit" report-submit='true'>
     <view class='header-input flex' style="width:710rpx;" bindtap='goToSort'>
@@ -51,7 +63,7 @@
 <view class='new-product' wx:hidden="{{hide_shop_entry}}">
   <view class='title-bar' bindtap="goToShopList">
     <view class='iconfont icon-jingpintuijian'></view>
-  <text>{{hide_shop_entry?'推荐商品':'推荐商家'}}</text>
+    <text>{{hide_shop_entry?'推荐商品':'推荐商家'}}</text>
     <!-- <navigator hover-class="none" class='flex'>
       <text>更多推荐</text>
       <text class='iconfont icon-xiala'></text>
@@ -122,7 +134,8 @@
           <view class='text-box flex'>
             <view class='title'>{{item.store_name}}</view>
             <view class='price'>
-              <text>￥</text> {{item.price}} {{item.unit_name?'/ '+ item.unit_name:''}}
+              <text>￥</text>
+              {{item.price}} {{item.unit_name?'/ '+ item.unit_name:''}}
             </view>
           </view>
           <view class='img-box'>
@@ -136,7 +149,8 @@
 <block wx:for="{{lovely}}" wx:if="{{index < 1}}" wx:key="{{index}}">
   <view class='hot-banner'>
     <image src='{{url}}{{item.img}}'></image>
-  </view>wxw
+  </view>
+  wxw
 </block>
 <!-- <view style="text-align:center;margin-top:20rpx;margin-bottom:20rpx;color:#888">version 0.1.8</view> -->
 <!-- 猜你喜欢 -->
