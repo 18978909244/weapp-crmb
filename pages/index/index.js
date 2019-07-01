@@ -26,17 +26,22 @@ Page({
     offset: 0,
     title: "玩命加载中...",
     hidden: false,
-    hide_shop_entry:true,
-    
+    hide_shop_entry: true,
+    w: 'd',
+    indicatorDots: false,
+    autoplay: true,
+    interval: 3000,
+    duration: 500,
+    itemNew: []
   },
-  goUrl: function (e) {
+  goUrl: function(e) {
     if (e.currentTarget.dataset.url != '#') {
       wx.navigateTo({
         url: e.currentTarget.dataset.url,
       })
     }
   },
-  torday: function (e) {
+  torday: function(e) {
     wx.switchTab({
       url: '/pages/productSort/productSort'
     });
@@ -51,7 +56,7 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
+  onLoad: function(options) {
     var that = this;
     if (options.spid) {
       app.globalData.spid = options.spid
@@ -60,21 +65,21 @@ Page({
     that.getIndexInfo();
     that.getShopList()
   },
-  getShopList:function(){
+  getShopList: function() {
     Shop.getShopList()
-      .then(res=>{
+      .then(res => {
         this.setData({
-          shopList:res.data.data
+          shopList: res.data.data
         })
       })
   },
-  goToShopList:function(){
+  goToShopList: function() {
     wx.navigateTo({
-      url:'/pages/shopList/shopList'
+      url: '/pages/shopList/shopList'
     })
   },
-  getIndexInfo: function () {
-    let w = (moment().hour()>7 && moment().hour()<19)?'d':'n'
+  getIndexInfo: function() {
+    let w = (moment().hour() > 7 && moment().hour() < 19) ? 'd' : 'n'
     Index.getIndexInfo()
       .then(res => {
         this.setData({
@@ -84,17 +89,20 @@ Page({
           lovely: res.data.data.lovely,
           menus: res.data.data.menus,
           likeList: res.data.data.hot,
-          hide_shop_entry: Boolean(Number(res.data.data.hide_shop_entry))||true,
-          weather:res.data.data.weather.daily_forecast.map(item=>{
+          hide_shop_entry: Boolean(Number(res.data.data.hide_shop_entry)) || true,
+          weather: res.data.data.weather,
+          itemNew: res.data.data.config_basics.rolling_text.split('\n').map(item=>{
             return {
-              ...item,
-              cond_code:item['cond_code_'+w],
-              cond_txt:item['cond_txt_'+w],
+              info:item
             }
-          })
+          }),
+          w,
+          text_shop:res.data.data.config_basics.text_shop,
+          text_recommand:res.data.data.config_basics.text_recommand,
+          text_new:res.data.data.config_basics.text_new
         })
-        console.log(res.data.data)
         wx.setStorageSync('about_us', res.data.data.config_basics.about_us)
+        wx.setStorageSync('min_product_paid', res.data.data.config_basics.min_product_paid)
         wx.setStorageSync('service_mobile', res.data.data.config_basics.site_phone)
         wx.setStorageSync('hide_shop_entry', Boolean(Number(res.data.data.hide_shop_entry)))
       })
@@ -124,7 +132,7 @@ Page({
       url: '../productSort/productSort',
     })
   },
-  onReachBottom: function (p) {
+  onReachBottom: function(p) {
     return;
     var that = this;
     var limit = 20;
@@ -157,47 +165,47 @@ Page({
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function () {
+  onReady: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
+  onShow: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function () {
+  onHide: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function () {
+  onUnload: function() {
 
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function () {
+  onPullDownRefresh: function() {
 
   },
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
+  onShareAppMessage: function() {
     var that = this;
     return {
       title: '小程序',
       path: '/pages/index/index?spid=' + app.globalData.uid,
       // imageUrl: that.data.url + that.data.product.image,
-      success: function () {
+      success: function() {
         wx.showToast({
           title: '分享成功',
           icon: 'success',

@@ -512,9 +512,10 @@ Page({
       return;
     }
     let total = Number(this.data.countmoney) + Number(this.data.deliver_fee)
-    if (total < app.globalData.priceStart) {
+    let min_product_paid = Number(wx.getStorageSync('min_product_paid'))||10
+    if (total < min_product_paid) {
       wx.showToast({
-        title: '下单金额' + app.globalData.priceStart + '元起送',
+        title: '下单金额' + min_product_paid + '元起送',
         icon: 'none',
         duration: 2000
       })

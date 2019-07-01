@@ -1,13 +1,15 @@
-<view class="header weather" wx:if="{{weather.length>0}}" style="background:#9bd040">
+<view class="header weather" style="background:#9bd040">
   <view class="city">
-    <text>抚州</text>
-    <image src="{{'https://cdn.heweather.com/cond_icon/'+weather[0].cond_code_d+'.png'}}" class="weather-icon"></image>
+    <view>
+      <text>抚州</text>
+      <image src="{{'https://s5.sencdn.com/web/icons/black/'+weather.now.code+'@1x.png'}}" class="weather-icon"></image>
+      <view>实时 {{weather.now.temperature}} °C {{weather.now.text}}</view>
+    </view>
   </view>
   <view class="text">
-      今：{{weather[0].cond_txt_d}} {{weather[0].tmp_min}}-{{weather[0].tmp_max}}℃
+    今：{{weather.daily[0].low}}-{{weather.daily[0].high}} °C
     <br/>
-      明：{{weather[1].cond_txt_d}} {{weather[1].tmp_min}}-{{weather[1].tmp_max}}℃
-
+    明：{{weather.daily[1].low}}-{{weather.daily[1].high}} °C
   </view>
 </view>
 <view class='header flex' style="background:#9bd040">
@@ -30,6 +32,32 @@
     </block>
   </swiper>
 </view>
+
+    <view class='news acea-row row-between-wrapper'>
+       <view class='pictrue'><image src='/images/news.png'></image></view>
+       <view class='swiperTxt'>
+            <swiper indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="2500" duration="{{duration}}" vertical="true" circular="true">
+                <block wx:for="{{itemNew}}" wx:key>
+                    <swiper-item catchtouchmove='catchTouchMove'>
+                        <navigator wx:if="{{item.show == '1'}}" url='{{item.url}}'  open-type='switchTab' class='acea-row row-between-wrapper' hover-class='none'>
+                            <view class='text acea-row row-between-wrapper'>
+                                <view class='label border2' wx:if="{{item.id%2 == 0}}">最新</view>
+                                <view class='newsTitle line1'>{{item.info}}</view>
+                            </view>
+                            <view class='iconfont icon-xiangyou'></view>
+                        </navigator>
+                        <navigator wx:else open-type='navigate' url='{{item.url}}'  class='acea-row row-between-wrapper' hover-class='none'>
+                            <view class='text acea-row row-between-wrapper'>
+                                <view class='label border2' wx:if="{{item.id%2 == 0}}">最新</view>
+                                <view class='newsTitle line1'>{{item.info}}</view>
+                            </view>
+                            <view class='iconfont icon-xiangyou'></view>
+                        </navigator>
+                    </swiper-item>
+                  </block>
+              </swiper> 
+       </view>
+    </view>
 <!-- 下单 -->
 <view class="button flex">
   <view class='button-item' bindtap="goToProductSort" data-ship="1">
@@ -60,38 +88,12 @@
     </view>
   </block>
 </view>
-<view class='new-product' wx:hidden="{{hide_shop_entry}}">
-  <view class='title-bar' bindtap="goToShopList">
-    <view class='iconfont icon-jingpintuijian'></view>
-    <text>{{hide_shop_entry?'推荐商品':'推荐商家'}}</text>
-    <!-- <navigator hover-class="none" class='flex'>
-      <text>更多推荐</text>
-      <text class='iconfont icon-xiala'></text>
-    </navigator> -->
-  </view>
-  <view class='scroll-product'>
-    <scroll-view class="scroll-view_x" scroll-x style="width: auto;overflow:hidden;">
-      <block wx:for="{{shopList}}" wx:key="{{index}}">
-        <view class='item' wx:if="{{item.id>1}}">
-          <navigator hover-class="none" url="/pages/productShop/productShop?merId={{item.id}}">
-            <view class='img-box'>
-              <image src='{{item.mer_logo}}' mode="aspectFit"></image>
-            </view>
-            <view class='pro-info'>
-              <view class='pro-title'>{{item.mer_name}}</view>
-              <view class='price-small'>{{item.mer_intro||item.mer_name}}</view>
-            </view>
-          </navigator>
-        </view>
-      </block>
-    </scroll-view>
-  </view>
-</view>
+
 <!-- 精品推荐 -->
 <view class='new-product'>
   <view class='title-bar' bindtap='torday'>
     <view class='iconfont icon-jingpintuijian'></view>
-    <text>精品推荐</text>
+    <text>{{text_recommand?text_recommand:'精品推荐'}}</text>
     <!-- <navigator hover-class="none" class='flex'>
       <text>更多推荐</text>
       <text class='iconfont icon-xiala'></text>
@@ -117,11 +119,40 @@
     </scroll-view>
   </view>
 </view>
+
+<view class='new-product' wx:if="{{!hide_shop_entry}}">
+  <view class='title-bar' bindtap="goToShopList">
+    <view class='iconfont icon-jingpintuijian'></view>
+    <text>{{text_shop?text_shop:'推荐商家'}}</text>
+    <!-- <navigator hover-class="none" class='flex'>
+      <text>更多推荐</text>
+      <text class='iconfont icon-xiala'></text>
+    </navigator> -->
+  </view>
+  <view class='scroll-product'>
+    <scroll-view class="scroll-view_x" scroll-x style="width: auto;overflow:hidden;">
+      <block wx:for="{{shopList}}" wx:key="{{index}}">
+        <view class='item' wx:if="{{item.id>1}}">
+          <navigator hover-class="none" url="/pages/productShop/productShop?merId={{item.id}}">
+            <view class='img-box'>
+              <image src='{{item.mer_logo}}' mode="aspectFit"></image>
+            </view>
+            <view class='pro-info'>
+              <view class='pro-title'>{{item.mer_name}}</view>
+              <view class='price-small'>{{item.mer_intro||item.mer_name}}</view>
+            </view>
+          </navigator>
+        </view>
+      </block>
+    </scroll-view>
+  </view>
+</view>
+
 <!-- 今日上新 -->
 <view class='today-new'>
   <view class='title-bar' bindtap='torday'>
     <view class='iconfont icon-shangxinfuwu'></view>
-    <text>今日上新</text>
+    <text>{{text_new?text_new:'今日上新'}}</text>
     <!-- <navigator hover-class="none" bindtap='torday' class='flex'>
       <text>更多新品</text>
       <text class='iconfont icon-xiala'></text>
@@ -134,8 +165,7 @@
           <view class='text-box flex'>
             <view class='title'>{{item.store_name}}</view>
             <view class='price'>
-              <text>￥</text>
-              {{item.price}} {{item.unit_name?'/ '+ item.unit_name:''}}
+              <text>￥</text> {{item.price}} {{item.unit_name?'/ '+ item.unit_name:''}}
             </view>
           </view>
           <view class='img-box'>
