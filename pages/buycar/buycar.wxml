@@ -5,7 +5,7 @@
     <!-- <view class='btn' bindtap='btntap' wx:if='{{foothidden}}'>取消</view> -->
   </view>
   <view class='car-list' wx:for="{{shopList}}" wx:key="{{shop.id}}" wx:for-item="shop" style="{{index===0?'margin-top:80rpx;':''}}">
-    <view class='shop-item'>{{shop.mer_name}}</view>
+    <view class='shop-item' wx:if="{{hide_shop_entry}}">{{shop.mer_name}}</view>
     <view wx:for="{{cartList}}" wx:key="{{item.shopInfo.id}}" class='list-item flex' wx:if="{{item.shopInfo.id===shop.id}}">
       <view class='select-btn flex' data-index='{{index}}' bindtap='switchSelect'>
         <label class="checkbox">
@@ -48,7 +48,7 @@
         </text>
       </view>
     </view>
-    <view class='shop-item' style="padding-bottom:20rpx;padding-right:20rpx;display:flex;justify-content:space-between">
+    <view class='shop-item' style="padding-bottom:20rpx;padding-right:20rpx;display:flex;justify-content:space-between" wx:if="{{hide_shop_entry}}">
       <label class="checkbox" bindtap="allChecked" data-shop="{{shop.id}}">
         全选
         <checkbox value="Boolean" checked="{{shop.isAllSelect}}" disabled="{{chooseShopId!==-1 && chooseShopId!==shop.id}}" />

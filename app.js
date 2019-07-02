@@ -23,7 +23,7 @@ App({
     openPages:'',
     spid:0,
     urlImages: '',
-    url: 'https://fresh.kuashou.com',
+    url: 'https://www.shuangfuying.com',
     priceStart:0.02,
     sid:'',
     cid:''

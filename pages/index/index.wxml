@@ -2,7 +2,7 @@
   <view class="city">
     <view>
       <text>抚州</text>
-      <image src="{{'https://s5.sencdn.com/web/icons/black/'+weather.now.code+'@1x.png'}}" class="weather-icon"></image>
+      <image src="{{weather.now.code?'https://s5.sencdn.com/web/icons/black/'+weather.now.code+'@1x.png':null}}" class="weather-icon"></image>
       <view>实时 {{weather.now.temperature}} °C {{weather.now.text}}</view>
     </view>
   </view>
@@ -123,7 +123,7 @@
 <view class='new-product' wx:if="{{!hide_shop_entry}}">
   <view class='title-bar' bindtap="goToShopList">
     <view class='iconfont icon-jingpintuijian'></view>
-    <text>{{text_shop?text_shop:'推荐商家'}}</text>
+    <text>{{text_shop?text_shop:'推荐'}}</text>
     <!-- <navigator hover-class="none" class='flex'>
       <text>更多推荐</text>
       <text class='iconfont icon-xiala'></text>
