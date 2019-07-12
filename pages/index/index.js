@@ -89,7 +89,7 @@ Page({
           lovely: res.data.data.lovely,
           menus: res.data.data.menus,
           likeList: res.data.data.hot,
-          hide_shop_entry: Boolean(Number(res.data.data.hide_shop_entry)) || true,
+          hide_shop_entry: Boolean(Number(res.data.data.hide_shop_entry)),
           weather: res.data.data.weather,
           itemNew: res.data.data.config_basics.rolling_text.split('\n').map(item=>{
             return {
@@ -121,8 +121,8 @@ Page({
     }
 
     if (category) {
-      app.globalData.cid = sid
-      app.globalData.sid = category
+      app.globalData.cid = category
+      app.globalData.sid = sid
       wx.switchTab({
         url: '../productSort/productSort',
       })

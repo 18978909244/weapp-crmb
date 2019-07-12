@@ -66,8 +66,8 @@
 </view>
 <view class='payment-select'>
   <view class='common-title' style="display:flex;justify-content:space-between">
-    配送时间
-    <text wx:if="{{shipType==0}}" style="font-size:32rpx;font-weight:bold">*预约配送省更多</text>
+    请选择配送方式 预约配送省更多
+    <!-- <text wx:if="{{shipType==0}}" style="font-size:32rpx;font-weight:bold">*预约配送省更多</text> -->
   </view>
   <view class='warapper'>
     <view class='item '>
@@ -90,7 +90,7 @@
           {{multiArray[0][multiIndex[0]]}} {{multiArray[1][multiIndex[1]]}} {{multiArray[2][multiIndex[2]]}}
         </view>
       </view>
-      <view class="picker" wx:else style="display:flex;flex-direction:row;justify-content:space-between"><view>请选择配送时间 <text style="color:red">*</text></view><view style="color:#ccc">></view></view>
+      <view class="picker" wx:else style="display:flex;flex-direction:row;justify-content:space-between"><view>请选择期望送达配送时间 <text style="color:red">*</text></view><view style="color:#ccc">></view></view>
     </picker>
   </view>
 </view>

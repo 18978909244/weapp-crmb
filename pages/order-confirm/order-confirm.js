@@ -544,7 +544,7 @@ Page({
     this.getaddressInfo();
     this.getCouponRope();
     this.initAddress()
-    let shipType = Number(wx.getStorageSync('shipType'))
+    let shipType = wx.getStorageSync('shipType') ? Number(wx.getStorageSync('shipType')) :1
     if (hour > 23) {
       wx.showModal({
         title: '提示',

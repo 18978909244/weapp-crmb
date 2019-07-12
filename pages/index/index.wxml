@@ -7,9 +7,9 @@
     </view>
   </view>
   <view class="text">
-    今：{{weather.daily[0].low}}-{{weather.daily[0].high}} °C
+    今：{{weather.daily[0].text_day}} {{weather.daily[0].low}}-{{weather.daily[0].high}} °C
     <br/>
-    明：{{weather.daily[1].low}}-{{weather.daily[1].high}} °C
+    明：{{weather.daily[1].text_day}} {{weather.daily[1].low}}-{{weather.daily[1].high}} °C
   </view>
 </view>
 <view class='header flex' style="background:#9bd040">
@@ -70,9 +70,9 @@
   </view>
 </view>
 <!-- 导航 -->
-<view class='nav flex'>
+<view class='nav flex' style="flex-wrap: wrap;justify-content: start;height:auto">
   <block wx:for="{{menus}}" wx:key="{{index}}">
-    <view class='nav-item'>
+    <view class='nav-item  category-item'>
       <view class="flex" bindtap="goToSort" data-category="{{item.category}}" data-pid="{{item.pid}}" data-product="{{item.product}}">
         <image src='{{item.pic}}'></image>
         <view class='nav-title'>{{item.name}}</view>

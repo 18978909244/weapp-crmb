@@ -97,12 +97,11 @@
       <text>我的工具</text>
     </view>
     <view class='list-wrapper flex'>
-      <!-- <view class='item' bindtap='cut_down_the_price'>
-        <navigator hover-class="none" url="/pages/mycut/mycut">
-          <view class='iconfont icon-chongzhi'></view>
-          <view class='text'>我的砍价</view>
-        </navigator>
-      </view> -->
+      <!-- <navigator hover-class="none" url="/pages/promotion-card/promotion-card">
+      <view class='item' bindtap='cut_down_the_price'> -->
+         <!-- <web-view url="https://www.shuangfuying.com/shop/merchant.merchant_enter"></web> -->
+      <!-- </view>
+      </navigator> -->
       <!-- <view class='item' bindtap='extension' wx:if="{{userinfo.is_promoter && userinfo.statu == 1}}">
         <navigator hover-class="none">
           <view class='iconfont icon-wodetuiguangren'></view>

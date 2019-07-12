@@ -111,10 +111,12 @@ Page({
         })
     },
     onHide() {
-        // this.setData({
-        //     total: '全部',
-        //     taber: "-1"
-        // })
+        this.setData({
+            total: '全部',
+            taber: "-1"
+        })
+      app.globalData.cid = this.data.cid
+      app.globalData.sid = this.data.sid
     },
     goCart: function () {
         wx.switchTab({

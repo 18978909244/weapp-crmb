@@ -72,4 +72,12 @@ width: 66rpx; color: #333; font-size: 28rpx;border-left: 1px solid #ddd;border-r
 .pay_text::before{
   /* content:'付款金额' */
 }
+.limit_2{
+  text-overflow: -o-ellipsis-lastline;
+overflow: hidden;
+text-overflow: ellipsis;
+display: -webkit-box;/*重点，不能用block等其他*/
+-webkit-line-clamp: 2;/*重点IE和火狐不支持*/
+-webkit-box-orient: vertical;/*重点*/
+}
 @import "/pages/foo-tan/foo-tan.wxss"; 

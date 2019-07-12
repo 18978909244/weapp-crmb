@@ -731,3 +731,8 @@
 .news .swiperTxt swiper {
   height: 100%;
 }
+
+.category-item{
+  margin-top: 20rpx;
+  margin-bottom: 20rpx;
+}

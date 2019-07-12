@@ -547,7 +547,8 @@ Page({
     this.getList();
     this.setData({
       chooseShopId: -1,
-      cartIdsStr: ''
+      cartIdsStr: '',
+      hide_shop_entry: wx.getStorageSync('hide_shop_entry')
     })
   },
 

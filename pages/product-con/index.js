@@ -108,8 +108,7 @@ Page({
     app.setUserInfo();
     that.getCartCount();
     that.setData({
-      id: options.id,
-      hide_shop_entry:wx.getStorageSync('hide_shop_entry')
+      id: options.id
     })
     ProductCon.getProductInfo(options.id).then(res => {
       if (res.data.code == 200) {
@@ -851,7 +850,9 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    this.setData({
+      hide_shop_entry: wx.getStorageSync('hide_shop_entry')
+    })
   },
 
   /**

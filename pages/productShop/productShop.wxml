@@ -4,23 +4,23 @@
         <input type="digit" placeholder="请输入付款金额" value="{{price}}" bindinput="bindKeyInput" style="font-size:50rpx;font-weight:bold;background:#fff;text-align:center;padding:10rpx"></input>
         <button type="primary" bindtap="payToShop">给商户付款</button>
     </view> -->
-    <view class='header flex' style="height:295rpx;flex-direction:column;">
+    <view class='header flex' style="height:295rpx;flex-direction:column;padding-bottom:20rpx;">
         <view class="shop_info" style="display:flex;flex-direction:row;justify-content:space-around;">
             <view class="shop_logo" style="width:150rpx;height:150rpx;background:#fff;border-radius:50%">
                 <image src="{{shopInfo&&shopInfo.mer_logo}}" style="width:100%;height:100%;border-radius:50%"></image>
             </view>
             <view class="shop_desc" style="width:500rpx;height:150rpx;color:#fff">
                 <view>{{shopInfo&&shopInfo.mer_intro}}</view>
-                <view>{{shopInfo&&shopInfo.mer_notice}}</view>
+                <view class="limit_2">{{shopInfo&&shopInfo.mer_notice}}</view>
                 <view>{{shopInfo&&shopInfo.deliver_area}}</view>
                 <view>{{shopInfo&&shopInfo.tel}}</view>
             </view>
         </view>
-        <view class="shop_pay" style="display:flex;flex-direction:row;justify-content:space-between;padding-bottom:20rpx;">
-            <view class="pay_text" style="font-size:24rpx;color:#555;width:300rpx;margin-right:50rpx;background:#fff;text-align:center;">
+        <view class="shop_pay" style="display:flex;flex-direction:row;justify-content:space-between;">
+            <view class="pay_text" style="font-size:24rpx;color:#555;width:300rpx;background:#fff;text-align:center;">
                 <input type="digit" placeholder="付款金额" value="{{payPrice===0?'':payPrice}}" bindinput="bindKeyInput"  style="display:inline-block"></input>
             </view>
-            <button type="primary" style="width:200rpx;" bindtap="payToShop" size="mini">给商户付款</button>
+            <button type="primary" style="width:350rpx;" bindtap="payToShop" size="mini">给商户付款</button>
         </view>
         <!-- <view>{{shopInfo&&shopInfo.mer_name}}</view>
         <input type="digit" placeholder="请输入付款金额" value="{{price}}" bindinput="bindKeyInput" style="font-size:50rpx;font-weight:bold;background:#fff;text-align:center;padding:10rpx"></input>
