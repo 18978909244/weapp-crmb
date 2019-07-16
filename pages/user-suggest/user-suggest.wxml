@@ -15,6 +15,7 @@
             <view class='upimg' bindtap='uploadpic' hidden='{{hidden}}'></view>
          </view> -->
       </view>
+      <view class="commcon-ping" style="padding-top:40rpx;padding-bottom:40rpx" bindtap="selectShop">{{mer_name?'':'请选择'}}留言商家:{{mer_name}}</view>
       <!-- <view class='commcon-ul flex'>
          <view class='commcon-li flex'>
             <text class='li-lien'>商品质量</text>

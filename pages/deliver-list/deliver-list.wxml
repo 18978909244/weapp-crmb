@@ -6,7 +6,8 @@
   <view class='item {{nowstatus == "" ? "on" : ""}}' data-show="" bindtap="statusClick">全部</view>
   <!-- <view class='item {{nowstatus == "0" ? "on" : ""}}'  data-show="0" bindtap="statusClick">待付款</view> -->
   <view class='item {{nowstatus == "1" ? "on" : ""}}'  data-show="1" bindtap="statusClick">配送中</view>
-  <view class='item {{nowstatus == "2" ? "on" : ""}}'  data-show="2" bindtap="statusClick">已完成</view>
+  <view class='item {{nowstatus == "2" ? "on" : ""}}'  data-show="2" bindtap="statusClick">已配送</view>
+  <view class='item {{nowstatus == "3" ? "on" : ""}}'  data-show="3" bindtap="statusClick">已完成</view>
 </view>
 <view class='orders-list'>
   <block wx:for="{{deliverList}}" wx:key="index">

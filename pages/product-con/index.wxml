@@ -32,7 +32,9 @@
     </action-sheet> -->
     <view class='price-wrapper flex'>
       <view class='price'>
-        <text>￥</text>{{storeInfo.price}} {{storeInfo.unit_name?'/ '+ storeInfo.unit_name:''}}</view>
+        <text>￥</text>
+        {{storeInfo.price}} {{storeInfo.unit_name?'/ '+ storeInfo.unit_name:''}}
+      </view>
       <!-- <block wx:for="{{storeKeyWord}}" wx:if="{{index < 4}}">
         <view class='small-txt red' wx:if="{{!index && item != ''}}">{{item}}</view>
         <view class='small-txt lv' wx:if="{{index == 1}}">{{item}}</view>
@@ -42,19 +44,17 @@
     </view>
     <view class='count-wrapper flex'>
       <view wx:if="{{storeInfo.ot_price!='0.00'}}">原价:￥{{storeInfo.ot_price}}</view>
-      <view>库存:{{storeInfo.stock}}{{storeInfo.unit_name}}</view>
+      <view wx:if="{{storeInfo.stock>0}}">库存:{{storeInfo.stock}}{{storeInfo.unit_name}}</view>
+      <view wx:else>已售完</view>
       <!-- <view>销量:{{storeInfo.ficti+storeInfo.sales}}{{storeInfo.unit_name}}</view> -->
     </view>
   </view>
-
   <view class='block-bar' wx:if="{{shopInfo.id>0 && !hide_shop_entry}}" bindtap="goToShopDetail" data-id="{{shopInfo.id}}">
     <text class='title'>{{shopInfo.mer_name}}</text>
   </view>
-
   <!-- <view class='block-bar' wx:else bindtap="goToShopDetail" data-id="{{shopInfo.id}}">
     <text class='title'>平台自营</text>
   </view> -->
-
   <view class='block-bar' bindtap='goCoupon'>
     <text class='title'>领取优惠券</text>
   </view>
@@ -66,7 +66,6 @@
     <text class='title'>{{attr}}</text>
     <text>{{attrValue}}</text>
   </view>
-
   <!-- <view class="shop-info">
     <view class="shop-info-top">
       <view class="image">
@@ -85,7 +84,6 @@
     </view>
   </view> -->
 </view>
-
 <!-- <view class='evaluate-wrapper' wx:if="{{replyCount > 0}}">
   <view class='common-title flex'>
     <view class='line'></view>
@@ -152,5 +150,5 @@
 <view class='mask' wx:if="{{posterImageStatus}}"></view>
 <canvas class="canvas" canvas-id='myCanvas' wx:if="{{canvasStatus}}"></canvas>
 <include src="/pages/home/home.wxml" />
-<include src="/pages/foo-tan/foo-tan.wxml"/>
+<include src="/pages/foo-tan/foo-tan.wxml" />
 <import src="/wxParse/wxParse.wxml" />

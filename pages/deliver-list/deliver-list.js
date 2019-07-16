@@ -34,10 +34,10 @@ Page({
   },
   getorderlist:function(e){
     console.log('eee',e)
-    API.getMyDeliver().then(res => {
+    API._getMyDeliver().then(res => {
       if (res.data.code !== 400) {
         this.setData({
-          deliverList:e===''?res.data.data:res.data.data.filter(item=>item.status==e)
+          deliverList:e===''?res.data.data:res.data.data.filter(item=>item.state==e)
         })
         this.setData({
           title: "数据已经加载完成",

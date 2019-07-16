@@ -1,6 +1,8 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/loading/loading",
+    "pages/load/load",
     "pages/shopList/shopList",
     "pages/order-confirm/order-confirm",
     "pages/buycar/buycar",
@@ -9,9 +11,7 @@
     "pages/user/user",
     "pages/deliver-list/deliver-list",
     "pages/productShop/productShop",
-    "pages/load/load",
     "pages/product-con/index",
-    "pages/loading/loading",
     "pages/orders-con/orders-con",
     "pages/deliver-con/deliver-con",
     "pages/orders-list/orders-list",

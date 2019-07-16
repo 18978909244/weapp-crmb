@@ -1,6 +1,7 @@
 // pages/comment-con/comment-con.js
 var app = getApp();
 const API = require('../../api/user')
+const Shop = require('../../api/productShop')
 
 Page({
   /**
@@ -14,7 +15,9 @@ Page({
     hidden: false,
     unique: '',
     uni: '',
-    dataimg: []
+    dataimg: [],
+    merId: null,
+    mer_name: ''
   },
   /**
    * 生命周期函数--监听页面加载
@@ -24,7 +27,7 @@ Page({
     API.getMySuggets().then(res => {
       if (res.data.code == 200) {
         this.setData({
-          messages:res.data.data
+          messages: res.data.data
         })
       }
     })
@@ -33,6 +36,34 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
+
+  },
+  selectShop() {
+    let that = this
+    Shop.getShopList()
+      .then(res => {
+        let list = res.data.data
+        wx.showActionSheet({
+          itemList: ['不选', ...list.map(item => item.mer_name + '')],
+          success(res) {
+
+            if (res.tapIndex > 0) {
+              that.setData({
+                merId: list[res.tapIndex - 1].id,
+                mer_name: list[res.tapIndex - 1].mer_name,
+              })
+            } else {
+              that.setData({
+                merId: null,
+                mer_name: '',
+              })
+            }
+          },
+          fail(res) {
+            console.log(res.errMsg)
+          }
+        })
+      })
 
   },
   tapxing: function (e) {
@@ -138,9 +169,14 @@ Page({
       return false;
     }
     wx.showLoading({ title: "正在发布评论……" });
-    API.postMySuggest({
-      content: comment
-    }).then(res => {
+    let merId = this.data.merId
+    let postData = merId?{
+      content: comment,
+      merId
+    }:{
+      content: comment,
+    }
+    API.postMySuggest(postData).then(res => {
       wx.hideLoading();
       if (res.data.code == 200) {
         wx.showToast({

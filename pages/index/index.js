@@ -32,7 +32,8 @@ Page({
     autoplay: true,
     interval: 3000,
     duration: 500,
-    itemNew: []
+    itemNew: [],
+    benefit:[]
   },
   goUrl: function(e) {
     if (e.currentTarget.dataset.url != '#') {
@@ -89,6 +90,7 @@ Page({
           lovely: res.data.data.lovely,
           menus: res.data.data.menus,
           likeList: res.data.data.hot,
+          benefit:res.data.data.benefit,
           hide_shop_entry: Boolean(Number(res.data.data.hide_shop_entry)),
           weather: res.data.data.weather,
           itemNew: res.data.data.config_basics.rolling_text.split('\n').map(item=>{

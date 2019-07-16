@@ -10,10 +10,13 @@ module.exports = {
   getMyDeliver: () => {
     return post('/routine/Auth_Api/deliverman_get_order_list?first=0&limit=100')
   },
-  getMySuggets:()=>{
-    return get('/routine/Auth_Api/my_suggest')
+  _getMyDeliver:()=>{
+    return get('/routine/Auth_Api/deliverman_get_order_list_status')
   },
-  postMySuggest:(data)=>{
-    return post('/routine/Auth_Api/submit_suggest',data)
+  getMySuggets: () => {
+    return get('/routine/Auth_Api/my_suggest', )
+  },
+  postMySuggest: (data) => {
+    return post('/routine/Auth_Api/submit_suggest', data)
   }
 }

@@ -53,14 +53,15 @@ Page({
         })
       }
     });
-    API.getMyDeliver().then(res => {
+    API._getMyDeliver().then(res => {
       if (res.data.code !== 400) {
         this.setData({
           deliver: true,
           deliverList: res.data.data,
           deliverCount: {
-            ing: res.data.data.filter(item => item.status === 1).length,
-            done: res.data.data.filter(item => item.status === 2).length,
+            ing: res.data.data.filter(item => item.state === 1).length,
+            wait: res.data.data.filter(item => item.state === 2).length,
+            done: res.data.data.filter(item => item.state === 3).length,
           }
         })
       }

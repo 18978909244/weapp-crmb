@@ -43,6 +43,13 @@
       <view class='item'>
         <navigator hover-class="none" url='/pages/deliver-list/deliver-list?nowstatus=2'>
           <!-- <view class='item-span' wx:if="{{deliverList.length>0}}">{{deliverList.length}}</view> -->
+          <image src='/images/deliver_ing.png'></image>
+          <view class='text'>待确认 {{deliverCount.wait>0?'('+deliverCount.wait+')':''}}</view>
+        </navigator>
+      </view>
+      <view class='item'>
+        <navigator hover-class="none" url='/pages/deliver-list/deliver-list?nowstatus=3'>
+          <!-- <view class='item-span' wx:if="{{deliverList.length>0}}">{{deliverList.length}}</view> -->
           <image src='/images/deliver_done.png'></image>
           <view class='text'>已完成 {{deliverCount.done>0?'('+deliverCount.done+')':''}}</view>
         </navigator>

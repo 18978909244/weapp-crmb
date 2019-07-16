@@ -33,6 +33,7 @@ Page({
       header: header,
       success: function (res) {
         console.log(res)
+        console.log(moment(res.data.data.deliver_expect_time * 1000).format('YYYY-MM-DD HH:mm'))
         wx.hideLoading();
         that.setData({
           ordercon: res.data.data,
