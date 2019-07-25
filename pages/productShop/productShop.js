@@ -620,12 +620,12 @@ Page({
     },
     getProductList: function () {
         var that = this;
-        var news = that.data.news;
-        var sid = that.data.sid;
-        var cid = that.data.cid;
-        var limit = 20;
-        var priceOrder = that.data.price;
-        var salesOrder = that.data.ficti;
+        // var news = that.data.news;
+        // var sid = that.data.sid;
+        // var cid = that.data.cid;
+        var limit = 200;
+        // var priceOrder = that.data.price;
+        // var salesOrder = that.data.ficti;
         var offset = 0;
         var startpage = limit * offset;
         wx.request({
@@ -664,50 +664,51 @@ Page({
         })
     },
     onReachBottom: function (p) {
-        var that = this;
-        var news = '';
-        var sid = that.data.sid;
-        var cid = that.data.cid;
-        var limit = 20;
-        var priceOrder = that.data.price;
-        var salesOrder = that.data.ficti;
-        var offset = that.data.offset;
-        var startpage = limit * offset;
-        var header = {
-            'content-type': 'application/x-www-form-urlencoded',
-        };
-        wx.request({
-            url: app.globalData.url + '/routine/auth_api/get_product_list?uid=' + app.globalData.uid,
-            data: { sid: sid, cid: cid, priceOrder: priceOrder, salesOrder: salesOrder, news: news, first: startpage, limit: limit },
-            method: 'GET',
-            header: header,
-            success: function (res) {
-                if (res.data.code == 200) {
-                    // console.log(res);
-                    var len = res.data.data.length;
-                    var ladding = that.data.Arraylike;
-                    for (var i in res.data.data) {
-                        ladding.push(res.data.data[i]);
-                    }
-                    that.setData({
-                        Arraylike: ladding,
-                        offset: offset + 1
-                    })
-                    if (len < limit) {
-                        that.setData({
-                            title: "数据已经加载完成",
-                            hidden: true
-                        });
-                        return false;
-                    }
-                }
-            },
-            fail: function (res) {
-                console.log('submit fail');
-            },
-            complete: function (res) {
-                console.log('submit complete');
-            }
-        })
+        this.getProductList()
+        // var that = this;
+        // var news = '';
+        // var sid = that.data.sid;
+        // var cid = that.data.cid;
+        // var limit = 20;
+        // var priceOrder = that.data.price;
+        // var salesOrder = that.data.ficti;
+        // var offset = that.data.offset;
+        // var startpage = limit * offset;
+        // var header = {
+        //     'content-type': 'application/x-www-form-urlencoded',
+        // };
+        // wx.request({
+        //     url: app.globalData.url + '/routine/auth_api/get_product_list?uid=' + app.globalData.uid,
+        //     data: { sid: sid, cid: cid, priceOrder: priceOrder, salesOrder: salesOrder, news: news, first: startpage, limit: limit },
+        //     method: 'GET',
+        //     header: header,
+        //     success: function (res) {
+        //         if (res.data.code == 200) {
+        //             // console.log(res);
+        //             var len = res.data.data.length;
+        //             var ladding = that.data.Arraylike;
+        //             for (var i in res.data.data) {
+        //                 ladding.push(res.data.data[i]);
+        //             }
+        //             that.setData({
+        //                 Arraylike: ladding,
+        //                 offset: offset + 1
+        //             })
+        //             if (len < limit) {
+        //                 that.setData({
+        //                     title: "数据已经加载完成",
+        //                     hidden: true
+        //                 });
+        //                 return false;
+        //             }
+        //         }
+        //     },
+        //     fail: function (res) {
+        //         console.log('submit fail');
+        //     },
+        //     complete: function (res) {
+        //         console.log('submit complete');
+        //     }
+        // })
     },
 })
