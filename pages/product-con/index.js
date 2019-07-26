@@ -56,12 +56,12 @@ Page({
     CartCount: 0,
     status: 0,
     actionSheetHidden: true,
-    unit_name:''
+    unit_name: ''
   },
-  goToShopDetail:function(e){
+  goToShopDetail: function (e) {
     let id = e.target.dataset.id
     wx.navigateTo({
-      url: "/pages/productShop/productShop?merId="+id
+      url: "/pages/productShop/productShop?merId=" + id
     })
   },
   setTouchMove: function (e) {
@@ -133,7 +133,7 @@ Page({
           [store_name]: res.data.data.storeInfo.store_name,
           [price]: res.data.data.storeInfo.price,
           [unique]: '',
-          unit_name:res.data.data.storeInfo.unit_name
+          unit_name: res.data.data.storeInfo.unit_name
         })
         that.downloadFilestoreImage();
         that.downloadFilePromotionCode();
@@ -765,6 +765,11 @@ Page({
         })
       }
     }
+    setTimeout(() => {
+      this.setData({
+        num: 1
+      })
+    }, 500)
   },
   getCartCount: function () {
     var that = this;

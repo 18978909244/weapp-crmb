@@ -81,6 +81,7 @@ Page({
     let valid = this.data.cartList
     let carListObj = {}
     for (let i = 0; i < valid.length; i++) {
+      console.log(valid[i].shopInfo,valid[i].shopInfo.id)
       let shopId = valid[i].shopInfo.id
       if (carListObj[shopId]) {
         carListObj[shopId] = [...carListObj[shopId], valid[i]]

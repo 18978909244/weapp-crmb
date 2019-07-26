@@ -573,6 +573,11 @@ Page({
             })
 
         }
+        setTimeout(()=>{
+            this.setData({
+                num:1
+            })
+        },500)
     },
     prompt: function () {
         wx.showToast({
