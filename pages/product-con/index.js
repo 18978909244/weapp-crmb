@@ -98,6 +98,15 @@ Page({
       status: 1
     })
   },
+  handleUnitName(name) {
+    if (name.includes('('))
+      return name.split('(')[0]
+    if (name.includes('（'))
+      return name.split('（')[0]
+
+    return name
+
+  },
   /**
    * 生命周期函数--监听页面加载
    */

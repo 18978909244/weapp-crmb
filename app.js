@@ -16,6 +16,7 @@ App({
       // this.globalData.uid = 15
       this.globalData.uid = userInfo.uid
     }
+    wx.setStorageSync('shipType','1')
   },
   globalData: {
     routineStyle:'#9bd040',

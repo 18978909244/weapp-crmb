@@ -47,6 +47,15 @@ Page({
             num: num ? num : 1
         })
     },
+
+    handleUnitName(name) {
+        return name
+        // if (name.includes('('))
+        //     return name.split('(')[0]
+        // if (name.includes('（'))
+        //     return name.split('（')[0]
+        // return name
+    },
     onLoad: function (e) {
         console.log(app.globalData)
         app.setUserInfo();
@@ -115,8 +124,8 @@ Page({
             total: '全部',
             taber: "-1"
         })
-      app.globalData.cid = this.data.cid
-      app.globalData.sid = this.data.sid
+        app.globalData.cid = this.data.cid
+        app.globalData.sid = this.data.sid
     },
     goCart: function () {
         wx.switchTab({
@@ -144,7 +153,7 @@ Page({
         var all = this.data.hiddendown;
         this.setData({
             active: 0,
-            news:''
+            news: ''
         });
         if (all) {
             this.setData({
@@ -589,11 +598,11 @@ Page({
             })
 
         }
-        setTimeout(()=>{
+        setTimeout(() => {
             this.setData({
-                num:1
+                num: 1
             })
-        },500)
+        }, 500)
     },
     prompt: function () {
         wx.showToast({

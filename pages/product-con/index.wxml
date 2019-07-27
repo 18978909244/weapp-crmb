@@ -44,7 +44,9 @@
     </view>
     <view class='count-wrapper flex'>
       <view wx:if="{{storeInfo.ot_price!='0.00'}}">原价:￥{{storeInfo.ot_price}}</view>
-      <view wx:if="{{storeInfo.stock>0}}">库存:{{storeInfo.stock}}{{storeInfo.unit_name}}</view>
+      <view wx:if="{{storeInfo.stock>0}}">
+        库存:{{storeInfo.stock}}
+      </view>
       <view wx:else>已售完</view>
       <!-- <view>销量:{{storeInfo.ficti+storeInfo.sales}}{{storeInfo.unit_name}}</view> -->
     </view>
@@ -152,3 +154,10 @@
 <include src="/pages/home/home.wxml" />
 <include src="/pages/foo-tan/foo-tan.wxml" />
 <import src="/wxParse/wxParse.wxml" />
+<wxs module="page">
+  function handleUnitName(){
+    return 'dksffd'
+  }
+  module.exports=handleUnitName
+
+</wxs>

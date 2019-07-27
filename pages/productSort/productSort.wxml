@@ -44,7 +44,7 @@
                         <view class='money-red'>
                             <text class='list-f'>{{item.ot_price?'原价:￥'+item.ot_price:''}}</text>
                             <text class='money-num'>
-                                ￥{{item.price}} {{item.unit_name?'/ '+ item.unit_name:''}} 库存 {{item.stock}}{{item.unit_name}}
+                                ￥{{item.price}} {{item.unit_name?'/ '+ item.unit_name:''}} 库存 {{item.stock}}
                             </text>
                             <!-- <text class='list-oo'>1</text>
                             <text class='list-tip'>精</text> -->
