@@ -149,7 +149,38 @@
 </view>
 
 <!-- 今日上新 -->
-<view class='today-new'>
+
+<view class='new-product'>
+  <view class='title-bar' bindtap='torday'>
+    <view class='iconfont icon-jingpintuijian'></view>
+    <text>{{text_new?text_new:'今日上新'}}</text>
+    <!-- <navigator hover-class="none" class='flex'>
+      <text>更多推荐</text>
+      <text class='iconfont icon-xiala'></text>
+    </navigator> -->
+  </view>
+  <view class='scroll-product'>
+    <scroll-view class="scroll-view_x" scroll-x style="width: auto;overflow:hidden;">
+      <block wx:for="{{newList}}" wx:key="{{index}}">
+        <view class='item'>
+          <navigator hover-class="none" url="/pages/product-con/index?id={{item.id}}">
+            <view class='img-box'>
+              <image src='{{url}}{{item.image}}'></image>
+            </view>
+            <view class='pro-info'>
+              <view class='pro-title'>{{item.store_name}}</view>
+              <view class='price-small'>
+                ￥{{item.price}} {{item.unit_name?'/ '+ item.unit_name:''}}
+              </view>
+            </view>
+          </navigator>
+        </view>
+      </block>
+    </scroll-view>
+  </view>
+</view>
+
+<!-- <view class='today-new'>
   <view class='title-bar' bindtap='torday'>
     <view class='iconfont icon-shangxinfuwu'></view>
     <text>{{text_new?text_new:'今日上新'}}</text>
@@ -171,7 +202,7 @@
       </view>
     </block>
   </view>
-</view>
+</view> -->
 
 
 <!-- 精品推荐 -->
@@ -205,8 +236,39 @@
   </view>
 </view>
 
+
+
+<view class='new-product'>
+  <view class='title-bar' bindtap='torday'>
+    <view class='iconfont icon-jingpintuijian'></view>
+    <text>促销单品</text>
+    <!-- <navigator hover-class="none" class='flex'>
+      <text>更多推荐</text>
+      <text class='iconfont icon-xiala'></text>
+    </navigator> -->
+  </view>
+  <view class='scroll-product'>
+    <scroll-view class="scroll-view_x" scroll-x style="width: auto;overflow:hidden;">
+      <block wx:for="{{benefit}}" wx:key="{{index}}">
+        <view class='item'>
+          <navigator hover-class="none" url="/pages/product-con/index?id={{item.id}}">
+            <view class='img-box'>
+              <image src='{{url}}{{item.image}}'></image>
+            </view>
+            <view class='pro-info'>
+              <view class='pro-title'>{{item.store_name}}</view>
+              <view class='price-small'>
+                ￥{{item.price}} {{item.unit_name?'/ '+ item.unit_name:''}}
+              </view>
+            </view>
+          </navigator>
+        </view>
+      </block>
+    </scroll-view>
+  </view>
+</view>
 <!-- 今日上新 -->
-<view class='today-new'>
+<!-- <view class='today-new'>
   <view class='title-bar' bindtap='torday'>
     <view class='iconfont icon-shangxinfuwu'></view>
     <text>促销单品</text>
@@ -228,7 +290,7 @@
       </view>
     </block>
   </view>
-</view>
+</view> -->
 
 
 
