@@ -114,9 +114,9 @@
       <text>配送费</text>
       <text class='count'>￥{{ordercon.pay_postage}}</text>
     </view>
-    <view class='infos flex'>
+    <view class='infos flex' wx:if="{{ordercon.productTotalPrice!=='0.00'}}">
       <text>商品总价</text>
-      <text class='count'>￥{{ordercon.total_price}}</text>
+      <text class='count'>￥{{ordercon.productTotalPrice}}</text>
     </view>
     <view class='infos flex'>
       <text>折扣价</text>
