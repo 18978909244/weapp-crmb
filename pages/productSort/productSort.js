@@ -637,11 +637,13 @@ Page({
         // })
     },
     getProductList: function () {
+
+      console.log('getProductList')
         var that = this;
         var news = that.data.news;
         var sid = that.data.sid;
         var cid = that.data.cid;
-        var limit = 20;
+        var limit = 500;
         var priceOrder = that.data.price;
         var salesOrder = that.data.ficti;
         var offset = 0;
@@ -679,11 +681,12 @@ Page({
         })
     },
     onReachBottom: function (p) {
+      console.log('onReachBottom')
         var that = this;
         var news = '';
         var sid = that.data.sid;
         var cid = that.data.cid;
-        var limit = 20;
+        var limit = 500;
         var priceOrder = that.data.price;
         var salesOrder = that.data.ficti;
         var offset = that.data.offset;
