@@ -115,6 +115,10 @@ Page({
     // let prevPage = pages[pages.length - 2]
     // console.log(prevPage.route)
     // return ;
+    if (options.scene){
+      options.id = decodeURIComponent(options.scene)
+    }
+    // console.log(decodeURIComponent(options.scene))
     app.globalData.openPages = '/pages/product-con/index?id=' + options.id;
     var that = this;
     app.setUserInfo();

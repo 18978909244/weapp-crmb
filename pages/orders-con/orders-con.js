@@ -18,7 +18,10 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (e) {
-    console.log('onLoad')
+    if (e.scene) {
+      e.order_id = decodeURIComponent(e.scene)
+    }
+    e.order_id = 'wx19081818395510005'
     app.globalData.openPages = '/pages/orders-con/orders-con?order_id=' + e.order_id;
     app.setUserInfo();
     var header = {
