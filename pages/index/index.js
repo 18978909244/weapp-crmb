@@ -128,6 +128,7 @@ Page({
       wx.switchTab({
         url: '../productSort/productSort',
       })
+      return
     }
 
     wx.switchTab({

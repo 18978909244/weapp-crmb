@@ -43,7 +43,7 @@
       </block> -->
     </view>
     <view class='count-wrapper flex'>
-      <view wx:if="{{storeInfo.ot_price!='0.00'}}">原价:￥{{storeInfo.ot_price}}</view>
+      <view wx:if="{{storeInfo.ot_price!='0.00'}}">市场价:￥{{storeInfo.ot_price}}</view>
       <view wx:if="{{storeInfo.stock>0}}">
         库存:{{storeInfo.stock}}
       </view>

@@ -23,7 +23,7 @@
   <view class='pro-infos'>
     <view class='title'>{{SeckillList.title}}</view>
     <view class='count-wrapper flex'>
-      <view>原价:￥{{SeckillList.ot_price}}</view>
+      <view>市场价:￥{{SeckillList.ot_price}}</view>
       <view>库存:{{SeckillList.stock}}{{SeckillList.unit_name}}</view>
       <view>销量:{{SeckillList.sales}}{{SeckillList.unit_name}}</view>
     </view>
