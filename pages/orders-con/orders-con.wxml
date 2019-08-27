@@ -118,10 +118,18 @@
       <text>商品总价</text>
       <text class='count'>￥{{ordercon.productTotalPrice}}</text>
     </view>
-    <view class='infos flex'>
+    <view class='infos flex' wx:if="{{ordercon.extraPrice2!=='0.00'}}">
+      <text>配送溢价</text>
+      <text class='count'>￥{{ordercon.extraPrice2}}</text>
+    </view>
+    <view class='infos flex' wx:if="{{ordercon.coupon_price!=='0.00'}}">
+      <text>优惠券抵用</text>
+      <text class='count'>- ￥{{ordercon.coupon_price}}</text>
+    </view>
+    <!-- <view class='infos flex'>
       <text>折扣价</text>
       <text class='count'>￥{{ordercon.deduction_price}}</text>
-    </view>
+    </view> -->
   </view>
 </view>
 <view class='all-pay flex'>

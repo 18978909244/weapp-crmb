@@ -13,7 +13,7 @@ let thirdColumn = [0, 15, 30, 45]
 
 
 let data = {
-  '0': [['今天'], _second.filter(i => {
+  '0': [['今天','明天'], _second.filter(i => {
     if (min > 45) {
       return i > hour + 1
     }
@@ -72,7 +72,7 @@ Page({
     var that = this;
     if (options.pinkId) {
       that.setData({
-        pinkId: options.pinkId || '62'
+        pinkId: options.pinkId || '277,278'
       })
     }
     if (options.addressId) {
@@ -204,6 +204,9 @@ Page({
       mark: that.data.mark,
       userExpectTime: that.data.userExpectTime > 0 ? that.data.userExpectTime : 0
     }
+
+    console.log(formData)
+    return;
     API.createOrder(that.data.orderKey)(formData)
       .then(res => {
         console.log('res', res)
@@ -475,6 +478,21 @@ Page({
       this.setData({
         multiArray
       })
+    }else if(e.detail.column===0 && e.detail.value===1){
+      multiArray[1] = [0,1,2].map(item=>item+'时')
+      this.setData({
+        multiArray
+      })
+    }else if(e.detail.column===0 && e.detail.value===0){
+      multiArray[1] = _second.filter(i => {
+        if (min > 45) {
+          return i > hour + 1
+        }
+        return i > hour
+      }).map(item => item + '时')
+      this.setData({
+        multiArray
+      })
     }
 
     // let column = e.detail.column
@@ -545,7 +563,8 @@ Page({
     this.getCouponRope();
     this.initAddress()
     let shipType = wx.getStorageSync('shipType') ? Number(wx.getStorageSync('shipType')) :1
-    if (hour > 23) {
+    console.log('hour',hour)
+    if (hour >= 23 || hour>22 && min>=45) {
       wx.showModal({
         title: '提示',
         content: '当前时间过晚，只能预约配送'
