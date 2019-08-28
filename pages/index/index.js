@@ -107,6 +107,7 @@ Page({
         wx.setStorageSync('min_product_paid', res.data.data.config_basics.min_product_paid)
         wx.setStorageSync('service_mobile', res.data.data.config_basics.site_phone)
         wx.setStorageSync('hide_shop_entry', Boolean(Number(res.data.data.hide_shop_entry)))
+        wx.setStorageSync('ending_hour',Number(res.data.data.config_basics.ending_hour))
       })
   },
   goToSort(e) {

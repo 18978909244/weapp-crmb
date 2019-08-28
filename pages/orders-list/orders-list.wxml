@@ -25,7 +25,9 @@
              <view wx:elif="{{item._status._type == 4}}" class='status-txt'>状态: <text>已完成</text></view>
              <view class='all-price'>合计: <text>￥{{item.pay_price}}</text><text class='youfei'>（配送费￥{{item.pay_postage
 }}）</text></view>
-              <view class="all-price">商家: {{item.cartInfo[0].shopInfo.mer_name}}</view>
+              <view class="all-price">商家: {{item.cartInfo[0].shopInfo.mer_name}}</view> 
+              <view class="all-price">地址: {{item.user_address}}</view>
+
           </view>
           <view class='right-wrapper'>
               <navigator hover-class="none" url='/pages/orders-con/orders-con?order_id={{item.order_id}}' wx:if="{{item._status._type == 0}}" class='buypay'>去支付</navigator> 

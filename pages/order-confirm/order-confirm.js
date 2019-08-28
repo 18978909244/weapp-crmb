@@ -4,32 +4,43 @@ var app = getApp();
 const API = require('../../api/order-confirm')
 const Address = require('../../api/address')
 
-let hour = moment('2019-08-28 01:00:00').hour()
-let min = moment('2019-08-28 01:00:00').minutes()
+const now = '2019-08-29 01:01:00'
+let hour = moment(now).hour()
+let min = moment(now).minutes()
 let firstColumn = ['明天', '后天'];
 let _second = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]
 let thirdColumn = [0, 15, 30, 45]
 
-
+const ending_hour = wx.getStorageSync('ending_hour')
 
 let data = {
   '0': [['今天'], _second.filter(i => {
-    if (min > 45) {
-      return i > hour + 1
-    }
+    // if (min > 45) {
+    //   return i > hour + 1
+    // }
     return i > hour
   }).map(item => item + '时'),
-  min < 45 ? thirdColumn.filter(i => {
-    return i > min
-  }).map(item => item + '分') : thirdColumn.map(item => item + '分')],
+  // min < 45 ? thirdColumn.filter(i => {
+  //   return i > min
+  // }).map(item => item + '分') :
+   thirdColumn.map(item => item + '分')],
 
-  '1': [['今天','明天', '后天'].filter((item,index)=>{
-      if(hour<=3){
-        return index>-1
-      }else{
-        return index>0
-      }
-  }), _second.map(item => item + '时'), thirdColumn.map(item => item + '分')]
+  '1': [['今天', '明天', '后天'].filter((item, index) => {
+    if (hour <= ending_hour) {
+      return index > -1
+    } else {
+      return index > 0
+    }
+  }), (hour <= ending_hour) ? _second.filter(i => {
+    // if (min > 45) {
+    //   return i > hour + 1
+    // }
+    return i > hour
+  }).map(item => item + '时') : _second.map(i => i + '时'), 
+  // (hour <= ending_hour) ? min < 45 ? thirdColumn.filter(i => {
+  //   return i > min
+  // }).map(item => item + '分') : thirdColumn.map(item => item + '分') : 
+  thirdColumn.map(item => item + '分')]
 }
 Page({
 
@@ -474,17 +485,40 @@ Page({
       this.setData({
         multiArray
       })
-    } else if (e.detail.column === 1 && e.detail.value === 0) {
-      multiArray[2] = min < 45 ? thirdColumn.filter(i => {
-        // if (min > 45) {
-        //   return i
-        // }
-        return i > min
-        // return i>min
-      }).map(i => i + '分') : thirdColumn.map(i => i + '分')
+    } else if ( e.detail.column === 1 && e.detail.value === 0) {
+      multiArray[2] = thirdColumn.map(i => i + '分')
+      // min < 45 ? thirdColumn.filter(i => {
+      //   return i > min
+      // }).map(i => i + '分') : 
+      
+      
       this.setData({
         multiArray
       })
+    }
+    else if ((hour < ending_hour && hour >= 0) && e.detail.column === 0 && e.detail.value === 1) {
+      multiArray[1] = _second.map(i => {
+        return i + '时'
+      })
+      multiArray[2] = thirdColumn.map(i => {
+        return i + '分'
+      })
+      this.setData({
+        multiArray
+      })
+      console.log('明天')
+    } else if ((hour < ending_hour && hour >= 0) && e.detail.column === 0 && e.detail.value === 0) {
+      multiArray[1] = _second.filter(i => {
+        // if (min > 45) {
+        //   return i > hour + 1
+        // }
+        return i > hour
+      }).map(item => item + '时')
+      multiArray[2] = thirdColumn.map(item => item + '分')
+      this.setData({
+        multiArray
+      })
+      console.log('今天')
     }
     // else if(e.detail.column===0 && e.detail.value===1){
     //   multiArray[1] = [0,1,2].map(item=>item+'时')
@@ -570,9 +604,9 @@ Page({
     this.getaddressInfo();
     this.getCouponRope();
     this.initAddress()
-    let shipType = wx.getStorageSync('shipType') ? Number(wx.getStorageSync('shipType')) :1
-    console.log('hour',hour)
-    if (hour >= 23 || hour>22 && min>=45) {
+    let shipType = wx.getStorageSync('shipType') ? Number(wx.getStorageSync('shipType')) : 1
+    console.log('hour', hour)
+    if (hour >= 23 || hour < 6) {
       wx.showModal({
         title: '提示',
         content: '当前时间过晚，只能预约配送'

@@ -21,7 +21,7 @@ Page({
     if (e.scene) {
       e.order_id = decodeURIComponent(e.scene)
     }
-    e.order_id = 'wx19082014272610002'
+    // e.order_id = 'wx19082014272610002'
     app.globalData.openPages = '/pages/orders-con/orders-con?order_id=' + e.order_id;
     app.setUserInfo();
     var header = {

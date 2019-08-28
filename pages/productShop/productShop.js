@@ -104,7 +104,6 @@ Page({
   onLoad: function (option) {
     if (option.scene) {
       option.merId = decodeURIComponent(option.scene)
-      console.log(option.merId)
     }
     this.setData({
       merId: option.merId || 0
