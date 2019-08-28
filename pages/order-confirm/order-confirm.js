@@ -4,8 +4,8 @@ var app = getApp();
 const API = require('../../api/order-confirm')
 const Address = require('../../api/address')
 
-let hour = moment().hour()
-let min = moment().minutes()
+let hour = moment('2019-08-28 01:00:00').hour()
+let min = moment('2019-08-28 01:00:00').minutes()
 let firstColumn = ['明天', '后天'];
 let _second = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]
 let thirdColumn = [0, 15, 30, 45]

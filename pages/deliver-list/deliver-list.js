@@ -37,7 +37,19 @@ Page({
     API._getMyDeliver().then(res => {
       if (res.data.code !== 400) {
         this.setData({
-          deliverList:e===''?res.data.data:res.data.data.filter(item=>item.state==e)
+          deliverList:e===''?
+                res.data.data.map(item=>{
+                  return {
+                    ...item,
+                    cartInfo:Object.keys(item.cartInfo).map(i=>item.cartInfo[i])
+                  }
+                })
+                :res.data.data.filter(item=>item.state==e).map(item=>{
+                  return {
+                    ...item,
+                    cartInfo:Object.keys(item.cartInfo).map(i=>item.cartInfo[i])
+                  }
+                })
         })
         this.setData({
           title: "数据已经加载完成",

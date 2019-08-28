@@ -63,7 +63,12 @@ Page({
         //   that.data.orderlist.push($data[i]);
         // }
         that.setData({
-          orderlist: $data
+          orderlist: $data.map(item=>{
+            return {
+              ...item,
+              cartInfo:Object.keys(item.cartInfo).map(i=>item.cartInfo[i])
+            }
+          })
         });
         // console.log(that.data.orderlist)
         if (len < limit) {

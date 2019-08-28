@@ -24,7 +24,8 @@
              <view wx:elif="{{item._status._type == 3}}" class='status-txt'>状态: <text>待评价</text></view>
              <view wx:elif="{{item._status._type == 4}}" class='status-txt'>状态: <text>已完成</text></view>
              <view class='all-price'>合计: <text>￥{{item.pay_price}}</text><text class='youfei'>（配送费￥{{item.pay_postage
-}}）</text></view> 
+}}）</text></view>
+              <view class="all-price">商家: {{item.cartInfo[0].shopInfo.mer_name}}</view>
           </view>
           <view class='right-wrapper'>
               <navigator hover-class="none" url='/pages/orders-con/orders-con?order_id={{item.order_id}}' wx:if="{{item._status._type == 0}}" class='buypay'>去支付</navigator> 
@@ -35,19 +36,20 @@
           </view>
         </view>
         <navigator hover-class="none" url='/pages/orders-con/orders-con?order_id={{item.order_id}}' class='info-list'>
-          <block  wx:for="{{item.cartInfo}}">
+          <block wx:for="{{item.cartInfo}}" wx:key="{{index}}" wx:if="{{index===0}}" wx:for-item="order">
                <view class='pro-item flex'>
                 <view class='wrapper flex'>
-                  <image src='{{url}}{{item.productInfo.image}}'></image>
+                  <image src='{{url}}{{order.productInfo.image}}'></image>
                   <view class='item-info flex'>
-                    <view class='title'>{{item.productInfo.store_name}}</view>
-                    <view class='res' wx:if="{{item.productInfo.attrInfo}}">{{item.productInfo.attrInfo.suk}}</view>
+                    <view class='title'>{{order.productInfo.store_name}}</view>
+                    <view class="price">等{{item.total_num}}个商品</view>
+                    <!-- <view class='res' wx:if="{{item.productInfo.attrInfo}}">{{item.productInfo.attrInfo.suk}}</view>
           <view class='price' wx:if="{{item.productInfo.attrInfo}}">
-          <text>￥</text>
-          {{item.productInfo.attrInfo.price}} {{item.productInfo.unit_name?'/ '+ item.productInfo.unit_name:''}}
-          <text class='count'>x{{item.cart_num}}</text>
+              <text>￥</text>
+              {{item.productInfo.attrInfo.price}} {{item.productInfo.unit_name?'/ '+ item.productInfo.unit_name:''}}
+              <text class='count'>x{{item.cart_num}}</text>
           </view>
-          <view class='price' wx:else><text>￥</text>{{item.productInfo.price}} {{item.productInfo.unit_name?'/ '+ item.productInfo.unit_name:''}}<text class='count'>x {{item.cart_num}}</text></view>
+          <view class='price' wx:else><text>￥</text>{{item.productInfo.price}} {{item.productInfo.unit_name?'/ '+ item.productInfo.unit_name:''}}<text class='count'>x {{item.cart_num}}</text></view> -->
                   </view>
                 </view>  
               </view>
