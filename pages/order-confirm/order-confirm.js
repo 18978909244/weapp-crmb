@@ -223,8 +223,6 @@ Page({
       userExpectTime: that.data.userExpectTime > 0 ? that.data.userExpectTime : 0
     }
 
-    console.log(formData)
-    return;
     API.createOrder(that.data.orderKey)(formData)
       .then(res => {
         console.log('res', res)
