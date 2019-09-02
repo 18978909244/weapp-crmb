@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/main/main",
     "pages/order-confirm/order-confirm",
     "pages/orders-con/orders-con",
     "pages/deliver-list/deliver-list",
@@ -44,7 +45,6 @@
     "pages/logistics/logistics",
     "pages/extension/extension",
     "pages/unshop/unshop",
-    "pages/main/main",
     "pages/collect/collect",
     "pages/promotion-card/promotion-card"
   ],

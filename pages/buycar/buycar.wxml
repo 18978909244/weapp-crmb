@@ -48,7 +48,7 @@
         </text>
       </view>
     </view>
-    <view class='shop-item' style="padding-bottom:20rpx;padding-right:20rpx;display:flex;justify-content:space-between" wx:if="{{!hide_shop_entry}}">
+    <view class='shop-item' style="padding-bottom:20rpx;padding-right:20rpx;display:flex;justify-content:space-between">
       <label class="checkbox" bindtap="allChecked" data-shop="{{shop.id}}">
         全选
         <checkbox value="Boolean" checked="{{shop.isAllSelect}}" disabled="{{chooseShopId!==-1 && chooseShopId!==shop.id}}" />

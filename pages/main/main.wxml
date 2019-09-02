@@ -5,11 +5,11 @@
       <!-- <view class='header-tip'>会员用户充值可享受9折优惠~</view> -->
    </view>
 </view>
-<!-- <view class='main-li flex' bindtap='goPayment'>
+<view class='main-li flex' bindtap='goPayment'>
    <view><text class='main-pic main-pic1'></text>立即充值</view>
    <view class='iconfont icon-xiala main-xia'></view>
 </view>
-<view class='main-li flex' bindtap='indexs'>
+<!-- <view class='main-li flex' bindtap='indexs'>
    <view bindtap='indexs'><text class='main-pic main-pic2'></text>进入商城</view>
    <view class='iconfont icon-xiala main-xia'></view>
 </view> -->
@@ -17,7 +17,7 @@
    <view><text class='main-pic main-pic3'></text>账户明细</view>
 </view>
 <view class='main-con'>
-   <block wx:for="{{mainArray}}">
+   <block wx:for="{{mainArray}}" wx:key="{{index}}">
       <view class='main-item flex'>
           <view class='main-text'>
               <view class='main-number'>{{item.mark}}</view>

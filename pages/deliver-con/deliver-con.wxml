@@ -36,17 +36,17 @@
     </view>
   </view>
   <view wx:else>
-    <view class='item'>
+    <!-- <view class='item'>
       <text>配送方式：</text>
       送货
     </view>
     <view class='item'>
       <text>配送人员：</text>
       {{ordercon.delivery_name}}
-    </view>
-    <view class='item flex' data-tel="{{ordercon.delivery_id}}" bindtap='goTel'>
-      <text>配送电话：</text>
-      <text class='tel'>{{ordercon.delivery_id}}</text>
+    </view> -->
+    <view class='item flex' data-tel="{{ordercon.user_phone}}" bindtap='goTel'>
+      <text>客户电话：</text>
+      <text class='tel'>{{ordercon.user_phone}}</text>
       <view class='iconfont icon-dianhua'></view>
     </view>
   </view>
