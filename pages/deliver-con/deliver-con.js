@@ -3,6 +3,11 @@ var app = getApp();
 const moment = require('../../utils/moment')
 var wxh = require('../../utils/wxh.js');
 const API = require('../../api/deliver-con')
+
+var QQMapWX = require('../../qqmap-wx-jssdk.js');
+var qqmapsdk;
+
+
 Page({
 
   /**
@@ -11,19 +16,27 @@ Page({
   data: {
     url: app.globalData.urlImages,
     moment,
-    imgs: ''
+    imgs: '',
+    location:null
   },
-
+  goToMap(){
+    wx.navigateTo({
+      url:`../map/map?longitude=${this.data.location.lng}&latitude=${this.data.location.lat}&rate=${this.data.address_map.similarity*100}&address=${this.data.address_map.address_components.province}${this.data.address_map.address_components.city}${this.data.address_map.address_components.district}${this.data.address_map.title}`
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (e) {
+    qqmapsdk = new QQMapWX({
+      key: '2XRBZ-IOMCK-N5XJG-AVIPQ-ZBLRH-XNBKS'
+    });
     app.globalData.openPages = '/pages/orders-con/orders-con?order_id=' + e.order_id;
     app.setUserInfo();
     var header = {
       'content-type': 'application/x-www-form-urlencoded'
     };
-    var uni = e.order_id || 'wx2019052600462710001';
+    var uni = e.order_id || 'wx19090313201410006';
     var that = this;
     wx.showLoading({ title: "正在加载中……" });
     wx.request({
@@ -32,8 +45,17 @@ Page({
       method: 'get',
       header: header,
       success: function (res) {
-        console.log(res)
-        console.log(moment(res.data.data.deliver_expect_time * 1000).format('YYYY-MM-DD HH:mm'))
+        qqmapsdk.geocoder({
+          address:res.data.data.user_address,
+          success(res){
+            if(res.status===0){
+              that.setData({
+                location:res.result.location,
+                address_map:res.result
+              })
+            }
+          }
+        })
         wx.hideLoading();
         that.setData({
           ordercon: res.data.data,
@@ -357,7 +379,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    
   },
 
   /**
