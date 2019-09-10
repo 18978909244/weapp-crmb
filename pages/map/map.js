@@ -1,4 +1,8 @@
-// pages/map/map.js
+
+let plugin = requirePlugin('routePlan');
+let key = '2XRBZ-IOMCK-N5XJG-AVIPQ-ZBLRH-XNBKS';  //使用在腾讯位置服务申请的key
+let referer = 'wxf3354325b919fd59';   //调用插件的app的名称
+
 Page({
 
   /**
@@ -7,8 +11,8 @@ Page({
   data: {
     latitude: null,
     longitude: null,
-    address:'',
-    rate:0,
+    address: '',
+    rate: 0,
     markers: [{
       iconPath: "../../icon/送货1.png",
       id: 0,
@@ -39,27 +43,63 @@ Page({
         height: 50
       },
       clickable: true
-    }]
+    }],
+    real_address:''
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    const { longitude, latitude,address,rate } = options
+    const { longitude, latitude, address, rate ,real_address} = options
     this.setData({
       longitude, latitude,
-      address,rate,
+      address, rate,
       markers: [{
         iconPath: "../../icon/送货1.png",
         id: 0,
         longitude, latitude,
         width: 50,
         height: 50
-      }]
+      }],
+      real_address
     })
   },
-
+  clickRoute(){
+    
+    let endPoint = JSON.stringify({  //终点
+      'name': this.data.address,
+      'latitude': this.data.latitude,
+      'longitude': this.data.longitude
+    });
+    wx.navigateTo({
+      url: 'plugin://routePlan/index?key=' + key + '&referer=' + referer + '&endPoint=' + endPoint
+    });
+  },
+  copy(){
+    wx.setClipboardData({
+      data: this.data.real_address,
+      success: function (res) {
+        wx.getClipboardData({
+          success: function (res) {
+            setTimeout(()=>{
+              wx.hideLoading()
+              wx.showModal({
+                title: '提示',
+                content: '复制成功，用地图APP打开',
+                showCancel:false,
+                confirmText:"我知道了",
+                success(){
+                  console.log()
+                }
+              })
+            },200)
+            
+          }
+        })
+      }
+    })
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */

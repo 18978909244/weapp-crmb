@@ -1,107 +1,112 @@
-<form>
-  <view class='head flex'>
-    <view class='txt'>下单数量({{cartNum}})</view>
-    <!-- <view class='btn' bindtap='btntap' wx:if='{{!foothidden}}'>管理</view> -->
-    <!-- <view class='btn' bindtap='btntap' wx:if='{{foothidden}}'>取消</view> -->
-  </view>
-  <view class='car-list' wx:for="{{shopList}}" wx:key="{{shop.id}}" wx:for-item="shop" style="{{index===0?'margin-top:80rpx;':''}}">
-    <view class='shop-item' wx:if="{{!hide_shop_entry}}">{{shop.mer_name}}</view>
-    <view wx:for="{{cartList}}" wx:key="{{item.shopInfo.id}}" class='list-item flex' wx:if="{{item.shopInfo.id===shop.id}}">
-      <view class='select-btn flex' data-index='{{index}}' bindtap='switchSelect'>
-        <label class="checkbox">
-          <checkbox value="{{index}}" checked="{{item.checked}}" disabled="{{chooseShopId!==-1 && chooseShopId!==item.shopInfo.id}}" />
-        </label>
+<!-- <block wx:if="{{app.globalData.uid}}"> -->
+  <form>
+    <view class='head flex'>
+      <view class='txt'>下单数量({{cartNum}})</view>
+      <!-- <view class='btn' bindtap='btntap' wx:if='{{!foothidden}}'>管理</view> -->
+      <!-- <view class='btn' bindtap='btntap' wx:if='{{foothidden}}'>取消</view> -->
+    </view>
+    
+    <view class='car-list' wx:for="{{shopList}}" wx:key="{{shop.id}}" wx:for-item="shop" style="{{index===0?'margin-top:80rpx;':''}}">
+      <view class='shop-item' wx:if="{{!hide_shop_entry}}">{{shop.mer_name}}</view>
+      <view wx:for="{{cartList}}" wx:key="{{item.shopInfo.id}}" class='list-item flex' wx:if="{{item.shopInfo.id===shop.id}}">
+        <view class='select-btn flex' data-index='{{index}}' bindtap='switchSelect'>
+          <label class="checkbox">
+            <checkbox value="{{index}}" checked="{{item.checked}}" disabled="{{chooseShopId!==-1 && chooseShopId!==item.shopInfo.id}}" />
+          </label>
+        </view>
+        <navigator url="/pages/product-con/index?id={{item.productInfo.id}}">
+          <view class='picture' bindtap="goToDetail({{item.id}})">
+            <image src='{{url}}{{item.productInfo.image}}'></image>
+          </view>
+        </navigator>
+        <navigator url="/pages/product-con/index?id={{item.productInfo.id}}">
+          <view class='pro-info flex'>
+            <view class='pro-title'>{{item.productInfo.store_name}}</view>
+            <view class='pro-des' wx:if="{{item.productInfo.attrInfo}}">
+              {{item.productInfo.attrInfo.suk}}
+            </view>
+            <view class='pro-price' wx:if="{{item.productInfo.attrInfo}}">
+              <text>￥</text>
+              {{item.productInfo.attrInfo.price}} {{item.productInfo.unit_name?'/ '+ item.productInfo.unit_name:''}}
+            </view>
+            <view class='pro-price' wx:else>
+              <text>￥</text>
+              {{item.productInfo.price}} {{item.productInfo.unit_name?'/ '+ item.productInfo.unit_name:''}}
+            </view>
+            <!-- <view class='pro-price'><text>￥</text>{{item.productInfo.attrInfo.price}}</view> -->
+          </view>
+        </navigator>
+        <view style="position:absolute;right:20rpx;top:20rpx;" bindtap="cartDel" data-id="{{item.id}}">
+          删除
+        </view>
+        <view class='count-wrapper flex'>
+          <text data-index="{{index}}" bindtap="{{item.cart_num===1?'':'numDescClick'}}" class='{{minusStatus}}'>
+            -
+          </text>
+          <!-- <text class='num'>{{item.cart_num}}</text> -->
+          <input class='num' data-index='{{index}}' data-max="{{item.trueStock}}" type="number" value='{{item.cart_num}}' bindblur='setNumber' />
+          <text class='add' data-index="{{index}}" bindtap="numAddClick" data-max="{{item.trueStock}}">
+            +
+          </text>
+        </view>
       </view>
-      <navigator url="/pages/product-con/index?id={{item.productInfo.id}}">
-        <view class='picture' bindtap="goToDetail({{item.id}})">
+      <view class='shop-item' style="padding-bottom:20rpx;padding-right:20rpx;display:flex;justify-content:space-between">
+        <label class="checkbox" bindtap="allChecked" data-shop="{{shop.id}}">
+          全选
+          <checkbox value="Boolean" checked="{{shop.isAllSelect}}" disabled="{{chooseShopId!==-1 && chooseShopId!==shop.id}}" />
+        </label>
+        <text>配送费:{{shop.deliver_fee}}</text>
+      </view>
+    </view>
+    <!-- 失效页面 -->
+    <view class='fail-list' wx:if="{{cartInvalid.length > 0}}">
+      <view class='title-bar flex'>
+        <text class='line'></text>
+        <text class='txt'>失效商品</text>
+        <text class='line'></text>
+      </view>
+      <view class='fail-item flex' wx:for="{{cartInvalid}}">
+        <view class='pro-img'>
           <image src='{{url}}{{item.productInfo.image}}'></image>
         </view>
-      </navigator>
-      <navigator url="/pages/product-con/index?id={{item.productInfo.id}}">
-        <view class='pro-info flex'>
-          <view class='pro-title'>{{item.productInfo.store_name}}</view>
-          <view class='pro-des' wx:if="{{item.productInfo.attrInfo}}">
-            {{item.productInfo.attrInfo.suk}}
-          </view>
+        <view class='pro-infos flex'>
+          <view class='title'>{{item.productInfo.store_name}}</view>
           <view class='pro-price' wx:if="{{item.productInfo.attrInfo}}">
             <text>￥</text>
-            {{item.productInfo.attrInfo.price}} {{item.productInfo.unit_name?'/ '+ item.productInfo.unit_name:''}}
+            {{item.productInfo.attrInfo.price}}
           </view>
           <view class='pro-price' wx:else>
             <text>￥</text>
-            {{item.productInfo.price}} {{item.productInfo.unit_name?'/ '+ item.productInfo.unit_name:''}}
+            {{item.productInfo.price}}
           </view>
-          <!-- <view class='pro-price'><text>￥</text>{{item.productInfo.attrInfo.price}}</view> -->
         </view>
-      </navigator>
-      <view style="position:absolute;right:20rpx;top:20rpx;" bindtap="cartDel" data-id="{{item.id}}">
-        删除
-      </view>
-      <view class='count-wrapper flex'>
-        <text data-index="{{index}}" bindtap="{{item.cart_num===1?'':'numDescClick'}}" class='{{minusStatus}}'>
-          -
-        </text>
-        <!-- <text class='num'>{{item.cart_num}}</text> -->
-        <input class='num' data-index='{{index}}' data-max="{{item.trueStock}}" type="number" value='{{item.cart_num}}' bindblur='setNumber'/>
-        <text class='add' data-index="{{index}}" bindtap="numAddClick" data-max="{{item.trueStock}}">
-          +
-        </text>
+        <view class='del-btn' data-id="{{item.id}}" bindtap="cartDel">删除</view>
       </view>
     </view>
-    <view class='shop-item' style="padding-bottom:20rpx;padding-right:20rpx;display:flex;justify-content:space-between">
-      <label class="checkbox" bindtap="allChecked" data-shop="{{shop.id}}">
-        全选
-        <checkbox value="Boolean" checked="{{shop.isAllSelect}}" disabled="{{chooseShopId!==-1 && chooseShopId!==shop.id}}" />
-      </label>
-      <text>配送费:{{shop.deliver_fee}}</text>
-    </view>
-  </view>
-  <!-- 失效页面 -->
-  <view class='fail-list' wx:if="{{cartInvalid.length > 0}}">
-    <view class='title-bar flex'>
-      <text class='line'></text>
-      <text class='txt'>失效商品</text>
-      <text class='line'></text>
-    </view>
-    <view class='fail-item flex' wx:for="{{cartInvalid}}">
-      <view class='pro-img'>
-        <image src='{{url}}{{item.productInfo.image}}'></image>
-      </view>
-      <view class='pro-infos flex'>
-        <view class='title'>{{item.productInfo.store_name}}</view>
-        <view class='pro-price' wx:if="{{item.productInfo.attrInfo}}">
-          <text>￥</text>
-          {{item.productInfo.attrInfo.price}}
-        </view>
-        <view class='pro-price' wx:else>
-          <text>￥</text>
-          {{item.productInfo.price}}
-        </view>
-      </view>
-      <view class='del-btn' data-id="{{item.id}}" bindtap="cartDel">删除</view>
-    </view>
-  </view>
-  <view style='height:120rpx;'></view>
-  <view class='foot'>
-    <view class='pay-wrapper flex' hidden='{{foothidden}}'>
-      <view class='left-wrapper flex'>
-        <!-- <view class='all-select' bindtap="allChecked">
+    <view style='height:120rpx;'></view>
+    <view class='foot'>
+      <view class='pay-wrapper flex' hidden='{{foothidden}}'>
+        <view class='left-wrapper flex'>
+          <!-- <view class='all-select' bindtap="allChecked">
           <label class="checkbox">
             <checkbox value="Boolean" checked="{{isAllSelect}}" />
           </label>
         </view>
         <view class='txt'>全选</view> -->
-        <view class='count-num'>
-          <text>合计:</text>
-          ￥{{countmoney}} {{deliver_fee>0?'+ '+deliver_fee+'（配送费）':''}}
+          <view class='count-num'>
+            <text>合计:</text>
+            ￥{{countmoney}} {{deliver_fee>0?'+ '+deliver_fee+'（配送费）':''}}
+          </view>
+        </view>
+        <view class='flex' catchtap="goToOrder" wx:if="{{app.globalData.uid}}">
+          <view class='pay-btn' >立即结算</view>
+        </view>
+        <view class='flex' bindtap="goToLogin" wx:else>
+          <view class='pay-btn' >立即登录</view>
         </view>
       </view>
-      <view class='flex' catchtap="goToOrder">
-        <view class='pay-btn'>立即结算</view>
-      </view>
-    </view>
-    <view class='delete-wrapper flex' hidden="{{!foothidden}}">
-      <!-- <view class='left-wrapper flex'>
+      <view class='delete-wrapper flex' hidden="{{!foothidden}}">
+        <!-- <view class='left-wrapper flex'>
         <view class='all-select' bindtap="allChecked">
           <label class="checkbox">
             <checkbox value="Boolean" checked="{{isAllSelect}}" />
@@ -109,10 +114,16 @@
         </view>
         <view class='txt'>全选</view>
       </view> -->
-      <view class='right-wrapper flex' style="width:100%;justify-content:space-around">
-        <view class='collection-btn' bindtap='collectAll'>移入收藏</view>
-        <view class='delete-btn' bindtap='cartDelAll'>删除</view>
+        <view class='right-wrapper flex' style="width:100%;justify-content:space-around">
+          <view class='collection-btn' bindtap='collectAll'>移入收藏</view>
+          <view class='delete-btn' bindtap='cartDelAll'>删除</view>
+        </view>
       </view>
     </view>
+  </form>
+<!-- </block>
+<block wx:else>
+  <view class="flex" style="margin-top:400rpx">
+    <button bindtap="goToLogin" type="primary">我要登录</button>
   </view>
-</form>
+</block> -->

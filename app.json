@@ -1,5 +1,7 @@
 {
   "pages": [
+    "pages/buycar/buycar",
+    "pages/user/user",
     "pages/index/index",
     "pages/deliver-con/deliver-con",
     "pages/map/map",
@@ -11,10 +13,8 @@
     "pages/loading/loading",
     "pages/load/load",
     "pages/shopList/shopList",
-    "pages/buycar/buycar",
     "pages/productSort/productSort",
     "pages/user-suggest/user-suggest",
-    "pages/user/user",
     "pages/productShop/productShop",
     "pages/product-con/index",
     "pages/login-status/login-status",
@@ -86,5 +86,16 @@
       }
     ]
   },
-  "sitemapLocation": "sitemap.json"
+  "sitemapLocation": "sitemap.json",
+  "plugins": {
+    "routePlan": {
+      "version": "1.0.1",
+      "provider": "wx50b5593e81dd937a"
+    }
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "你的位置信息将用于小程序定位"
+    }
+  }
 }

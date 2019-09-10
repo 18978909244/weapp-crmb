@@ -3,3 +3,5 @@
 <view style="text-align:center;margin-top:50rpx;margin-bottom:50rpx">系统猜测位于 {{address}}</view>
 <view style="text-align:center;margin-top:50rpx;margin-bottom:50rpx">准确率 {{rate}} %</view>
 <map id="map" longitude="{{longitude}}" latitude="{{latitude}}" scale="20" bindcontroltap="controltap" markers="{{markers}}" bindmarkertap="markertap" polyline="{{polyline}}" bindregionchange="regionchange" show-location style="width: 100%; height: 300px;"></map>
+<button type="primary" bindtap="clickRoute" style="margin-top:50rpx">带我去</button>
+<button type="primary" bindtap="copy" style="margin-top:50rpx">复制地址</button>

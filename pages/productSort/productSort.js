@@ -648,6 +648,7 @@ Page({
         var salesOrder = that.data.ficti;
         var offset = 0;
         var startpage = limit * offset;
+        wx.showLoading()
         wx.request({
             url: app.globalData.url + '/routine/auth_api/get_product_list?uid=' + app.globalData.uid,
             data: { sid: sid, cid: cid, priceOrder: priceOrder, salesOrder: salesOrder, news: news, first: startpage, limit: limit },
@@ -668,6 +669,7 @@ Page({
                             title: "数据已经加载完成",
                             hidden: true
                         });
+                        wx.hideLoading()
                         return false;
                     }
                 }

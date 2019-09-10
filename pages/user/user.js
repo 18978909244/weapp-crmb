@@ -2,7 +2,15 @@ var app = getApp();
 var wxh = require('../../utils/wxh.js');
 const API = require('../../api/user')
 const Index = require('../../api/index')
-let interval= null
+let interval = null
+
+const needLogin = ()=>{
+  wx.showModal({
+    title: '请先登录',
+    showCancel:false,
+    confirmText:'我知道了'
+  })
+}
 // pages/user/user.js
 Page({
 
@@ -10,6 +18,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    app: null,
     url: app.globalData.urlImages,
     userinfo: [],
     orderStatusNum: [],
@@ -17,11 +26,29 @@ Page({
     collect: '',
     deliver: false,
     deliverList: [],
-    shopImg:'',
-    service_mobile:''
+    shopImg: '',
+    service_mobile: ''
   },
-
+  goToLogin() {
+    wx.navigateTo({
+      url: '/pages/load/load',
+    })
+  },
+  goTo(e){
+    if (!app.globalData.uid) {
+      needLogin()
+      return
+    }
+    const url = e.currentTarget.dataset.url
+    wx.navigateTo({
+      url
+    })
+  },
   goTel: function (e) {
+    if (!app.globalData.uid) {
+      needLogin()
+      return
+    }
     if (this.data.service_mobile) {
       wx.makePhoneCall({
         phoneNumber: this.data.service_mobile
@@ -71,6 +98,10 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onShow: function (options) {
+    var app = getApp();
+    this.setData({
+      app
+    })
     app.setUserInfo();
     this.initData()
     Index.getIndexInfo()
@@ -80,12 +111,16 @@ Page({
           service_mobile: res.data.data.config_basics.site_phone
         })
       })
-    interval = setInterval(this.initData,10000)
+    interval = setInterval(this.initData, 10000)
   },
-  onHide:function(){
+  onHide: function () {
     clearInterval(interval)
   },
   goNotification: function () {
+    if (!app.globalData.uid) {
+      needLogin()
+      return
+    }
     wx.navigateTo({
       url: '/pages/news-list/news-list',
     })
@@ -94,6 +129,10 @@ Page({
   * 生命周期函数--我的余额
   */
   money: function () {
+    if (!app.globalData.uid) {
+      needLogin()
+      return
+    }
     wx.navigateTo({
       url: '/pages/main/main?now=' + this.data.userinfo.now_money + '&uid=' + app.globalData.uid,
       success: function (res) { },
@@ -105,6 +144,10 @@ Page({
   * 生命周期函数--我的积分
   */
   integral: function () {
+    if (!app.globalData.uid) {
+      needLogin()
+      return
+    }
     wx.navigateTo({
       url: '/pages/integral-con/integral-con?inte=' + this.data.userinfo.integral + '&uid=' + app.globalData.uid,
       success: function (res) { },
@@ -116,6 +159,10 @@ Page({
   * 生命周期函数--我的优惠卷
   */
   coupons: function () {
+    if (!app.globalData.uid) {
+      needLogin()
+      return
+    }
     wx.navigateTo({
       url: '/pages/coupon/coupon',
       success: function (res) { },
@@ -127,6 +174,10 @@ Page({
   * 生命周期函数--我的收藏
   */
   collects: function () {
+    if (!app.globalData.uid) {
+      needLogin()
+      return
+    }
     wx.navigateTo({
       url: '/pages/collect/collect',
     })
@@ -135,6 +186,10 @@ Page({
   * 生命周期函数--我的推广人
   */
   extension: function () {
+    if (!app.globalData.uid) {
+      needLogin()
+      return
+    }
     wx.navigateTo({
       url: '/pages/feree/feree',
       success: function (res) { },
@@ -146,6 +201,10 @@ Page({
   * 生命周期函数--我的推广
   */
   myextension: function () {
+    if (!app.globalData.uid) {
+      needLogin()
+      return
+    }
     wx.navigateTo({
       url: '/pages/extension/extension',
       success: function (res) { },
@@ -153,7 +212,11 @@ Page({
       complete: function (res) { },
     })
   },
-  showImg(e){
+  showImg(e) {
+    if (!app.globalData.uid) {
+      needLogin()
+      return
+    }
     let img = e.currentTarget.dataset.img
     console.log(img)
     wx.previewImage({

@@ -17,11 +17,11 @@ Page({
     url: app.globalData.urlImages,
     moment,
     imgs: '',
-    location:null
+    location: null
   },
-  goToMap(){
+  goToMap() {
     wx.navigateTo({
-      url:`../map/map?longitude=${this.data.location.lng}&latitude=${this.data.location.lat}&rate=${this.data.address_map.similarity*100}&address=${this.data.address_map.address_components.province}${this.data.address_map.address_components.city}${this.data.address_map.address_components.district}${this.data.address_map.title}`
+      url: `../map/map?longitude=${this.data.location.lng}&latitude=${this.data.location.lat}&rate=${this.data.address_map.similarity * 100}&address=${this.data.address_map.address_components.province}${this.data.address_map.address_components.city}${this.data.address_map.address_components.district}${this.data.address_map.title}&real_address=${this.data.ordercon.user_address}`
     })
   },
   /**
@@ -46,12 +46,12 @@ Page({
       header: header,
       success: function (res) {
         qqmapsdk.geocoder({
-          address:res.data.data.user_address,
-          success(res){
-            if(res.status===0){
+          address: res.data.data.user_address,
+          success(res) {
+            if (res.status === 0) {
               that.setData({
-                location:res.result.location,
-                address_map:res.result
+                location: res.result.location,
+                address_map: res.result
               })
             }
           }
@@ -379,7 +379,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    
+
   },
 
   /**

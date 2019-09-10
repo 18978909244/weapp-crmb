@@ -1,8 +1,11 @@
+<!-- <block wx:if="{{app.globalData.uid}}"> -->
 <view class='header flex'>
   <!-- <view class='system-notification iconfont icon-pinglun' bindtap='goNotification'><text class="system-notification-text" wx:if="{{userinfo.notice > 0}}">{{userinfo.notice}}</text></view> -->
-  
+  <block wx:if="{{app.globalData.uid}}">
   <image src='{{userinfo.avatar}}' class='avatar'></image>
   <view class='name'>{{userinfo.nickname}}</view>
+  </block>
+  <block wx:else><view class='name' bindtap="goToLogin"><button type="primary" size="">登录</button></view></block>
   <!-- <text wx:if="{{userinfo.level==0}}">[普通用户]</text> -->
   <view class='notice'>
     <view class='iconfont '></view>
@@ -30,65 +33,65 @@
   <view class='item-box orders' wx:if="{{deliver}}">
     <view class='title-bar flex'>
       <text>我的配送</text>
-      <navigator hover-class="none" url='/pages/deliver-list/deliver-list'>全部配送订单</navigator>
+      <view url='/pages/deliver-list/deliver-list' bindtap="goTo" data-url="/pages/deliver-list/deliver-list">全部配送订单</view>
     </view>
     <view class='list-wrapper flex'>
       <view class='item'>
-        <navigator hover-class="none" url='/pages/deliver-list/deliver-list?nowstatus=1'>
+        <view bindtap="goTo" data-url='/pages/deliver-list/deliver-list?nowstatus=1'>
           <!-- <view class='item-span' wx:if="{{deliverList.length>0}}">{{deliverList.length}}</view> -->
           <image src='/images/deliver_ing.png'></image>
           <view class='text'>配送中 {{deliverCount.ing>0?'('+deliverCount.ing+')':''}}</view>
-        </navigator>
+        </view>
       </view>
       <view class='item'>
-        <navigator hover-class="none" url='/pages/deliver-list/deliver-list?nowstatus=2'>
+        <view bindtap="goTo" data-url='/pages/deliver-list/deliver-list?nowstatus=2'>
           <!-- <view class='item-span' wx:if="{{deliverList.length>0}}">{{deliverList.length}}</view> -->
           <image src='/images/deliver_ing.png'></image>
           <view class='text'>待确认 {{deliverCount.wait>0?'('+deliverCount.wait+')':''}}</view>
-        </navigator>
+        </view>
       </view>
       <view class='item'>
-        <navigator hover-class="none" url='/pages/deliver-list/deliver-list?nowstatus=3'>
+        <view bindtap="goTo" data-url='/pages/deliver-list/deliver-list?nowstatus=3'>
           <!-- <view class='item-span' wx:if="{{deliverList.length>0}}">{{deliverList.length}}</view> -->
           <image src='/images/deliver_done.png'></image>
           <view class='text'>已完成 {{deliverCount.done>0?'('+deliverCount.done+')':''}}</view>
-        </navigator>
+        </view>
       </view>
     </view>
   </view>
   <view class='item-box orders'>
     <view class='title-bar flex'>
       <text>我的订单</text>
-      <navigator hover-class="none" url='/pages/orders-list/orders-list'>查看全部订单</navigator>
+      <view data-url='/pages/orders-list/orders-list' bindtap="goTo" >查看全部订单</view>
     </view>
     <view class='list-wrapper flex'>
       <view class='item'>
-        <navigator hover-class="none" url='/pages/orders-list/orders-list?nowstatus=1'>
+        <view data-url='/pages/orders-list/orders-list?nowstatus=1' bindtap="goTo">
           <view class='item-span' wx:if="{{orderStatusNum.noBuy}}">{{orderStatusNum.noBuy}}</view>
           <image src='/images/dfk.png'></image>
           <view class='text'>待付款</view>
-        </navigator>
+        </view>
       </view>
       <view class='item'>
-        <navigator hover-class="none" url='/pages/orders-list/orders-list?nowstatus=2'>
+        <view bindtap="goTo" data-url='/pages/orders-list/orders-list?nowstatus=2'>
           <view class='item-span' wx:if="{{orderStatusNum.noPostage}}">{{orderStatusNum.noPostage}}</view>
           <image src='/images/dfk.png'></image>
           <view class='text'>待配送</view>
-        </navigator>
+        </view>
       </view>
       <view class='item'>
-        <navigator hover-class="none" url='/pages/orders-list/orders-list?nowstatus=3'>
+        <view bindtap="goTo" data-url='/pages/orders-list/orders-list?nowstatus=3'>
           <view class='item-span'  wx:if="{{orderStatusNum.noTake}}">{{orderStatusNum.noTake}}</view>
           <image src='/images/dsh.png'></image>
           <view class='text'>配送中</view>
-        </navigator>
+        </view>
       </view>
       <view class='item'>
-        <navigator hover-class="none" url='/pages/orders-list/orders-list?nowstatus=4'>
+        <view bindtap="goTo" data-url='/pages/orders-list/orders-list?nowstatus=4'>
           <view class='item-span' wx:if="{{orderStatusNum.noReply}}">{{orderStatusNum.noReply}}</view>
           <image src='/images/dpj.png'></image>
           <view class='text'>待评价</view>
-        </navigator>
+        </view>
       </view>
       <!-- <view class='item'>
         <navigator hover-class="none" url='/pages/refund-order/refund-order'>
@@ -141,23 +144,19 @@
       </view> -->
 
       <view class='item' bindtap='collects'>
-        <navigator hover-class="none">
           <view class='iconfont icon-collect'></view>
           <view class='text'>我的收藏</view>
-        </navigator>
       </view>
       <view class='item' bindtap='coupons'>
-        <navigator hover-class="none">
           <view class='iconfont icon-youhuijuan'></view>
           <view class='text'>优惠劵</view>
-        </navigator>
       </view>
 
       <view class='item'>
-        <navigator hover-class="none" url="/pages/address/address">
+        <view bindtap="goTo" data-url="/pages/address/address">
           <view class='iconfont icon-dizhiguanli'></view>
           <view class='text'>地址管理</view>
-        </navigator>
+        </view>
       </view>
 
       <!-- <view class='item'>
@@ -174,10 +173,10 @@
     </view>
     <view class='list-wrapper flex'>
       <view class='item'>
-        <navigator hover-class="none" url='/pages/user-suggest/user-suggest'>
+        <view bindtap="goTo" data-url='/pages/user-suggest/user-suggest'>
           <view class='iconfont icon-liaotian'></view>
           <view class='text'>留言建议</view>
-        </navigator>
+        </view>
       </view>
       <view class='item'>
         <button bindtap="goTel" class='contact-but'>
@@ -201,6 +200,12 @@
     </view>
   </view>
 </view>
+<!-- </block>
+<block wx:else>
+  <view class="flex" style="margin-top:400rpx">
+    <button bindtap="goToLogin" type="primary">我要登录</button>
+  </view>
+</block> -->
 <include src="/pages/home/home.wxml"/>
 
 

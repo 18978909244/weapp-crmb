@@ -1,11 +1,13 @@
 // import bm from '../../utils/baseMath.js'
 // // pages/buycar/buycar.js
 var app = getApp();
+
 const Buycar = require('../../api/buycar')
 // // var wx = require('../../utils/wx.js');
 
 Page({
   data: {
+    app:null,
     isAttrInfo: 'attrInfo',
     itemAttrInfo: '',
     foothidden: false,
@@ -21,6 +23,11 @@ Page({
     shopList: []
   },
 
+  goToLogin() {
+    wx.navigateTo({
+      url: '/pages/load/load',
+    })
+  },
   setNumber: function (e) {
     var index = e.currentTarget.dataset.index;
     let max = Number(e.currentTarget.dataset.max)
@@ -80,8 +87,9 @@ Page({
   initShopList() {
     let valid = this.data.cartList
     let carListObj = {}
+    if(!valid) return;
     for (let i = 0; i < valid.length; i++) {
-      console.log(valid[i].shopInfo,valid[i].shopInfo.id)
+      console.log(valid[i].shopInfo, valid[i].shopInfo.id)
       let shopId = valid[i].shopInfo.id
       if (carListObj[shopId]) {
         carListObj[shopId] = [...carListObj[shopId], valid[i]]
@@ -235,6 +243,7 @@ Page({
   carnum() {
     var carnum = 0;
     var array = this.data.cartList;
+    if(!array) return;
     for (var i = 0; i < array.length; i++) {
       if (array[i].checked == true) {
         carnum += parseInt(array[i].cart_num);
@@ -248,6 +257,7 @@ Page({
   countmoney() {
     var carmoney = 0;
     var array = this.data.cartList;
+    if(!array) return;
     for (var i = 0; i < array.length; i++) {
       if (array[i].checked == true) {
         if (array[i].productInfo.attrInfo) {
@@ -513,7 +523,7 @@ Page({
       return;
     }
     let total = Number(this.data.countmoney) + Number(this.data.deliver_fee)
-    let min_product_paid = Number(wx.getStorageSync('min_product_paid'))||10
+    let min_product_paid = Number(wx.getStorageSync('min_product_paid')) || 10
     if (total < min_product_paid) {
       wx.showToast({
         title: '下单金额' + min_product_paid + '元起送',
@@ -543,10 +553,13 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+    var app = getApp();
+
     this.carnum();
     this.countmoney();
     this.getList();
     this.setData({
+      app,
       chooseShopId: -1,
       cartIdsStr: '',
       hide_shop_entry: wx.getStorageSync('hide_shop_entry')
