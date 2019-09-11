@@ -2,6 +2,9 @@
 var app = getApp();
 var wxh = require('../../utils/wxh.js');
 const API = require('../../api/productSort')
+
+const {needLogin} = require('../../utils/util')
+
 Page({
     data: {
         attrName: '',
@@ -353,7 +356,7 @@ Page({
     searchSubmit: function (e) {
         var that = this;
         wx.request({
-            url: app.globalData.url + '/routine/auth_api/get_form_id?uid=' + app.globalData.uid,
+            url: app.globalData.url + '/routine/auth_api/get_form_id?uid=1',
             method: 'GET',
             data: {
                 formId: e.detail.formId
@@ -362,7 +365,7 @@ Page({
         })
         var $search = e.detail.value;
         wx.request({
-            url: app.globalData.url + '/routine/auth_api/store?uid=' + app.globalData.uid,
+            url: app.globalData.url + '/routine/auth_api/store?uid=1',
             data: { value: $search },
             method: 'GET',
             success: function (res) {
@@ -558,7 +561,10 @@ Page({
                 duration: 2000
             })
         } else {
-
+            if (!app.globalData.uid) {
+                needLogin()
+                return
+            }
             var header = {
                 'content-type': 'application/x-www-form-urlencoded',
             };
@@ -638,7 +644,7 @@ Page({
     },
     getProductList: function () {
 
-      console.log('getProductList')
+        console.log('getProductList')
         var that = this;
         var news = that.data.news;
         var sid = that.data.sid;
@@ -683,7 +689,7 @@ Page({
         })
     },
     onReachBottom: function (p) {
-      console.log('onReachBottom')
+        console.log('onReachBottom')
         var that = this;
         var news = '';
         var sid = that.data.sid;

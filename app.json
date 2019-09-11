@@ -1,8 +1,8 @@
 {
   "pages": [
+    "pages/index/index",
     "pages/buycar/buycar",
     "pages/user/user",
-    "pages/index/index",
     "pages/deliver-con/deliver-con",
     "pages/map/map",
     "pages/main/main",

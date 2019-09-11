@@ -3,6 +3,8 @@ var app = getApp();
 var wxh = require('../../utils/wxh.js');
 var WxParse = require('../../wxParse/wxParse.js');
 const ProductCon = require('../../api/productCon.js')
+const {needLogin} = require('../../utils/util')
+
 Page({
 
   /**
@@ -70,7 +72,7 @@ Page({
   },
   goPhone: function () {
     wx.request({
-      url: app.globalData.url + '/routine/auth_api/get_site_phone?uid=' + app.globalData.uid,
+      url: app.globalData.url + '/routine/auth_api/get_site_phone?uid=1',
       method: 'GET',
       success: function (res) {
         wx.makePhoneCall({
@@ -469,6 +471,10 @@ Page({
     })
   },
   parameterShow: function () {
+    if (!app.globalData.uid) {
+      needLogin()
+      return
+  }
     var that = this;
     if (that.data.productSelect.unique != '') {
       var header = {
@@ -511,6 +517,10 @@ Page({
     }
   },
   goOrder: function () {
+    if (!app.globalData.uid) {
+      needLogin()
+      return
+  }
     var that = this;
     if (that.data.productSelect.unique != '') {
       var header = {
@@ -673,6 +683,10 @@ Page({
     wxh.tapcolor(that, e);
   },
   subBuy: function (e) {
+    if (!app.globalData.uid) {
+      needLogin()
+      return
+  }
     wx.request({
       url: app.globalData.url + '/routine/auth_api/get_form_id?uid=' + app.globalData.uid,
       method: 'GET',
@@ -808,6 +822,10 @@ Page({
     else this.collectProduct();
   },
   unCollectProduct: function () {
+    if (!app.globalData.uid) {
+      needLogin()
+      return
+  }
     var that = this;
     var header = {
       'content-type': 'application/x-www-form-urlencoded',
@@ -832,6 +850,10 @@ Page({
     })
   },
   collectProduct: function () {
+    if (!app.globalData.uid) {
+      needLogin()
+      return
+  }
     var that = this;
     var header = {
       'content-type': 'application/x-www-form-urlencoded',

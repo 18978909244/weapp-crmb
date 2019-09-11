@@ -14,6 +14,23 @@ const formatNumber = n => {
   return n[1] ? n : '0' + n
 }
 
+const needLogin = () => {
+  wx.showModal({
+      title: '请先登录',
+      confirmText: '去登录',
+      success(res) {
+          if (res.confirm) {
+              wx.navigateTo({
+                  url: '/pages/load/load',
+              })
+          } else if (res.cancel) {
+              console.log('用户点击取消')
+          }
+      }
+  })
+}
+
 module.exports = {
-  formatTime: formatTime
+  formatTime: formatTime,
+  needLogin
 }

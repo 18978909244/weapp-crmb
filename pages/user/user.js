@@ -4,13 +4,8 @@ const API = require('../../api/user')
 const Index = require('../../api/index')
 let interval = null
 
-const needLogin = ()=>{
-  wx.showModal({
-    title: '请先登录',
-    showCancel:false,
-    confirmText:'我知道了'
-  })
-}
+const {needLogin} = require('../../utils/util')
+
 // pages/user/user.js
 Page({
 
