@@ -1,6 +1,8 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/extension/extension",
+    "pages/spread/spread",
     "pages/buycar/buycar",
     "pages/user/user",
     "pages/deliver-con/deliver-con",
@@ -29,7 +31,6 @@
     "pages/product-countdown/index",
     "pages/refund-page/refund-page",
     "pages/refund-order/refund-order",
-    "pages/spread/spread",
     "pages/promotion-order/promotion-order",
     "pages/coupon/coupon",
     "pages/news-list/news-list",
@@ -44,7 +45,6 @@
     "pages/feree-two/feree-two",
     "pages/cash/cash",
     "pages/logistics/logistics",
-    "pages/extension/extension",
     "pages/unshop/unshop",
     "pages/collect/collect",
     "pages/promotion-card/promotion-card"

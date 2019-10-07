@@ -22,7 +22,8 @@ Page({
     deliver: false,
     deliverList: [],
     shopImg: '',
-    service_mobile: ''
+    service_mobile: '',
+    hide_shop_entry: wx.getStorageSync('hide_shop_entry') === '' ? false : wx.getStorageSync('hide_shop_entry')
   },
   goToLogin() {
     wx.navigateTo({

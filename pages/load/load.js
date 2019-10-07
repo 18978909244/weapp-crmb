@@ -1,4 +1,6 @@
 var app = getApp();
+const Spread = require('../../api/spread')
+
 Page({
   data: {
     logo: '',
@@ -41,7 +43,15 @@ Page({
             success: function (res) {
               wx.setStorageSync('userInfo', res.data.data)
               app.globalData.uid = res.data.data.uid;
+              const spread_uid = wx.getStorageSync('spread_uid')
               app.globalData.openid = res.data.data.routine_openid;
+              if(spread_uid){
+                Spread.postSpreadUid({
+                  spread_uid
+                }).then(res=>{
+                  console.log(res.data)
+                })
+              }
               wx.reLaunch({
                 url: '/pages/index/index'
               })

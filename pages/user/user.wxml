@@ -13,7 +13,7 @@
 </view>
 <view class='user-list-warapper'>
    <view class='item-box amount flex'>
-    <view class='amount-item' bindtap='money'>
+    <view class='amount-item' bindtap='money' wx:if="{{!hide_shop_entry}}">
       <view class='count'>{{userinfo.now_money}}</view>
       <view class='text' >账户余额</view>
     </view>
@@ -107,6 +107,12 @@
       <text>我的工具</text>
     </view>
     <view class='list-wrapper flex'>
+      <view class='item' bindtap='myextension' wx:if="{{userinfo.is_promoter && userinfo.statu == 1}}">
+        <navigator hover-class="none">
+          <view class='iconfont icon-tongzhi'></view>
+          <view class='text'>我的推广</view>
+        </navigator>
+      </view>
       <!-- <navigator hover-class="none" url="/pages/promotion-card/promotion-card">
       <view class='item' bindtap='cut_down_the_price'> -->
          <!-- <web-view url="https://www.shuangfuying.com/shop/merchant.merchant_enter"></web> -->

@@ -4,7 +4,7 @@ Page({
   data: {
     url: app.globalData.urlImages,
     now_money:'',
-    mainArray:[]
+    mainArray:[],
   },
 
   /**

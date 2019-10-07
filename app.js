@@ -20,7 +20,7 @@ App({
   },
   globalData: {
     routineStyle:'#9bd040',
-    uid: null,
+    uid: 31,
     openPages:'',
     spid:0,
     urlImages: '',

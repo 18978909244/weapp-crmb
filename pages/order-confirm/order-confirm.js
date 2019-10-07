@@ -4,7 +4,7 @@ var app = getApp();
 const API = require('../../api/order-confirm')
 const Address = require('../../api/address')
 
-const now = '2019-08-29 01:01:00'
+const now = '2019-08-29 02:01:00'
 let hour = moment().hour()
 let min = moment().minutes()
 let firstColumn = ['明天', '后天'];
@@ -26,12 +26,12 @@ let data = {
    thirdColumn.map(item => item + '分')],
 
   '1': [['今天', '明天', '后天'].filter((item, index) => {
-    if (hour <= ending_hour) {
+    if (hour < ending_hour) {
       return index > -1
     } else {
       return index > 0
     }
-  }), (hour <= ending_hour) ? _second.filter(i => {
+  }), (hour < ending_hour) ? _second.filter(i => {
     // if (min > 45) {
     //   return i > hour + 1
     // }

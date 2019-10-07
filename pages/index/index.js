@@ -4,6 +4,8 @@ var app = getApp();
 var wxh = require('../../utils/wxh.js');
 const Index = require('../../api/index')
 const Shop = require('../../api/productShop')
+const Spread = require('../../api/spread')
+
 const moment = require('../../utils/moment')
 Page({
   /**
@@ -61,6 +63,18 @@ Page({
     var that = this;
     if (options.spid) {
       app.globalData.spid = options.spid
+    }
+    if(options.scene){
+      let spread_uid = decodeURIComponent(options.scene)
+      console.log('spread_uid',spread_uid)
+      wx.setStorageSync('spread_uid',spread_uid)
+      if(app.globalData.uid){
+        Spread.postSpreadUid({
+          spread_uid
+        }).then(res=>{
+          console.log(res.data)
+        })
+      }
     }
     app.setUserInfo();
     that.getIndexInfo();
