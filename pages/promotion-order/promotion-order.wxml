@@ -4,7 +4,7 @@
 </view>
 <view class='promotion-down'>
       <view class='promotion-header flex'>
-        <view class='flex header-order' data-index='0' bindtap='ordertap'>{{allOrder}}<icon class='iconfont icon-xiaosanjiaoxing02 {{currentTab=="0"?"icon-xiaosanjiaoxing01":""}}' data-index='0'></icon></view>
+        <!-- <view class='flex header-order' data-index='0' bindtap='ordertap'>{{allOrder}}<icon class='iconfont icon-xiaosanjiaoxing02 {{currentTab=="0"?"icon-xiaosanjiaoxing01":""}}' data-index='0'></icon></view> -->
         <view class='flex header-order' data-index='1' bindtap='ordertap'>{{promoter}}<icon class='iconfont icon-xiaosanjiaoxing02 {{currentTab=="1"?"icon-xiaosanjiaoxing01":""}}' data-class='icon-xiaosanjiaoxing01' data-index='1'></icon></view>
       </view>
       <view hidden='{{hiddens}}'>
@@ -25,7 +25,7 @@
     <view class='promotion-li' wx:for="{{orderlist}}">
         <view class='li-header flex'>
             <view class='order-num'>订单号：{{item.order_id}}</view>
-            <view class='order-flag'>{{item._status._title}}</view>
+            <!-- <view class='order-flag'>{{item._status._title}}</view> -->
         </view>
 
         <view class='li-item flex' wx:for="{{item.cartInfo}}">
@@ -33,7 +33,7 @@
              <view class='item-text'>
                  <view class='item-title line2'>{{item.productInfo.store_name}}</view>
                  <view class='item-time'>下单日期: {{item.add_time}}</view>
-                 <view class='item-money'>￥<text>{{item.productInfo.price}}</text>.00</view>
+                 <view class='item-money'>￥<text>{{item.productInfo.price}}</text></view>
              </view>
         </view>
       

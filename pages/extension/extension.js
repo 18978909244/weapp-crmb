@@ -6,7 +6,7 @@ Page({
     yearsum:'',
     extractsum:''
   },
-  onLoad: function (options) {
+  onShow: function (options) {
     app.setUserInfo();
     var header = {
       'content-type': 'application/x-www-form-urlencoded',

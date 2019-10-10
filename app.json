@@ -1,8 +1,9 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/extension/extension",
+    "pages/promotion-order/promotion-order",
     "pages/spread/spread",
+    "pages/extension/extension",
     "pages/buycar/buycar",
     "pages/user/user",
     "pages/deliver-con/deliver-con",
@@ -31,7 +32,6 @@
     "pages/product-countdown/index",
     "pages/refund-page/refund-page",
     "pages/refund-order/refund-order",
-    "pages/promotion-order/promotion-order",
     "pages/coupon/coupon",
     "pages/news-list/news-list",
     "pages/comment-con/comment-con",

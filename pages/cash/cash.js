@@ -115,7 +115,7 @@ Page({
       } else if (list.bankname == "请选择银行") {
         warn = "请选择银行";
       } else if (list.money < minmon) {
-        warn = "请输入正确的金额"
+        warn = "最小提现金额："+minmon
       } else if (list.money > mymoney) {
         warn = "您的余额不足"
       }else {
@@ -136,7 +136,7 @@ Page({
       if (list.weixin == "") {
         warn = "请填写微信号";
       } else if (list.money < minmon) {
-        warn = "请输入正确的金额"
+        warn = "最小提现金额："+minmon
       } else if (list.money > mymoney) {
         warn = "您的余额不足"
       } else {
@@ -164,6 +164,7 @@ Page({
           icon: 'success',
           duration: 1500
         })
+        wx.navigateBack()
       }
     })
   }

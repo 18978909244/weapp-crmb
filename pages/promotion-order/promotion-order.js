@@ -1,4 +1,6 @@
 var app = getApp();
+const moment = require('../../utils/moment')
+
 // pages/promotion-order/promotion-order.js
 Page({
   data: {
@@ -119,7 +121,15 @@ Page({
      success: function (res) { 
        if (res.data.code==200){
          that.setData({
-           orderlist: res.data.data
+           orderlist: res.data.data.map(item=>{
+             for(let key in item.cartInfo){
+              item.cartInfo[key].add_time = moment(item.cartInfo[key].add_time*1000).format('YYYY-MM-DD')
+             }
+             return {
+               ...item,
+               cartInfo:item.cartInfo
+             }
+           })
          })
        }else{
        that.setData({
@@ -128,6 +138,9 @@ Page({
        }
      }
    })
+ },
+ formateTime(time){
+   return moment(time).format('YYYY-MM-DD hh:mm:ss')
  },
   orderlistmoney: function () {
     var that = this;
