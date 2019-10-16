@@ -42,6 +42,9 @@ let data = {
   // }).map(item => item + '分') : thirdColumn.map(item => item + '分') : 
   thirdColumn.map(item => item + '分')]
 }
+
+var QQMapWX = require('../../qqmap-wx-jssdk.js');
+var qqmapsdk;
 Page({
 
   /**
@@ -86,11 +89,14 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    qqmapsdk = new QQMapWX({
+      key: '2XRBZ-IOMCK-N5XJG-AVIPQ-ZBLRH-XNBKS'
+    });
     app.setUserInfo();
     var that = this;
     if (options.pinkId) {
       that.setData({
-        pinkId: options.pinkId || '277,278'
+        pinkId: options.pinkId || '4826'
       })
     }
     if (options.addressId) {
@@ -342,8 +348,7 @@ Page({
     }
   },
   getaddressInfo: function () {
-
-    var that = this;
+    let that = this
     if (that.data.addressId) {
       wx.request({
         url: app.globalData.url + '/routine/auth_api/get_user_address?uid=' + app.globalData.uid,
@@ -356,6 +361,59 @@ Page({
             that.setData({
               addressInfo: res.data.data
             })
+            const {province,city,detail,district,} = res.data.data
+            wx.request({
+              url:app.globalData.url+'/routine/auth_api/get_config?uid=' + app.globalData.uid,
+              method:'GET',
+              success(res){
+                const {config_express:{deliver_center,deliver_distance,deliver_over_money}} = res.data.data
+                const [shop_lng_str,shop_lat_str] = deliver_center.split(',')
+                const shop_lng = parseFloat(shop_lng_str)
+                const shop_lat = parseFloat(shop_lat_str)
+
+                qqmapsdk.geocoder({
+                  address: `${province} ${city} ${detail} ${district}`,
+                  success(res) {
+                    if (res.status === 0) {
+                      const {location:{lng,lat}} = res.result
+                      qqmapsdk.calculateDistance({
+                        from: {
+                          latitude: shop_lat,
+                          longitude: shop_lng
+                        },
+                        to: [{
+                          latitude: lat,
+                          longitude: lng
+                        }],
+                        success: function (res) {
+
+                          const {priceGroup:{totalPrice}} = that.data
+                          //距离
+                          var distance = res.result.elements['0'].distance;
+                          console.log(totalPrice,Number(deliver_over_money),Number(deliver_distance),distance)
+                          if(totalPrice<Number(deliver_over_money) && Number(deliver_distance)<distance){
+                            wx.showModal({
+                              title:"注意",
+                              content:'您的收货地址距离过远,无法配送',
+                              showCancel:false,
+                              confirmText:'更改地址',
+                              success(res){
+                                if(res.confirm){
+                                  that.getAddress()
+                                }
+                              }
+                            })
+                            return
+                          }
+                        },
+                      })
+                    }
+                  }
+                })
+              }
+            })
+            
+            
           }
         }
       })

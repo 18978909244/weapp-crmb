@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/order-confirm/order-confirm",
     "pages/promotion-order/promotion-order",
     "pages/spread/spread",
     "pages/extension/extension",
@@ -9,7 +10,6 @@
     "pages/deliver-con/deliver-con",
     "pages/map/map",
     "pages/main/main",
-    "pages/order-confirm/order-confirm",
     "pages/orders-con/orders-con",
     "pages/deliver-list/deliver-list",
     "pages/orders-list/orders-list",
