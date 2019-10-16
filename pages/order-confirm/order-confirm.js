@@ -83,7 +83,8 @@ Page({
     userExpectTime: 0,
     multiIndex: [0, 0, 0],
     multiArray: [],
-    onlyDateShip: false
+    onlyDateShip: false,
+    start_deliver_time:'0:00'
   },
   /**
    * 生命周期函数--监听页面加载
@@ -366,16 +367,18 @@ Page({
               url:app.globalData.url+'/routine/auth_api/get_config?uid=' + app.globalData.uid,
               method:'GET',
               success(res){
-                const {config_express:{deliver_center,deliver_distance,deliver_over_money}} = res.data.data
+                const {config_express:{deliver_center,deliver_distance,deliver_over_money},config_mall:{start_deliver_time}} = res.data.data
                 const [shop_lng_str,shop_lat_str] = deliver_center.split(',')
                 const shop_lng = parseFloat(shop_lng_str)
                 const shop_lat = parseFloat(shop_lat_str)
+                that.setData({start_deliver_time})
 
                 qqmapsdk.geocoder({
                   address: `${province} ${city} ${detail} ${district}`,
                   success(res) {
                     if (res.status === 0) {
                       const {location:{lng,lat}} = res.result
+                      console.log(`shop_lng:${shop_lng},shop_lat:${shop_lat}`)
                       qqmapsdk.calculateDistance({
                         from: {
                           latitude: shop_lat,
@@ -641,10 +644,23 @@ Page({
     }
     let userExpectTime = _time / 1000
     console.log('userExpectTime', userExpectTime)
+    
     this.setData({
       multiIndex: e.detail.value,
       userExpectTime
     })
+    const start_deliver_time = this.data.start_deliver_time
+    const timeArr = start_deliver_time.split(':')
+    const hourNumber = Number(time.split('时')[0])
+    const minNumber = Number(mins.split('分')[0])
+    console.log(timeArr[0],timeArr[1],hourNumber,minNumber)
+    if(hourNumber>=0 && (hourNumber < Number(timeArr[0]) || (hourNumber===Number(timeArr[0]) && minNumber<Number(timeArr[1]) ) )){
+      wx.showModal({
+        title:'提示',
+        content:`您选择的时间无法配送,我们将在${start_deliver_time} 开始为您配送`,
+        showCancel:false
+      })
+    }
   },
   /**
    * 生命周期函数--监听页面初次渲染完成

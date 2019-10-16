@@ -120,6 +120,8 @@ Page({
     if (options.scene){
       options.id = decodeURIComponent(options.scene)
     }
+
+    // options.id = options.id?options.id:138
     // console.log(decodeURIComponent(options.scene))
     app.globalData.openPages = '/pages/product-con/index?id=' + options.id;
     var that = this;

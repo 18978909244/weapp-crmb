@@ -480,8 +480,10 @@ Page({
             for (var jjj in array[jj]['attr_values']) {
                 if (that.in_array(array[jj]['attr_values'][jjj], attrNameArr)) {
                     array[jj]['attr_value'][jjj].check = true;
+                    break;
                 } else {
                     array[jj]['attr_value'][jjj].check = false;
+                    break;
                 }
             }
         }
