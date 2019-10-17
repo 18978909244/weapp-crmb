@@ -23,7 +23,21 @@ Page({
     deliverList: [],
     shopImg: '',
     service_mobile: '',
+    weixinCheck:true,
     hide_shop_entry: wx.getStorageSync('hide_shop_entry') === '' ? false : wx.getStorageSync('hide_shop_entry')
+  },
+  onLoad(){
+    if(app.globalData.weixinCheck){
+      this.setData({
+        weixinCheck:app.globalData.weixinCheck==='1'
+      })
+    }else{
+      app.weixinCheckCallback = weixinCheck =>{
+        this.setData({
+          weixinCheck:weixinCheck==='1'
+        })
+      }
+    }
   },
   goToLogin() {
     wx.navigateTo({
@@ -129,6 +143,7 @@ Page({
       needLogin()
       return
     }
+    if(this.data.weixinCheck) return
     wx.navigateTo({
       url: '/pages/main/main?now=' + this.data.userinfo.now_money + '&uid=' + app.globalData.uid,
       success: function (res) { },

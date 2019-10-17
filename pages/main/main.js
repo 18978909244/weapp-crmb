@@ -5,12 +5,24 @@ Page({
     url: app.globalData.urlImages,
     now_money:'',
     mainArray:[],
+    weixinCheck:true,
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    if(app.globalData.weixinCheck){
+      this.setData({
+        weixinCheck:app.globalData.weixinCheck==='1'
+      })
+    }else{
+      app.weixinCheckCallback = weixinCheck =>{
+        this.setData({
+          weixinCheck:weixinCheck==='1'
+        })
+      }
+    }
     var that = this;
     var now = options.now;
     that.setData({

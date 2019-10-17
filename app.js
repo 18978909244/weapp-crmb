@@ -17,6 +17,19 @@ App({
       this.globalData.uid = userInfo.uid
     }
     wx.setStorageSync('shipType','1')
+
+
+    wx.request({
+      url:this.globalData.url+'/routine/auth_api/get_config?uid=1',
+      method:'GET',
+      success(res){
+        const {config_mall:{hide_shop_entry}} = res.data.data
+        this.globalData.weixinCheck = hide_shop_entry
+        if (this.weixinCheckCallback) {
+          this.weixinCheckCallback(hide_shop_entry)
+        }
+      }
+    })
   },
   globalData: {
     routineStyle:'#9bd040',
@@ -27,7 +40,8 @@ App({
     url: 'https://www.shuangfuying.com',
     priceStart:0.02,
     sid:'',
-    cid:''
+    cid:'',
+    weixinCheck:null
   },
   getRoutineStyle:function(){
     var that = this;
