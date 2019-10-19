@@ -18,15 +18,16 @@ App({
     }
     wx.setStorageSync('shipType','1')
 
-
+  
     wx.request({
       url:this.globalData.url+'/routine/auth_api/get_config?uid=1',
       method:'GET',
       success(res){
         const {config_mall:{hide_shop_entry}} = res.data.data
-        this.globalData.weixinCheck = hide_shop_entry
-        if (this.weixinCheckCallback) {
-          this.weixinCheckCallback(hide_shop_entry)
+        that.globalData.weixinCheck = hide_shop_entry
+        console.log(that.globalData.weixinCheck)
+        if (that.weixinCheckCallback) {
+          that.weixinCheckCallback(hide_shop_entry)
         }
       }
     })

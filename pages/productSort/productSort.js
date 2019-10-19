@@ -446,7 +446,6 @@ Page({
     tapsize: function (e) {
         var that = this;
         var key = e.currentTarget.dataset.key;
-        console.log(key);
         var attrValues = [];
         var attrName = that.data.attrName;
         var attrNameArr = attrName.split(",");
@@ -476,20 +475,20 @@ Page({
                 }
             }
         }
+        console.log(array,attrNameArr)
         for (var jj in array) {
             for (var jjj in array[jj]['attr_values']) {
                 if (that.in_array(array[jj]['attr_values'][jjj], attrNameArr)) {
                     array[jj]['attr_value'][jjj].check = true;
-                    break;
                 } else {
                     array[jj]['attr_value'][jjj].check = false;
-                    break;
                 }
             }
         }
-        that.setData({
-            productAttr: array
-        })
+        // that.setData({
+        //     productAttr: array
+        // })
+        console.log(that.data.productAttr)
         var attrNameArrSortArr = attrNameArrSort.split(",");
         attrNameArrSortArr.pop();
         that.setData({
@@ -498,6 +497,19 @@ Page({
         var arrAttrName = that.data.attrName.split(",");
         for (var index in that.data.productValue) {
             var strValue = that.data.productValue[index]['suk'];
+            console.log(`that.data.productValue[index]['unique']`,)
+            if(strValue===key){
+                let productAttr = that.data.productAttr
+                let _index = productAttr.findIndex(item=>item.attr_values.includes(key))
+                let _idx = productAttr[_index].attr_value.findIndex(item=>item.attr===key)
+                productAttr[_index].attr_value.forEach(item=>item.check=false)
+                productAttr[_index].attr_value[_idx].check = true
+                that.setData({
+                    ['productSelect.unique']:that.data.productValue[index]['unique'],
+                    productAttr
+                })
+                console.log(that.data.productSelect.unique)
+            }
             var arrValue = strValue.split(",");
             if (that.in_array_two(arrValue, arrAttrName)) {
                 var image = "productSelect.image";
@@ -663,6 +675,8 @@ Page({
             method: 'GET',
             success: function (res) {
                 if (res.data.code == 200) {
+
+                    
                     var len = res.data.data.length;
                     var ladding = [];
                     for (var i in res.data.data) {
@@ -672,6 +686,7 @@ Page({
                         Arraylike: ladding,
                         offset: offset + 1
                     })
+                    wx.hideLoading()
                     if (len < limit) {
                         that.setData({
                             title: "数据已经加载完成",
