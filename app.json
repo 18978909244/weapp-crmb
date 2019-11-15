@@ -89,7 +89,7 @@
   "sitemapLocation": "sitemap.json",
   "plugins": {
     "routePlan": {
-      "version": "1.0.1",
+      "version": "1.0.3",
       "provider": "wx50b5593e81dd937a"
     }
   },

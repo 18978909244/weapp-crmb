@@ -97,6 +97,22 @@ Page({
     let w = (moment().hour() > 7 && moment().hour() < 19) ? 'd' : 'n'
     Index.getIndexInfo()
       .then(res => {
+        const showModel = (msg) =>{
+          wx.showModal({
+            title: '提示',
+            content: res.data.data.banned_message?res.data.data.banned_message:'解除黑名单请联系平台',
+            showCancel:false,
+            success (res) {
+              if (res.confirm) {
+                showModel(msg)
+              }
+            }
+          })
+        }
+
+        if(res.data.data.banned===1){
+          showModel(res.data.data.banned_message?res.data.data.banned_message:'解除黑名单请联系平台')
+        }
         this.setData({
           imgUrls: res.data.data.banner,
           recommendLsit: res.data.data.best,
