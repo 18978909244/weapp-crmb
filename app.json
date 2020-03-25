@@ -5,6 +5,7 @@
     "pages/order-confirm/order-confirm",
     "pages/promotion-order/promotion-order",
     "pages/spread/spread",
+    "pages/info/info",
     "pages/extension/extension",
     "pages/buycar/buycar",
     "pages/user/user",

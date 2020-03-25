@@ -1,0 +1,39 @@
+<view class='header flex'>
+  <view style="width:150rpx;height:150rpx;border-radius:150rpx;">
+    <open-data type="userAvatarUrl"></open-data>
+  </view>
+</view>
+<view class='user-list-warapper'>
+<view style="color:white;padding-bottom:20rpx">请输入您的信息,门店用户请输入门店名称和地址</view>
+  <view class='item-box flex' style="font-size:36rpx;flex-direction:column;padding-bottom:30rpx">
+    <view class="flex" style="padding:20rpx 5rpx; align-items:center;width:100%;border-bottom:2rpx solid #e5e5e5;">
+      <view style="width:250rpx;font-weight:500;text-align:center">联系人</view>
+      <view class="flex" style="align-items:center;">
+        <input placeholder="请输入联系人" value="{{real_name}}" bindinput="input" data-type="real_name"/>
+      </view>
+    </view>
+
+
+    <view class="flex" style="padding:20rpx 5rpx; align-items:center;width:100%;border-bottom:2rpx solid #e5e5e5;">
+      <view style="width:250rpx;font-weight:500;text-align:center">联系手机号</view>
+      <view class="flex" style="align-items:center;">
+        <input placeholder="请输入联系手机号" value="{{phone}}" bindinput="input" data-type="phone"/>
+      </view>
+    </view>
+
+    <view class="flex" style="padding:20rpx 5rpx; align-items:center;width:100%;border-bottom:2rpx solid #e5e5e5;">
+      <view style="width:250rpx;font-weight:500;text-align:center">店名</view>
+      <view class="flex" style="align-items:center;">
+        <input placeholder="请输入店名" value="{{shop_name}}" bindinput="input" data-type="shop_name"/>
+      </view>
+    </view>
+
+    <view class="flex" style="padding:20rpx 5rpx; align-items:center;width:100%;border-bottom:2rpx solid #e5e5e5;">
+      <view style="width:250rpx;font-weight:500;text-align:center">店地址</view>
+      <view class="flex" style="align-items:center;">
+        <input placeholder="请输入店地址" value="{{shop_address}}"  bindinput="input" data-type="shop_address"/>
+      </view>
+    </view>
+    <button type="primary" disabled="{{phone===''}}" style="width:600rpx;margin:0 auto;margin-top:50rpx" bindtap="submit">确定</button>
+  </view>
+</view>

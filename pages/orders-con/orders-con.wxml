@@ -126,6 +126,14 @@
       <text>优惠券抵用</text>
       <text class='count'>- ￥{{ordercon.coupon_price}}</text>
     </view>
+    <view class='infos flex' wx:if="{{ordercon.owe_money!=='0.00'}}">
+      <text>上次订单差额</text>
+      <text class='count'>￥{{ordercon.owe_money}}</text>
+    </view>
+    <view class='infos flex' wx:if="{{ordercon.owe_desc!==''}}">
+      <text>描述</text>
+      <text class='count'>{{ordercon.owe_desc}}</text>
+    </view>
     <!-- <view class='infos flex'>
       <text>折扣价</text>
       <text class='count'>￥{{ordercon.deduction_price}}</text>
