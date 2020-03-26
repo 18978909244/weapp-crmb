@@ -499,7 +499,7 @@ Page({
             priceGroup: res.data.data.priceGroup,
             cartId: res.data.data.cartId,
             seckillId: res.data.data.seckill_id,
-            usableCoupon: res.data.data.usableCoupon
+            usableCoupon: res.data.data.usableCoupon,
           })
           that.getBargainId();
         }

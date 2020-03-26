@@ -53,6 +53,10 @@
       </view>
       <view class='sale-btn' bindtap='getCoupon' wx:else>选择优惠券</view>
     </view>
+    <view class='text-item flex' wx:if="{{userInfo.owe_money!=='0.00'}}">
+      <text>上次差额</text>
+      <view class='sale-btn'>￥{{userInfo.owe_money}}</view>
+    </view>
     <view class='text-item flex inp-wrapper'>
       <text>买家留言</text>
       <view class='inp-btn'>
