@@ -43,23 +43,39 @@ App({
           const {
             phone
           } = res.data.data
-          console.log('phone===>',phone)
-          if (phone==='') {
-            wx.navigateTo({
-              url: '/pages/info/info'
-            })
-          } else {
-            console.log('有phone', phone)
+          if (that.infoCheckCallback) {
+            that.infoCheckCallback(phone)
           }
+          // if (!phone) {
+          //   wx.navigateTo({
+          //     url: '/pages/info/info'
+          //   })
+          // } else {
+          //   console.log('有phone', phone)
+          // }
           // console.log('11',res.data.data)
         }
       })
     }
 
   },
+  // onShow() {
+  //   var pages = getCurrentPages() //获取加载的页面
+  //   var currentPage = pages[pages.length - 1] //获取当前页面的对象
+  //   // var url = currentPage.route
+  //   console.log(pages)
+  //   const needInfo = !this.globalData.info
+  //   if (this.globalData.uid && needInfo) {
+  //     // wx.navigateTo({
+  //     //   url: '/pages/info/info'
+  //     // })
+  //   }
+  //   console.log(this.globalData.info)
+  // },
   globalData: {
     routineStyle: '#9bd040',
     uid: null,
+    info: '',
     openPages: '',
     spid: 0,
     urlImages: '',

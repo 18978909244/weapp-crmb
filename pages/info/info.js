@@ -24,6 +24,7 @@ Page({
     })
   },
   submit(){
+    let that = this
     wx.request({
       url: app.globalData.url + '/routine/auth_api/edit_user_data?uid=' + app.globalData.uid,
       method: 'POST',
@@ -35,6 +36,7 @@ Page({
       },
       success: function (res) {
         if (res.data.code == 200) {
+          app.globalData.info = that.data.phone
           wx.navigateBack()
         }
       }

@@ -207,7 +207,21 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
-
+    // var pages = getCurrentPages()    //获取加载的页面
+    // var currentPage = pages[pages.length-1]    //获取当前页面的对象
+    // var url = currentPage.route   
+    // if(app.globalData.uid && !app.globalData.info){
+    //   wx.navigateTo({
+    //     url: '/pages/info/info'
+    //   })
+    // }
+    app.infoCheckCallback = phone =>{
+      if(app.globalData.uid && !phone){
+        wx.navigateTo({
+          url: '/pages/info/info'
+        })
+      }
+    }
   },
 
   /**

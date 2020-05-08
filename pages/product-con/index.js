@@ -3,7 +3,10 @@ var app = getApp();
 var wxh = require('../../utils/wxh.js');
 var WxParse = require('../../wxParse/wxParse.js');
 const ProductCon = require('../../api/productCon.js')
-const {needLogin} = require('../../utils/util')
+const {
+  needLogin,
+  needInfo
+} = require('../../utils/util')
 
 Page({
 
@@ -26,20 +29,20 @@ Page({
     productAttr: [],
     productValue: [],
     productSelect: [{
-      image: ""
-    },
-    {
-      store_name: ""
-    },
-    {
-      price: 0
-    },
-    {
-      unique: ""
-    },
-    {
-      stock: 0
-    },
+        image: ""
+      },
+      {
+        store_name: ""
+      },
+      {
+        price: 0
+      },
+      {
+        unique: ""
+      },
+      {
+        stock: 0
+      },
     ],
     reply: [],
     replyCount: 0,
@@ -117,7 +120,7 @@ Page({
     // let prevPage = pages[pages.length - 2]
     // console.log(prevPage.route)
     // return ;
-    if (options.scene){
+    if (options.scene) {
       options.id = decodeURIComponent(options.scene)
     }
 
@@ -202,7 +205,7 @@ Page({
                     duration: 1500,
                   })
                 },
-                complete: function (res) { },
+                complete: function (res) {},
               })
             }
           })
@@ -224,7 +227,7 @@ Page({
                 duration: 1500,
               })
             },
-            complete: function (res) { },
+            complete: function (res) {},
           })
         }
       }
@@ -476,7 +479,7 @@ Page({
     if (!app.globalData.uid) {
       needLogin()
       return
-  }
+    }
     var that = this;
     if (that.data.productSelect.unique != '') {
       var header = {
@@ -522,7 +525,7 @@ Page({
     if (!app.globalData.uid) {
       needLogin()
       return
-  }
+    }
     var that = this;
     if (that.data.productSelect.unique != '') {
       var header = {
@@ -688,14 +691,14 @@ Page({
     if (!app.globalData.uid) {
       needLogin()
       return
-  }
+    }
     wx.request({
       url: app.globalData.url + '/routine/auth_api/get_form_id?uid=' + app.globalData.uid,
       method: 'GET',
       data: {
         formId: e.detail.formId
       },
-      success: function (res) { }
+      success: function (res) {}
     })
     var that = this;
     if (that.data.num > that.data.productSelect.stock) {
@@ -827,7 +830,7 @@ Page({
     if (!app.globalData.uid) {
       needLogin()
       return
-  }
+    }
     var that = this;
     var header = {
       'content-type': 'application/x-www-form-urlencoded',
@@ -855,7 +858,7 @@ Page({
     if (!app.globalData.uid) {
       needLogin()
       return
-  }
+    }
     var that = this;
     var header = {
       'content-type': 'application/x-www-form-urlencoded',

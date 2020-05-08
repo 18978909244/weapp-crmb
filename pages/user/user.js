@@ -109,6 +109,13 @@ Page({
    */
   onShow: function (options) {
     var app = getApp();
+    app.infoCheckCallback = phone =>{
+      if(app.globalData.uid && !phone){
+        wx.navigateTo({
+          url: '/pages/info/info'
+        })
+      }
+    }
     this.setData({
       app
     })

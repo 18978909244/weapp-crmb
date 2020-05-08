@@ -30,7 +30,15 @@ const needLogin = () => {
   })
 }
 
+
+const needInfo = () => {
+    wx.navigateTo({
+        url: '/pages/info/info',
+    })
+}
+
 module.exports = {
   formatTime: formatTime,
-  needLogin
+  needLogin,
+  needInfo
 }

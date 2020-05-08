@@ -3,7 +3,9 @@ var app = getApp();
 var wxh = require('../../utils/wxh.js');
 const API = require('../../api/productSort')
 
-const {needLogin} = require('../../utils/util')
+const {
+    needLogin
+} = require('../../utils/util')
 
 Page({
     data: {
@@ -16,12 +18,21 @@ Page({
         active: 0,
         Arraylike: [],
         productAttr: [],
-        productSelect: [
-            { image: "" },
-            { store_name: "" },
-            { price: 0 },
-            { unique: "" },
-            { stock: 0 },
+        productSelect: [{
+                image: ""
+            },
+            {
+                store_name: ""
+            },
+            {
+                price: 0
+            },
+            {
+                unique: ""
+            },
+            {
+                stock: 0
+            },
         ],
         productValue: [],
         total: '全部',
@@ -70,7 +81,13 @@ Page({
         // this.getProductList();
     },
     onShow() {
-        console.log(app.globalData)
+        app.infoCheckCallback = phone => {
+            if (app.globalData.uid && !phone) {
+                wx.navigateTo({
+                    url: '/pages/info/info'
+                })
+            }
+        }
         this.setData({
             cid: app.globalData.cid,
             sid: app.globalData.sid
@@ -196,7 +213,9 @@ Page({
         var id = e.target.dataset.idx;
         wx.request({
             url: app.globalData.url + '/routine/auth_api/get_id_cate?uid=' + app.globalData.uid,
-            data: { id: e.target.dataset.idx },
+            data: {
+                id: e.target.dataset.idx
+            },
             method: 'POST',
             success: function (res) {
                 if (res.data.code == 200) {
@@ -249,8 +268,12 @@ Page({
                 }
                 //console.log(that.data.sorter[indexSoerEr].id);
             }
-        } else that.setData({ total: '全部' })
-        that.setData({ sid: SoerErId })
+        } else that.setData({
+            total: '全部'
+        })
+        that.setData({
+            sid: SoerErId
+        })
         that.getProductList();
     },
     wholeproduct: function (e) {
@@ -317,8 +340,13 @@ Page({
         if (n % 2 > 0) priceOrder = 'asc';
         else priceOrder = 'desc';
         var sid = that.data.sid;
-        that.setData({ ficti: '' })
-        that.setData({ price: priceOrder, t: n, })
+        that.setData({
+            ficti: ''
+        })
+        that.setData({
+            price: priceOrder,
+            t: n,
+        })
         that.getProductList();
     },
     navactive1: function (e) {
@@ -333,8 +361,13 @@ Page({
         var n = t + 1;
         if (n % 2 > 0) salesOrder = 'asc';
         else salesOrder = 'desc';
-        that.setData({ price: '' })
-        that.setData({ ficti: salesOrder, t: n, })
+        that.setData({
+            price: ''
+        })
+        that.setData({
+            ficti: salesOrder,
+            t: n,
+        })
         that.getProductList();
     },
     navactive2: function (e) {
@@ -348,9 +381,15 @@ Page({
         if (act == 3) news = 1;
         else news = '';
         if (that.data.news) news = '';
-        that.setData({ price: '' })
-        that.setData({ ficti: '' })
-        that.setData({ news: news })
+        that.setData({
+            price: ''
+        })
+        that.setData({
+            ficti: ''
+        })
+        that.setData({
+            news: news
+        })
         that.getProductList();
     },
     searchSubmit: function (e) {
@@ -361,12 +400,14 @@ Page({
             data: {
                 formId: e.detail.formId
             },
-            success: function (res) { }
+            success: function (res) {}
         })
         var $search = e.detail.value;
         wx.request({
             url: app.globalData.url + '/routine/auth_api/store?uid=1',
-            data: { value: $search },
+            data: {
+                value: $search
+            },
             method: 'GET',
             success: function (res) {
                 if (res.data.code == 200) {
@@ -475,7 +516,7 @@ Page({
                 }
             }
         }
-        console.log(array,attrNameArr)
+        console.log(array, attrNameArr)
         for (var jj in array) {
             for (var jjj in array[jj]['attr_values']) {
                 if (that.in_array(array[jj]['attr_values'][jjj], attrNameArr)) {
@@ -497,15 +538,15 @@ Page({
         var arrAttrName = that.data.attrName.split(",");
         for (var index in that.data.productValue) {
             var strValue = that.data.productValue[index]['suk'];
-            console.log(`that.data.productValue[index]['unique']`,)
-            if(strValue===key){
+            console.log(`that.data.productValue[index]['unique']`, )
+            if (strValue === key) {
                 let productAttr = that.data.productAttr
-                let _index = productAttr.findIndex(item=>item.attr_values.includes(key))
-                let _idx = productAttr[_index].attr_value.findIndex(item=>item.attr===key)
-                productAttr[_index].attr_value.forEach(item=>item.check=false)
+                let _index = productAttr.findIndex(item => item.attr_values.includes(key))
+                let _idx = productAttr[_index].attr_value.findIndex(item => item.attr === key)
+                productAttr[_index].attr_value.forEach(item => item.check = false)
                 productAttr[_index].attr_value[_idx].check = true
                 that.setData({
-                    productSelect:{
+                    productSelect: {
                         ...that.data.productSelect,
                         // unique:that.data.productValue[index]['unique'],
                         ...that.data.productValue[index]
@@ -547,8 +588,7 @@ Page({
     in_array_two: function (arr1, arr2) {
         if (arr1.sort().toString() == arr2.sort().toString()) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
 
@@ -640,7 +680,7 @@ Page({
         wx.showToast({
             title: '加入购物车失败！',
             icon: 'none',
-            duration: 2000//持续的时间
+            duration: 2000 //持续的时间
 
         })
     },
@@ -675,12 +715,20 @@ Page({
         wx.showLoading()
         wx.request({
             url: app.globalData.url + '/routine/auth_api/get_product_list?uid=' + app.globalData.uid,
-            data: { sid: sid, cid: cid, priceOrder: priceOrder, salesOrder: salesOrder, news: news, first: startpage, limit: limit },
+            data: {
+                sid: sid,
+                cid: cid,
+                priceOrder: priceOrder,
+                salesOrder: salesOrder,
+                news: news,
+                first: startpage,
+                limit: limit
+            },
             method: 'GET',
             success: function (res) {
                 if (res.data.code == 200) {
 
-                    
+
                     var len = res.data.data.length;
                     var ladding = [];
                     for (var i in res.data.data) {
@@ -725,7 +773,15 @@ Page({
         };
         wx.request({
             url: app.globalData.url + '/routine/auth_api/get_product_list?uid=' + app.globalData.uid,
-            data: { sid: sid, cid: cid, priceOrder: priceOrder, salesOrder: salesOrder, news: news, first: startpage, limit: limit },
+            data: {
+                sid: sid,
+                cid: cid,
+                priceOrder: priceOrder,
+                salesOrder: salesOrder,
+                news: news,
+                first: startpage,
+                limit: limit
+            },
             method: 'GET',
             header: header,
             success: function (res) {
