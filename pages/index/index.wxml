@@ -16,7 +16,7 @@
   <form bindsubmit="searchSubmit" report-submit='true'>
     <view class='header-input flex' style="width:710rpx;" bindtap='goToSort'>
       <view class='iconfont icon-xiazai5 sou'></view>
-      <input type='text' placeholder='商品搜索: 请输入商品关键词' class='input-text' placeholder-class='placeholder' bindconfirm="searchSubmit" confirm-type='search' name="search"></input>
+      <input disabled type='text' placeholder='商品搜索: 请输入商品关键词' class='input-text' placeholder-class='placeholder' bindconfirm="searchSubmit" confirm-type='search' name="search"></input>
     </view>
   </form>
   <!-- <view class='iconfont icon-gouwuche car' bindtap='goCart'></view> -->
@@ -59,7 +59,7 @@
        </view>
     </view>
 <!-- 下单 -->
-<view class="button flex">
+<!-- <view class="button flex">
   <view class='button-item' bindtap="goToProductSort" data-ship="1">
     <image src='../../images/time.png'></image>
     <view class='nav-title'>预定下单</view>
@@ -68,7 +68,7 @@
     <image src='../../images/now.png'></image>
     <view class='nav-title'>即时下单</view>
   </view>
-</view>
+</view> -->
 <!-- 导航 -->
 <view class='nav flex' style="flex-wrap: wrap;justify-content: start;height:auto">
   <block wx:for="{{menus}}" wx:key="{{index}}">

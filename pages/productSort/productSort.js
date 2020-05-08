@@ -505,10 +505,14 @@ Page({
                 productAttr[_index].attr_value.forEach(item=>item.check=false)
                 productAttr[_index].attr_value[_idx].check = true
                 that.setData({
-                    ['productSelect.unique']:that.data.productValue[index]['unique'],
+                    productSelect:{
+                        ...that.data.productSelect,
+                        // unique:that.data.productValue[index]['unique'],
+                        ...that.data.productValue[index]
+                    },
                     productAttr
                 })
-                console.log(that.data.productSelect.unique)
+                // console.log(that.data.productValue[index], that.data.productSelect)
             }
             var arrValue = strValue.split(",");
             if (that.in_array_two(arrValue, arrAttrName)) {

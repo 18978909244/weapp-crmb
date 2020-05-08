@@ -43,7 +43,8 @@ App({
           const {
             phone
           } = res.data.data
-          if (!phone) {
+          console.log('phone===>',phone)
+          if (phone==='') {
             wx.navigateTo({
               url: '/pages/info/info'
             })
