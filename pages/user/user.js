@@ -4,7 +4,9 @@ const API = require('../../api/user')
 const Index = require('../../api/index')
 let interval = null
 
-const {needLogin} = require('../../utils/util')
+const {
+  needLogin
+} = require('../../utils/util')
 
 // pages/user/user.js
 Page({
@@ -23,18 +25,18 @@ Page({
     deliverList: [],
     shopImg: '',
     service_mobile: '',
-    weixinCheck:true,
+    weixinCheck: true,
     hide_shop_entry: wx.getStorageSync('hide_shop_entry') === '' ? false : wx.getStorageSync('hide_shop_entry')
   },
-  onLoad(){
-    if(app.globalData.weixinCheck){
+  onLoad() {
+    if (app.globalData.weixinCheck) {
       this.setData({
-        weixinCheck:app.globalData.weixinCheck==='1'
+        weixinCheck: app.globalData.weixinCheck === '1'
       })
-    }else{
-      app.weixinCheckCallback = weixinCheck =>{
+    } else {
+      app.weixinCheckCallback = weixinCheck => {
         this.setData({
-          weixinCheck:weixinCheck==='1'
+          weixinCheck: weixinCheck === '1'
         })
       }
     }
@@ -44,7 +46,7 @@ Page({
       url: '/pages/load/load',
     })
   },
-  goTo(e){
+  goTo(e) {
     if (!app.globalData.uid) {
       needLogin()
       return
@@ -108,9 +110,9 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onShow: function (options) {
-    var app = getApp();
-    app.infoCheckCallback = phone =>{
-      if(app.globalData.uid && !phone){
+    if (app.globalData.uid) {
+      const phone = wx.getStorageSync('mobileInfo')
+      if (!phone) {
         wx.navigateTo({
           url: '/pages/info/info'
         })
@@ -143,24 +145,24 @@ Page({
     })
   },
   /**
-  * 生命周期函数--我的余额
-  */
+   * 生命周期函数--我的余额
+   */
   money: function () {
     if (!app.globalData.uid) {
       needLogin()
       return
     }
-    if(this.data.weixinCheck) return
+    if (this.data.weixinCheck) return
     wx.navigateTo({
       url: '/pages/main/main?now=' + this.data.userinfo.now_money + '&uid=' + app.globalData.uid,
-      success: function (res) { },
-      fail: function (res) { },
-      complete: function (res) { },
+      success: function (res) {},
+      fail: function (res) {},
+      complete: function (res) {},
     })
   },
   /**
-  * 生命周期函数--我的积分
-  */
+   * 生命周期函数--我的积分
+   */
   integral: function () {
     if (!app.globalData.uid) {
       needLogin()
@@ -168,14 +170,14 @@ Page({
     }
     wx.navigateTo({
       url: '/pages/integral-con/integral-con?inte=' + this.data.userinfo.integral + '&uid=' + app.globalData.uid,
-      success: function (res) { },
-      fail: function (res) { },
-      complete: function (res) { },
+      success: function (res) {},
+      fail: function (res) {},
+      complete: function (res) {},
     })
   },
   /**
-  * 生命周期函数--我的优惠卷
-  */
+   * 生命周期函数--我的优惠卷
+   */
   coupons: function () {
     if (!app.globalData.uid) {
       needLogin()
@@ -183,14 +185,14 @@ Page({
     }
     wx.navigateTo({
       url: '/pages/coupon/coupon',
-      success: function (res) { },
-      fail: function (res) { },
-      complete: function (res) { },
+      success: function (res) {},
+      fail: function (res) {},
+      complete: function (res) {},
     })
   },
   /**
-  * 生命周期函数--我的收藏
-  */
+   * 生命周期函数--我的收藏
+   */
   collects: function () {
     if (!app.globalData.uid) {
       needLogin()
@@ -201,8 +203,8 @@ Page({
     })
   },
   /**
-  * 生命周期函数--我的推广人
-  */
+   * 生命周期函数--我的推广人
+   */
   extension: function () {
     if (!app.globalData.uid) {
       needLogin()
@@ -210,14 +212,14 @@ Page({
     }
     wx.navigateTo({
       url: '/pages/feree/feree',
-      success: function (res) { },
-      fail: function (res) { },
-      complete: function (res) { },
+      success: function (res) {},
+      fail: function (res) {},
+      complete: function (res) {},
     })
   },
   /**
-  * 生命周期函数--我的推广
-  */
+   * 生命周期函数--我的推广
+   */
   myextension: function () {
     if (!app.globalData.uid) {
       needLogin()
@@ -225,9 +227,9 @@ Page({
     }
     wx.navigateTo({
       url: '/pages/extension/extension',
-      success: function (res) { },
-      fail: function (res) { },
-      complete: function (res) { },
+      success: function (res) {},
+      fail: function (res) {},
+      complete: function (res) {},
     })
   },
   showImg(e) {
@@ -243,8 +245,8 @@ Page({
     })
   }
   /**
-  * 生命周期函数--我的砍价
-  */
+   * 生命周期函数--我的砍价
+   */
   // cut_down_the_price:function(){
   //   wx.navigateTo({
   //     url: '../../pages/feree/feree',

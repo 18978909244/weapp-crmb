@@ -5,16 +5,19 @@ App({
   onLaunch: function () {
     // 展示本地存储能力
     var that = this;
-    var logs = wx.getStorageSync('logs') || []
-    logs.unshift(Date.now())
-    wx.setStorageSync('logs', logs)
+    // var logs = wx.getStorageSync('logs') || []
+    // logs.unshift(Date.now())
+    // wx.setStorageSync('logs', logs)
     // that.getRoutineStyle();
     let userInfo = wx.getStorageSync('userInfo')
-    console.log(userInfo)
+    let mobileInfo = wx.getStorageSync('mobileInfo')
     if (userInfo) {
       console.log(userInfo.uid)
       // this.globalData.uid = 15
       this.globalData.uid = userInfo.uid
+    }
+    if (mobileInfo) {
+      this.globalData.info = mobileInfo
     }
     wx.setStorageSync('shipType', '1')
 
@@ -35,7 +38,7 @@ App({
         }
       }
     })
-    if (this.globalData.uid) {
+    if (this.globalData.uid && !this.globalData.info) {
       wx.request({
         url: this.globalData.url + '/routine/auth_api/get_user_info?uid=' + this.globalData.uid,
         method: 'GET',
@@ -43,9 +46,14 @@ App({
           const {
             phone
           } = res.data.data
-          if (that.infoCheckCallback) {
-            that.infoCheckCallback(phone)
+          if (phone) {
+            wx.setStorageSync('mobileInfo', phone)
           }
+          // wx.setStorageSync('')
+          // if (that.infoCheckCallback) {
+          //   console.log('hh')
+          //   that.infoCheckCallback(phone)
+          // }
           // if (!phone) {
           //   wx.navigateTo({
           //     url: '/pages/info/info'

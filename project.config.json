@@ -21,7 +21,7 @@
 	"compileType": "miniprogram",
 	"libVersion": "2.9.3",
 	"appid": "wxf3354325b919fd59",
-	"projectname": "%E6%97%A5%E6%97%A5%E9%B2%9C",
+	"projectname": "weapp-crmb",
 	"simulatorType": "wechat",
 	"simulatorPluginLibVersion": {},
 	"condition": {

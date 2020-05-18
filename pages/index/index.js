@@ -35,16 +35,16 @@ Page({
     interval: 3000,
     duration: 500,
     itemNew: [],
-    benefit:[]
+    benefit: []
   },
-  goUrl: function(e) {
+  goUrl: function (e) {
     if (e.currentTarget.dataset.url != '#') {
       wx.navigateTo({
         url: e.currentTarget.dataset.url,
       })
     }
   },
-  torday: function(e) {
+  torday: function (e) {
     wx.switchTab({
       url: '/pages/productSort/productSort'
     });
@@ -59,19 +59,19 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function(options) {
+  onLoad: function (options) {
     var that = this;
     if (options.spid) {
       app.globalData.spid = options.spid
     }
-    if(options.scene){
+    if (options.scene) {
       let spread_uid = decodeURIComponent(options.scene)
-      console.log('spread_uid',spread_uid)
-      wx.setStorageSync('spread_uid',spread_uid)
-      if(app.globalData.uid){
+      console.log('spread_uid', spread_uid)
+      wx.setStorageSync('spread_uid', spread_uid)
+      if (app.globalData.uid) {
         Spread.postSpreadUid({
           spread_uid
-        }).then(res=>{
+        }).then(res => {
           console.log(res.data)
         })
       }
@@ -80,7 +80,7 @@ Page({
     that.getIndexInfo();
     that.getShopList()
   },
-  getShopList: function() {
+  getShopList: function () {
     Shop.getShopList()
       .then(res => {
         this.setData({
@@ -88,21 +88,21 @@ Page({
         })
       })
   },
-  goToShopList: function() {
+  goToShopList: function () {
     wx.navigateTo({
       url: '/pages/shopList/shopList'
     })
   },
-  getIndexInfo: function() {
+  getIndexInfo: function () {
     let w = (moment().hour() > 7 && moment().hour() < 19) ? 'd' : 'n'
     Index.getIndexInfo()
       .then(res => {
-        const showModel = (msg) =>{
+        const showModel = (msg) => {
           wx.showModal({
             title: '提示',
-            content: res.data.data.banned_message?res.data.data.banned_message:'解除黑名单请联系平台',
-            showCancel:false,
-            success (res) {
+            content: res.data.data.banned_message ? res.data.data.banned_message : '解除黑名单请联系平台',
+            showCancel: false,
+            success(res) {
               if (res.confirm) {
                 showModel(msg)
               }
@@ -110,8 +110,8 @@ Page({
           })
         }
 
-        if(res.data.data.banned===1){
-          showModel(res.data.data.banned_message?res.data.data.banned_message:'解除黑名单请联系平台')
+        if (res.data.data.banned === 1) {
+          showModel(res.data.data.banned_message ? res.data.data.banned_message : '解除黑名单请联系平台')
         }
         this.setData({
           imgUrls: res.data.data.banner,
@@ -120,24 +120,24 @@ Page({
           lovely: res.data.data.lovely,
           menus: res.data.data.menus,
           likeList: res.data.data.hot,
-          benefit:res.data.data.benefit,
+          benefit: res.data.data.benefit,
           hide_shop_entry: Boolean(Number(res.data.data.hide_shop_entry)),
           weather: res.data.data.weather,
-          itemNew: res.data.data.config_basics.rolling_text.split('\n').map(item=>{
+          itemNew: res.data.data.config_basics.rolling_text.split('\n').map(item => {
             return {
-              info:item
+              info: item
             }
           }),
           w,
-          text_shop:res.data.data.config_basics.text_shop,
-          text_recommand:res.data.data.config_basics.text_recommand,
-          text_new:res.data.data.config_basics.text_new
+          text_shop: res.data.data.config_basics.text_shop,
+          text_recommand: res.data.data.config_basics.text_recommand,
+          text_new: res.data.data.config_basics.text_new
         })
         wx.setStorageSync('about_us', res.data.data.config_basics.about_us)
         wx.setStorageSync('min_product_paid', res.data.data.config_basics.min_product_paid)
         wx.setStorageSync('service_mobile', res.data.data.config_basics.site_phone)
         wx.setStorageSync('hide_shop_entry', Boolean(Number(res.data.data.hide_shop_entry)))
-        wx.setStorageSync('ending_hour',Number(res.data.data.config_basics.ending_hour))
+        wx.setStorageSync('ending_hour', Number(res.data.data.config_basics.ending_hour))
       })
   },
   goToSort(e) {
@@ -166,7 +166,7 @@ Page({
       url: '../productSort/productSort',
     })
   },
-  onReachBottom: function(p) {
+  onReachBottom: function (p) {
     return;
     var that = this;
     var limit = 20;
@@ -199,14 +199,22 @@ Page({
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function() {
+  onReady: function () {
 
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function() {
+  onShow: function () {
+    if (app.globalData.uid) {
+      const phone = wx.getStorageSync('mobileInfo')
+      if (!phone) {
+        wx.navigateTo({
+          url: '/pages/info/info'
+        })
+      }
+    }
     // var pages = getCurrentPages()    //获取加载的页面
     // var currentPage = pages[pages.length-1]    //获取当前页面的对象
     // var url = currentPage.route   
@@ -215,45 +223,47 @@ Page({
     //     url: '/pages/info/info'
     //   })
     // }
-    app.infoCheckCallback = phone =>{
-      if(app.globalData.uid && !phone){
-        wx.navigateTo({
-          url: '/pages/info/info'
-        })
-      }
-    }
+    // if (app.infoCheckCallback) {
+    //   app.infoCheckCallback = phone => {
+    //     if (app.globalData.uid && !phone) {
+    //       wx.navigateTo({
+    //         url: '/pages/info/info'
+    //       })
+    //     }
+    //   }
+    // }
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function() {
+  onHide: function () {
 
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function() {
+  onUnload: function () {
 
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function() {
+  onPullDownRefresh: function () {
 
   },
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function() {
+  onShareAppMessage: function () {
     var that = this;
     return {
       title: '小程序',
       path: '/pages/index/index?spid=' + app.globalData.uid,
       // imageUrl: that.data.url + that.data.product.image,
-      success: function() {
+      success: function () {
         wx.showToast({
           title: '分享成功',
           icon: 'success',

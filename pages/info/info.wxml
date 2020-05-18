@@ -34,6 +34,6 @@
         <input placeholder="请输入店地址" value="{{shop_address}}"  bindinput="input" data-type="shop_address"/>
       </view>
     </view>
-    <button type="primary" disabled="{{phone===''}}" style="width:600rpx;margin:0 auto;margin-top:50rpx" bindtap="submit">确定</button>
+    <button type="primary" style="width:600rpx;margin:0 auto;margin-top:50rpx" bindtap="submit">确定</button>
   </view>
 </view>

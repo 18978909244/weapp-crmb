@@ -7,7 +7,7 @@ const Buycar = require('../../api/buycar')
 
 Page({
   data: {
-    app:null,
+    app: null,
     isAttrInfo: 'attrInfo',
     itemAttrInfo: '',
     foothidden: false,
@@ -33,7 +33,9 @@ Page({
     let max = Number(e.currentTarget.dataset.max)
     this.data.cartList[index].cart_num = Number(e.detail.value) > max ? max : Number(e.detail.value)
     // console.log(this.data.cartList[index].cart_num)
-    this.setData({ cartList: this.data.cartList });
+    this.setData({
+      cartList: this.data.cartList
+    });
     this.carnum();
     this.countmoney();
     this.addCartNum(this.data.cartList[index].cart_num, this.data.cartList[index].id);
@@ -87,7 +89,7 @@ Page({
   initShopList() {
     let valid = this.data.cartList
     let carListObj = {}
-    if(!valid) return;
+    if (!valid) return;
     for (let i = 0; i < valid.length; i++) {
       console.log(valid[i].shopInfo, valid[i].shopInfo.id)
       let shopId = valid[i].shopInfo.id
@@ -126,10 +128,12 @@ Page({
       })
       return
     }
-    this.data.cartList[index].cart_num = + this.data.cartList[index].cart_num + 1;
+    this.data.cartList[index].cart_num = +this.data.cartList[index].cart_num + 1;
 
     // var minusStatus = this.data.cartList[index].cart_num <= 1 ? 'disabled' : 'normal';
-    this.setData({ cartList: this.data.cartList });
+    this.setData({
+      cartList: this.data.cartList
+    });
     this.carnum();
     this.countmoney();
     this.addCartNum(this.data.cartList[index].cart_num, this.data.cartList[index].id);
@@ -139,7 +143,9 @@ Page({
     var index = event.currentTarget.dataset.index;
     this.data.cartList[index].cart_num = this.data.cartList[index].cart_num <= 1 ? 1 : +this.data.cartList[index].cart_num - 1;
     // var minusStatus = this.data.cartList[index].cart_num <= 1 ? 'disabled' : 'normal';
-    this.setData({ cartList: this.data.cartList });
+    this.setData({
+      cartList: this.data.cartList
+    });
     this.carnum();
     this.countmoney();
     this.addCartNum(this.data.cartList[index].cart_num, this.data.cartList[index].id);
@@ -243,7 +249,7 @@ Page({
   carnum() {
     var carnum = 0;
     var array = this.data.cartList;
-    if(!array) return;
+    if (!array) return;
     for (var i = 0; i < array.length; i++) {
       if (array[i].checked == true) {
         carnum += parseInt(array[i].cart_num);
@@ -257,7 +263,7 @@ Page({
   countmoney() {
     var carmoney = 0;
     var array = this.data.cartList;
-    if(!array) return;
+    if (!array) return;
     for (var i = 0; i < array.length; i++) {
       if (array[i].checked == true) {
         if (array[i].productInfo.attrInfo) {
@@ -513,7 +519,6 @@ Page({
     }
   },
   goToOrder() {
-    // console.log('cartIdsStr')
     if (this.data.cartIdsStr === '') {
       wx.showToast({
         title: '未选择商品',
@@ -553,14 +558,22 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    app.infoCheckCallback = phone =>{
-      if(app.globalData.uid && !phone){
+    if (app.globalData.uid) {
+      const phone = wx.getStorageSync('mobileInfo')
+      if (!phone) {
         wx.navigateTo({
           url: '/pages/info/info'
         })
       }
     }
-    var app = getApp();
+
+    // app.infoCheckCallback = phone => {
+    //   if (app.globalData.uid && !phone) {
+    //     wx.navigateTo({
+    //       url: '/pages/info/info'
+    //     })
+    //   }
+    // }
 
     this.carnum();
     this.countmoney();

@@ -156,7 +156,8 @@ Page({
           [store_name]: res.data.data.storeInfo.store_name,
           [price]: res.data.data.storeInfo.price,
           [unique]: '',
-          unit_name: res.data.data.storeInfo.unit_name
+          unit_name: res.data.data.storeInfo.unit_name,
+          attrStock:null
         })
         that.downloadFilestoreImage();
         that.downloadFilePromotionCode();
@@ -663,6 +664,7 @@ Page({
             [price]: that.data.productValue[index]['price'],
             [unique]: that.data.productValue[index]['unique'],
             [stock]: that.data.productValue[index]['stock'],
+            attrStock:that.data.productValue[index]['stock']
           })
         }
       }

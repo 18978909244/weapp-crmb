@@ -5,10 +5,10 @@ Page({
    * 页面的初始数据
    */
   data: {
-    phone:'',
-    real_name:'',
-    shop_name:'',
-    shop_address:'',
+    phone: '',
+    real_name: '',
+    shop_name: '',
+    shop_address: '',
   },
 
   /**
@@ -17,13 +17,13 @@ Page({
   onLoad: function (options) {
 
   },
-  input(e){
+  input(e) {
     const type = e.currentTarget.dataset.type
     this.setData({
-      [type]:e.detail.value
+      [type]: e.detail.value
     })
   },
-  submit(){
+  submit() {
     let that = this
     wx.request({
       url: app.globalData.url + '/routine/auth_api/edit_user_data?uid=' + app.globalData.uid,
@@ -36,8 +36,12 @@ Page({
       },
       success: function (res) {
         if (res.data.code == 200) {
+          wx.setStorageSync('mobileInfo', that.data.phone)
           app.globalData.info = that.data.phone
-          wx.navigateBack()
+
+          wx.reLaunch({
+            url: '/pages/index/index'
+          })
         }
       }
     });

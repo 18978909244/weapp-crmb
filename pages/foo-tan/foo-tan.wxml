@@ -21,6 +21,7 @@
   </view>
   <view class='count-box flex'>
     购买数量
+    <view wx-if="{{attrStock!==null}}" style="flex:1;text-align:center">库存:{{attrStock}}</view>
     <view class='count-wrappers flex'>
       <text data-index="{{index}}" bindtap="bindMinus">-</text>
       <input class='num' type="number" value='{{num}}' bindblur='setNumber'/>
